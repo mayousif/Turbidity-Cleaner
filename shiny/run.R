@@ -5,7 +5,7 @@ Version = 3.0
 #----------------------------------------------------------------------------
 
 # Main directory of all folders/files
-MainLocation = "C:/Users/Meguel/Desktop/Turbidity Cleaner/"
+MainLocation = "C:/path/to/files/"
 
 #----------------------------------------------------------------------------
 #
