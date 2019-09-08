@@ -1,4 +1,4 @@
-Version = 2.5
+Version = 3.0
 
 #----------------------------------------------------------------------------
 # Adjusting "MainLocation" is all that is required for first-time setup
