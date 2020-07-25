@@ -30,10 +30,10 @@ df1Summer = df1[month(df1$DateTime) %in% c(6,7,8),]
 df1Fall = df1[month(df1$DateTime) %in% c(9,10,11),]
 
 # Predict data for each season
-WinterImputedData = parlmice(df1Winter[,c("Time","Day","Month","Year","Turbidity","Precip","Level")], m=5, maxit= 50, method = 'cart', seed = 500)
-SpringImputedData = parlmice(df1Spring[,c("Time","Day","Month","Year","Turbidity","Precip","Level")], m=5, maxit= 50, method = 'cart', seed = 500)
-SummerImputedData = parlmice(df1Summer[,c("Time","Day","Month","Year","Turbidity","Precip","Level")], m=5, maxit= 50, method = 'cart', seed = 500)
-FallImputedData = parlmice(df1Fall[,c("Time","Day","Month","Year","Turbidity","Precip","Level")], m=5, maxit= 50, method = 'cart', seed = 500)
+WinterImputedData = mice(df1Winter[,c("Time","Day","Month","Year","Turbidity","Precip","Level")], m=5, maxit= 50, method = 'cart', seed = 500)
+SpringImputedData = mice(df1Spring[,c("Time","Day","Month","Year","Turbidity","Precip","Level")], m=5, maxit= 50, method = 'cart', seed = 500)
+SummerImputedData = mice(df1Summer[,c("Time","Day","Month","Year","Turbidity","Precip","Level")], m=5, maxit= 50, method = 'cart', seed = 500)
+FallImputedData = mice(df1Fall[,c("Time","Day","Month","Year","Turbidity","Precip","Level")], m=5, maxit= 50, method = 'cart', seed = 500)
 
 completeWinterData = complete(WinterImputedData)
 completeSpringData = complete(SpringImputedData)
