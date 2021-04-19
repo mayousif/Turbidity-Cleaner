@@ -7,7 +7,7 @@ This program is designed to automatically detect anomalous turbidity data from h
 
 # Installation and Setup
 Prior to installation of this program, the R software environment (https://www.r-project.org/) needs to be installed. This program was developed using R version 3.5.3, so it is recommended that this version of R is installed to ensure compatibility. To install this program, file path locations need to be adjusted:
-1.	Extract the folder from the zip file to any preferred location
+1.	Download the latest release and extract the folder from the zip file to any preferred location
 2.	Edit the “run.R” file, located in the “shiny” folder, and change the path in line 8 to the path of where this program is located (i.e., the path to the extracted folder)
 3.	Right-click and edit “RunProgram.cmd”. Change the paths in quotations to the paths of “Rscript.exe” (located where R is installed) and “run.R” (located in the “shiny” folder of this program) respectively
 4.	Save “RunProgram.cmd”
