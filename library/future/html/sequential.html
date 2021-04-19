@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a sequential future whose value will be in the current...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for sequential {future}"><tr><td>sequential {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a sequential future whose value will be in the current <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session</h2>
+
+<h3>Description</h3>
+
+<p>A sequential future is a future that is evaluated sequentially in the
+current <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session similarly to how <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> expressions are evaluated in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>.
+The only difference to <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> itself is that globals are validated
+by default just as for all other types of futures in this package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sequential(..., envir = parent.frame())
+
+transparent(..., envir = parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="Future-class.html">Future()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <a href="../../base/html/environment.html">environment</a> from where global objects should be
+identified.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The preferred way to create a sequential future is not to call these functions
+directly, but to register them via <code><a href="plan.html">plan</a>(sequential)</code> such that
+it becomes the default mechanism for all futures.  After this
+<code><a href="future.html">future()</a></code> and <code><a href="future.html">%&lt;-%</a></code> will create
+<em>sequential futures</em>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <a href="UniprocessFuture-class.html">SequentialFuture</a>.
+</p>
+
+
+<h3>transparent futures</h3>
+
+<p>Transparent futures are sequential futures configured to emulate how R
+evaluates expressions as far as possible.  For instance, errors and
+warnings are signaled immediately and assignments are done to the
+calling environment (without <code>local()</code> as default for all other
+types of futures).  This makes transparent futures ideal for
+troubleshooting, especially when there are errors.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Use sequential futures
+plan(sequential)
+
+## A global variable
+a &lt;- 0
+
+## Create a sequential future
+f &lt;- future({
+  b &lt;- 3
+  c &lt;- 2
+  a * b * c
+})
+
+## Since 'a' is a global variable in future 'f' which
+## is eagerly resolved (default), this global has already
+## been resolved / incorporated, and any changes to 'a'
+## at this point will _not_ affect the value of 'f'.
+a &lt;- 7
+print(a)
+
+v &lt;- value(f)
+print(v)
+stopifnot(v == 0)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

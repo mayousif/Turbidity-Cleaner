@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plan how to resolve a future</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plan {future}"><tr><td>plan {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plan how to resolve a future</h2>
+
+<h3>Description</h3>
+
+<p>This function allows <em>the user</em> to plan the future, more specifically,
+it specifies how <code><a href="future.html">future()</a></code>:s are resolved,
+e.g. sequentially or in parallel.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plan(
+  strategy = NULL,
+  ...,
+  substitute = TRUE,
+  .skip = FALSE,
+  .call = TRUE,
+  .cleanup = TRUE,
+  .init = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>strategy</code></td>
+<td>
+<p>The evaluation function (or name of it) to use
+for resolving a future.  If NULL, then the current strategy is returned.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments overriding the default arguments
+of the evaluation function.  Which additional arguments are supported
+depends on what evaluation function is used, e.g. several support
+argument <code>workers</code> but not all.  For details, see the individual
+functions of which some are linked to below.</p>
+</td></tr>
+<tr valign="top"><td><code>substitute</code></td>
+<td>
+<p>If TRUE, the <code>strategy</code> expression is
+<code>substitute()</code>:d, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>.skip</code></td>
+<td>
+<p>(internal) If <code>TRUE</code>, then attempts to set a strategy
+that is the same as what is currently in use, will skipped.</p>
+</td></tr>
+<tr valign="top"><td><code>.call</code></td>
+<td>
+<p>(internal) Used for recording the call to this function.</p>
+</td></tr>
+<tr valign="top"><td><code>.cleanup</code></td>
+<td>
+<p>(internal) Used to stop implicitly started clusters.</p>
+</td></tr>
+<tr valign="top"><td><code>.init</code></td>
+<td>
+<p>(internal) Used to initiate workers.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The default strategy is <code><a href="sequential.html">sequential</a></code>, but the default can be
+configured by option <span class="option">future.plan</span> and, if that is not set,
+system environment variable <span class="env">R_FUTURE_PLAN</span>.
+To reset the strategy back to the default, use <code>plan("default")</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If a new strategy is chosen, then the previous one is returned
+(invisible), otherwise the current one is returned (visibly).
+</p>
+
+
+<h3>Implemented evaluation strategies</h3>
+
+
+<ul>
+<li><p><code><a href="sequential.html">sequential</a></code>:
+Resolves futures sequentially in the current <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> process.
+
+</p>
+</li>
+<li><p><code><a href="sequential.html">transparent</a></code>:
+Resolves futures sequentially in the current <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> process and
+assignments will be done to the calling environment.
+Early stopping is enabled by default.
+
+</p>
+</li>
+<li><p><code><a href="multisession.html">multisession</a></code>:
+Resolves futures asynchronously (in parallel) in separate
+<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> sessions running in the background on the same machine.
+
+</p>
+</li>
+<li><p><code><a href="multicore.html">multicore</a></code>:
+Resolves futures asynchronously (in parallel) in separate
+<em>forked</em> <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> processes running in the background on
+the same machine.  Not supported on Windows.
+
+</p>
+</li>
+<li><p><code><a href="multiprocess.html">multiprocess</a></code>:(DEPRECATED)
+If multicore evaluation is supported, that will be used,
+otherwise multisession evaluation will be used.
+
+</p>
+</li>
+<li><p><code><a href="cluster.html">cluster</a></code>:
+Resolves futures asynchronously (in parallel) in separate
+<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> sessions running typically on one or more machines.
+
+</p>
+</li>
+<li><p><code><a href="remote.html">remote</a></code>:
+Resolves futures asynchronously in a separate <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session
+running on a separate machine, typically on a different
+network.
+
+</p>
+</li></ul>
+
+<p>Other package may provide additional evaluation strategies.
+Notably, the <span class="pkg">future.batchtools</span> package implements a
+type of futures that will be resolved via job schedulers
+that are typically available on high-performance compute
+(HPC) clusters, e.g. LSF, Slurm, TORQUE/PBS, Sun Grid Engine,
+and OpenLava.
+</p>
+<p>To &quot;close&quot; any background workers (e.g. <code>multisession</code>), change
+the plan to something different; <code>plan(sequential)</code> is recommended
+for this.
+</p>
+
+
+<h3>For package developers</h3>
+
+<p>Please refrain from modifying the future strategy inside your packages /
+functions, i.e. do not call <code>plan()</code> in your code.  Instead, leave
+the control on what backend to use to the end user.  This idea is part of
+the core philosophy of the future framework - as a developer you can never
+know what future backends the user have access to.  Moreover, by not making
+any assumptions about what backends are available, your code will also work
+automatically with any new backends developed after you wrote your code.
+</p>
+<p>If you think it is necessary to modify the future strategy within a
+function, then make sure to undo the changes when exiting the function.
+This can be done using:
+</p>
+<pre>
+  oplan &lt;- plan(new_set_of_strategies)
+  on.exit(plan(oplan), add = TRUE)
+  [...]
+</pre>
+<p>This is important because the end-user might have already set the future
+strategy elsewhere for other purposes and will most likely not known that
+calling your function will break their setup.
+<em>Remember, your package and its functions might be used in a greater
+context where multiple packages and functions are involved and those might
+also rely on the future framework, so it is important to avoid stepping on
+others' toes.</em>
+</p>
+
+
+<h3>Using plan() in scripts and vignettes</h3>
+
+<p>When writing scripts or vignettes that uses futures, try to place any
+call to <code>plan()</code> as far up (as early on) in the code as possible.
+This will help users to quickly identify where the future plan is set up
+and allow them to modify it to their computational resources.
+Even better is to leave it to the user to set the <code>plan()</code> prior to
+<code>source()</code>:ing the script or running the vignette.
+If a &lsquo;<span class="file"><a href="future.options.html">.future.R</a></span>&rsquo; exists in the current directory and / or in
+the user's home directory, it is sourced when the <span class="pkg">future</span> package is
+<em>loaded</em>.  Because of this, the &lsquo;<span class="file">.future.R</span>&rsquo; file provides a
+convenient place for users to set the <code>plan()</code>.
+This behavior can be controlled via an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> option - see
+<a href="future.options.html">future options</a> for more details.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+a &lt;- b &lt;- c &lt;- NA_real_
+
+# An sequential future
+plan(sequential)
+f &lt;- future({
+  a &lt;- 7
+  b &lt;- 3
+  c &lt;- 2
+  a * b * c
+})
+y &lt;- value(f)
+print(y)
+str(list(a = a, b = b, c = c)) ## All NAs
+
+
+# A sequential future with lazy evaluation
+plan(sequential)
+f &lt;- future({
+  a &lt;- 7
+  b &lt;- 3
+  c &lt;- 2
+  a * b * c
+}, lazy = TRUE)
+y &lt;- value(f)
+print(y)
+str(list(a = a, b = b, c = c)) ## All NAs
+
+
+# A multicore future (specified as a string)
+plan("multicore")
+f &lt;- future({
+  a &lt;- 7
+  b &lt;- 3
+  c &lt;- 2
+  a * b * c
+})
+y &lt;- value(f)
+print(y)
+str(list(a = a, b = b, c = c)) ## All NAs
+
+
+## Multisession futures gives an error on R CMD check on
+## Windows (but not Linux or macOS) for unknown reasons.
+## The same code works in package tests.
+
+
+# A multisession future (specified via a string variable)
+plan("future::multisession")
+f &lt;- future({
+  a &lt;- 7
+  b &lt;- 3
+  c &lt;- 2
+  a * b * c
+})
+y &lt;- value(f)
+print(y)
+str(list(a = a, b = b, c = c)) ## All NAs
+
+
+
+## Explicitly close multisession workers by switching plan
+plan(sequential)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

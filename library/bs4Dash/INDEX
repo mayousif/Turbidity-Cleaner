@@ -1,0 +1,96 @@
+attachmentBlock         AdminLTE3 attachment container
+bs4Accordion            Create a Bootstrap 4 accordion
+bs4AccordionItem        Create a Bootstrap 4 accordion item
+bs4Alert                Create a Bootstrap 4 alert
+bs4Badge                Create a Bootstrap 4 dashboard badge item
+bs4Box                  AdminLTE3 simple box
+bs4Callout              Create a Bootstrap 4 callout
+bs4Card                 Create a Boostrap 4 card
+bs4Carousel             Create a Bootstrap 4 carousel
+bs4CarouselItem         Create a Bootstrap 4 carousel item
+bs4DashBody             Create a Boostrap 4 dashboard body
+bs4DashControlbar       Create a Boostrap 4 dashboard right sidebar
+bs4DashFooter           Create a Boostrap 4 dashboard footer
+bs4DashGallery          Launch the bs4Dash Gallery
+bs4DashNavbar           Create a Boostrap 4 dashboard navbar
+bs4DashPage             Create a Boostrap 4 dashboard page
+bs4DashSidebar          Create a Boostrap 4 dashboard main sidebar
+bs4DropdownMenu         Create a Boostrap 4 dashboard dropdown menu
+bs4DropdownMenuItem     Create a Boostrap 4 dashboard dropdown menu
+                        item
+bs4InfoBox              Boostrap 4 info box
+bs4InsertTab            Insert a bs4TabPanel in a bs4TabSetPanel
+bs4Jumbotron            BS4 jumbotron for AdminLTE3
+bs4ListGroup            BS4 list group for AdminLTE3
+bs4ListGroupItem        BS4 list group item for AdminLTE3
+bs4Loading              AdminLTE3 loading state element
+bs4ProgressBar          Create a Bootstrap 4 progress bar
+bs4Quote                Create a Boostrap 4 block quote
+bs4RemoveTab            Remove a bs4TabPanel in a bs4TabSetPanel
+bs4Ribbon               Create a Boostrap 4 ribbon
+bs4SidebarHeader        Create a Boostrap 4 dashboard main sidebar
+                        header
+bs4SidebarMenu          Create a Boostrap 4 dashboard main sidebar menu
+bs4SidebarMenuItem      Create a Boostrap 4 dashboard main sidebar menu
+                        item
+bs4SidebarMenuSubItem   Create a Boostrap 4 dashboard main sidebar menu
+                        sub-item
+bs4SidebarUserPanel     Create a Boostrap 4 dashboard main sidebar user
+                        panel
+bs4SocialCard           AdminLTE3 social card
+bs4Sortable             BS4 sortable section
+bs4Stars                AdminLTE3 stars
+bs4TabCard              Create a Boostrap 4 tabCard
+bs4TabItem              One tab to put inside a tab items container
+bs4TabItems             A container for tab items
+bs4TabPanel             Create a tabPanel
+bs4TabSetPanel          Create a tabSetPanel
+bs4Table                Create a Boostrap 4 table container
+bs4TableItem            Create a Boostrap 4 table item
+bs4TableItems           Create a Boostrap 4 table item row
+bs4Timeline             AdminLTE3 timeline block
+bs4TimelineEnd          AdminLTE3 timeline ending point
+bs4TimelineItem         AdminLTE3 timeline item
+bs4TimelineItemMedia    AdminLTE2 timeline media item
+bs4TimelineLabel        AdminLTE3 timeline label
+bs4TimelineStart        AdminLTE3 timeline starting point
+bs4UserCard             AdminLTE3 widget user card
+bs4UserMenu             Create a Bootstrap 4 user profile.
+bs4ValueBox             Boostrap 4 value box
+bs4ValueBoxOutput       Create a value box output (client side)
+cardComment             BS4 card comment container
+cardPad                 AdminLTE3 vertical block container
+cardProfile             AdminLTE3 card profile
+cardProfileItem         AdminLTE3 card profile item
+cardProfileItemList     AdminLTE3 card profile item container
+column                  Boostrap 4 column system
+controlbarItem          Alias to bs4DashControlbarItem See
+                        bs4DashControlbarItem for full details
+controlbarMenu          Alias to bs4DashControlbarMenu See
+                        bs4DashControlbarMenu for full details
+descriptionBlock        AdminLTE3 description block
+dropdownDivider         Create a box dropdown divider
+dropdownItem            Create a box dropdown item
+dropdownItemList        Create a box dropdown item list
+getAdminLTEColors       Get all AdminLTE colors.
+infoBoxOutput           Alias to bs4InfoBoxOutput See bs4InfoBoxOutput
+                        for full details
+ionicon                 BS4 ionicons
+renderInfoBox           Alias to renderbs4InfoBox See renderbs4InfoBox
+                        for full details
+renderbs4ValueBox       Create a value box (server side)
+updateControlbarMenu    Alias to updatebs4ControlbarMenu See
+                        updatebs4ControlbarMenu for full details
+updatebs4Card           update an AdminLTE3 card from the server side
+updatebs4Controlbar     Function to programmatically toggle the state
+                        of the controlbar
+updatebs4Sidebar        Function to programmatically toggle the state
+                        of the sidebar
+updatebs4TabItems       Change the selected sidebar tab on the client
+updatebs4TabSetPanel    Update a bs4TabSetPanel
+userMessage             AdminLTE3 user message
+userMessages            AdminLTE3 user message container
+userPost                AdminLTE3 user post
+userPostMedia           AdminLTE2 user post media
+userPostTagItem         AdminLTE3 user post tool item
+userPostTagItems        AdminLTE3 user post tool item container

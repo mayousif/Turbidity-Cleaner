@@ -1,0 +1,820 @@
+---
+title: "Getting Started"
+author: "David Granjon"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Introduction
+
+We need to load the following packages:
+
+```r
+library(argonR)
+library(htmltools)
+library(magrittr)
+```
+
+### Installing assets
+
+To install all mandatory CSS and javascript files run the following command
+
+```r
+argonInstall()
+```
+
+By default, the path corresponds the the current working directory (`getwd()`) but you 
+can change it. In the following, make sure to generate html pages in the same directory!
+
+### Generate a Page
+
+#### argonPage
+
+Below is an example of a very basic HTML page:
+
+```r
+ argonPage(
+  title = "ArgonR Static Template",
+  author =  "Somebody",
+  description = "HTML Static Template",
+  navbar = NULL,
+  footer = NULL
+ )
+```
+
+which generate the following HTML:
+
+<details>
+<summary>Code</summary>
+```html
+<html>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content="HTML Static Template"/>
+  <meta name="author" content="Somebody"/>
+  <title>ArgonR Static Template</title>
+  <link href="inst/assets/img/brand/favicon.png" rel="icon" type="image/png"/>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+  <link href="inst/assets/vendor/nucleo/css/nucleo.css" rel="stylesheet"/>
+  <link href="inst/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+  <link type="text/css" href="inst/assets/css/argon.min.css" rel="stylesheet"/>
+  <body>
+    <header class="header-global"></header>
+    <main></main>
+    <script src="inst/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="inst/assets/vendor/popper/popper.min.js"></script>
+    <script src="inst/assets/vendor/bootstrap/bootstrap.min.js"></script>
+    <script src="inst/assets/vendor/headroom/headroom.min.js"></script>
+    <script src="inst/assets/vendor/onscreen/onscreen.min.js"></script>
+    <script src="inst/assets/js/argon.min.js"></script>
+  </body>
+</html>
+```
+</details>
+<br>
+
+This template is however empty, so not very interesting. Moreover, there
+are missing elements that will prevent it from being correctly rendered. 
+
+#### Insert a navbar
+
+Surprisingly, we need the `argonNavbar()` function, see below:
+
+<details>
+<summary>Code</summary>
+```r
+navbar <- argonNavbar(
+  id = "main-navbar",
+  src = "https://demos.creative-tim.com/argon-design-system/assets/img/brand/white.png",
+  # left menu
+  argonNavMenu(
+    argonDropdown(
+      name = "Components",
+      size = "lg",
+      argonDropdownItem(
+        name = "Getting Started",
+        description = "Blabla",
+        src = "",
+        icon = argonIcon("spaceship", color = "white"),
+        status = "primary"
+      ),
+      argonDropdownItem(
+        name = "Foundation",
+        description = "Blabla",
+        src = "",
+        icon = argonIcon("palette", color = "white"),
+        status = "warning"
+      ),
+      argonDropdownItem(
+        name = "Components",
+        description = "Blabla",
+        src = "",
+        icon = argonIcon("ui-04", color = "white),
+        status = "success"
+      )
+    )
+  ),
+  # right menu
+  argonNavMenu(
+    side = "right",
+    argonNavItem(
+      name = "facebook",
+      src = "https://www.facebook.com",
+      icon = icon("facebook-square"),
+      tooltip = "Like us on Facebook"
+    ),
+    argonNavItem(
+      name = "instagram",
+      src = "https://www.instagram.com",
+      icon = icon("instagram"),
+      tooltip = "Follow us on Instagram"
+    ),
+    argonNavItem(
+      name = "twitter",
+      src = "https://www.twitter.com",
+      icon = icon("twitter-square"),
+      tooltip = "Follow us on Twitter"
+    ),
+    argonNavItem(
+      name = "github",
+      src = "https://www.github.com",
+      icon = icon("github"),
+      tooltip = "Star us on Github"
+    )
+  )
+ )
+```
+</details>
+<br>
+
+The `argonNavbar()` function accepts `argonNavMenu()`, which in turns takes
+`argonNavItem()` and `argonDropdown()`.
+
+
+#### Insert the footer
+
+We need the `argonFooter()` function:
+
+<details>
+<summary>Code</summary>
+```r
+footer <- argonFooter(
+  has_card = FALSE,
+  argonContainer(
+    size = "lg",
+    argonRow(
+      argonColumn(
+        width = 6,
+        argonIconWrapper(
+          iconTag = argonIcon("atom"),
+          size = "lg",
+          status = "success",
+          shadow = TRUE,
+          hover_shadow = TRUE
+        ),
+        argonH1(
+          display = 3,
+          "Insert anything in the footer"
+        ),
+        argonLead(
+          "The Arctic Ocean freezes every winter and much of 
+          the sea-ice then thaws every summer, and that process 
+          will continue whatever"
+        )
+        ),
+      argonColumn(
+        width = 6,
+        argonCarousel(
+          width = 12,
+          id = "carousel2",
+          argonCarouselItem(
+            src = "http://www.72pxdesigns.com/wp-content/uploads/2017/06/preview-814162.png",
+            active = TRUE
+          ),
+          argonCarouselItem(
+            src = "http://www.72pxdesigns.com/wp-content/uploads/2017/06/preview-814162.png",
+            active = FALSE
+          )
+        )
+      )
+    )
+  )
+ )
+```
+</details>
+<br>
+
+In general, footer elements are wrapped in several `argonSection()`. 
+
+#### Fill the body
+
+All body elements must be wrapped in a `argonSection()`, for instance:
+
+```r
+body <- argonSection(
+  size = "lg",
+  status = "default",
+  gradient = TRUE,
+  separator = TRUE,
+  separator_color = "white",
+  shape = TRUE,
+  argonColumn(
+    argonRow(
+      argonColumn(
+        width = 6,
+        argonH1(
+          display = 3, 
+          "ArgonR, HTML static template for R", 
+          htmltools::span("completed with examples")
+        ) %>% argonTextColor(color = "white"),
+        argonLead(
+          "Argon is a great free UI package based on Bootstrap 
+          4 that includes the most important components and features"
+        ) %>% argonTextColor(color = "white")
+        ),
+      argonColumn(
+        width = 6,
+        argonImage(
+          src = "inst/images/imac.svg",
+          floating = TRUE
+        ) %>% argonPersp(side = "right")
+        %>% argonBlur()
+      )
+    )
+  )
+)
+```
+
+#### Create the template
+
+```r
+# generate the page
+ example <- argonPage(
+  title = "ArgonR Static Template",
+  author =  "Somebody",
+  description = "HTML Static Template",
+  navbar = navbar,
+  footer = footer,
+  # main content
+  body
+ )
+
+ # create the path
+ path <- getwd()
+
+ # generate the static page
+ argonPageTemplate(filename = "example", path = path, argonPage = example)
+```
+
+While the first part is responsible for creating the page skeleton, 
+the `argonPageTemplate()` function provides additional treatments 
+to make it run without shiny. The view argument enable whether 
+to preview the page or not.
+
+## Example
+
+Below is a fully working example:
+
+<details>
+<summary>Code</summary>
+```r
+# This examples show how to create a simple static html page using argonR
+library(argonR)
+library(htmltools)
+library(magrittr)
+
+tabText1 <- "Raw denim you probably haven't heard of them jean shorts Austin. 
+            Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache 
+cliche tempor, williamsburg carles vegan helvetica. Reprehenderit 
+butcher retro keffiyeh dreamcatcher synth. Raw denim you probably 
+haven't heard of them jean shorts Austin. Nesciunt tofu stumptown 
+aliqua, retro synth master cleanse"
+
+tabText2 <- "Cosby sweater eu banh mi, qui irure terry richardson ex squid. 
+Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan 
+american apparel, butcher voluptate nisi qui."
+
+tabText3 <- "Raw denim you probably haven't heard of them jean shorts Austin. 
+Nesciunt tofu stumptown aliqua, retro synth master cleanse. 
+Mustache cliche tempor, williamsburg carles vegan helvetica. 
+Reprehenderit butcher retro keffiyeh dreamcatcher synth"
+
+example <- argonPage(
+  title = "ArgonR Static Template",
+  author =  "Divad Nojnarg",
+  description = "HTML Static Template",
+  navbar = argonNavbar(
+    id = "main-navbar",
+    src = "https://demos.creative-tim.com/argon-design-system/assets/img/brand/white.png",
+    # left menu
+    argonNavMenu(
+      argonDropdown(
+        name = "Components",
+        size = "lg",
+        argonDropdownItem(
+          name = "Getting Started",
+          description = "BlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBla",
+          src = "test.html",
+          icon = argonIcon(name = "spaceship" color = "primary")
+        ),
+        argonDropdownItem(
+          name = "Foundation",
+          description = "BlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBla",
+          src = "",
+          icon = argonIcon(name = "palette" color = "warning")
+        ),
+        argonDropdownItem(
+          name = "Components",
+          description = "BlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBlaBla",
+          src = "",
+          icon = argonIcon(name = "ui-04" color = "success")
+        )
+      )
+    ),
+    # right menu
+    argonNavMenu(
+      side = "right",
+      argonNavItem(
+        name = "facebook",
+        src = "https://www.facebook.com",
+        icon = icon("facebook-square"),
+        tooltip = "Like us on Facebook"
+      ),
+      argonNavItem(
+        name = "instagram",
+        src = "https://www.instagram.com",
+        icon = icon("instagram"),
+        tooltip = "Follow us on Instagram"
+      ),
+      argonNavItem(
+        name = "twitter",
+        src = "https://www.twitter.com",
+        icon = icon("twitter-square"),
+        tooltip = "Follow us on Twitter"
+      ),
+      argonNavItem(
+        name = "github",
+        src = "https://www.github.com",
+        icon = icon("github"),
+        tooltip = "Star us on Github"
+      )
+    )
+  ),
+  footer = argonFooter(
+    has_card = FALSE,
+    #status = "info",
+    #gradient = TRUE,
+    argonContainer(
+      size = "lg",
+      argonRow(
+        argonColumn(
+          width = 6,
+          argonIconWrapper(
+            iconTag = argonIcon("atom"),
+            size = "lg",
+            status = "success",
+            shadow = TRUE,
+            hover_shadow = TRUE
+          ),
+          argonH1(
+            display = 3,
+            "Insert anything in the footer"
+          ),
+          argonLead(
+            "The Arctic Ocean freezes every winter and much of 
+            the sea-ice then thaws every summer, and that process 
+            will continue whatever"
+          )
+        ),
+        argonColumn(
+          width = 6,
+          argonCarousel(
+            width = 12,
+            id = "carousel2",
+            argonCarouselItem(
+              src = "https://demos.creative-tim.com/argon-design-system/assets/img/theme/img-1-1200x1000.jpg",
+              active = TRUE
+            ),
+            argonCarouselItem(
+              src = "https://demos.creative-tim.com/argon-design-system/assets/img/theme/img-2-1200x1000.jpg",
+              active = FALSE
+            )
+          ) %>% argonPersp(side = "right")
+        )
+      )
+    )
+  ) %>% argonMargin(orientation = "t", value = 20),
+  # main content
+  argonSection(
+    size = "lg",
+    status = "default",
+    gradient = TRUE,
+    separator = TRUE,
+    separator_color = "white",
+    shape = TRUE,
+    argonColumn(
+      argonRow(
+        argonColumn(
+          width = 6,
+          argonH1(
+            display = 3, 
+            "ArgonR, HTML static template for R", 
+            htmltools::span("completed with examples")
+          ) %>% argonTextColor(color = "white"),
+          argonLead(
+            "Argon is a great free UI package based on Bootstrap 
+            4 that includes the most important components and features"
+          ) %>% argonTextColor(color = "white")
+        ),
+        argonColumn(
+          width = 6,
+          argonImage(
+            src = "inst/images/imac.svg",
+            floating = TRUE
+          ) %>% argonPersp(side = "right")
+          %>% argonBlur()
+        )
+      )
+    ) %>% argonPadding(orientation = "x", value = 0)
+  ),
+  argonSection(
+    size = "lg",
+    status = NULL,
+    gradient = FALSE,
+    separator = FALSE,
+    separator_color = NULL,
+    shape = FALSE,
+    argonRow(
+      argonColumn(
+        width = 4,
+        argonCard(
+          status = "primary",
+          width = 12,
+          title = "Card 1",
+          hover_lift = TRUE,
+          shadow = TRUE,
+          icon = argonIcon("check-bold"),
+          src = "#",
+          "Argon is a great free UI package based on Bootstrap 4 
+          that includes the most important components and features."
+        ) %>% argonTooltip(position = "left", title = "I am a nice card")
+      ),
+      argonColumn(
+        width = 4,
+        argonCard(
+          status = "success",
+          width = 12,
+          title = "Card 2",
+          hover_lift = TRUE,
+          shadow = TRUE,
+          icon = argonIcon("istanbul"),
+          src = "#",
+          "Argon is a great free UI package based on Bootstrap 4 
+          that includes the most important components and features"
+        ) %>% argonTooltip(position = "top", title = "I am a nice card")
+      ),
+      argonColumn(
+        width = 4,
+        argonCard(
+          status = "warning",
+          width = 12,
+          title = "Card 3",
+          hover_lift = TRUE,
+          shadow = TRUE,
+          icon = argonIcon("planet"),
+          src = "#",
+          "Argon is a great free UI package based on Bootstrap 4 
+          that includes the most important components and features"
+        ) %>% argonTooltip(position = "bottom", title = "I am a nice card")
+      )
+    ),
+    
+    # badges
+    argonH1(display = 3, "ArgonR elements") %>% argonPadding(orientation = "t", value = 5),
+    argonLead("Badges") %>% argonMuted(),
+    argonRow(
+      argonColumn(
+        width = 3,
+        argonBadge(
+          text = "My badge",
+          src = "https://www.google.com",
+          pill = TRUE,
+          status = "danger"
+        )
+      ),
+      argonColumn(
+        width = 3,
+        argonBadge(
+          text = "My badge",
+          src = "https://www.google.com",
+          pill = TRUE,
+          status = "primary"
+        )
+      ),
+      argonColumn(
+        width = 3,
+        argonBadge(
+          text = "My badge",
+          pill = TRUE,
+          status = "warning"
+        )
+      ),
+      argonColumn(
+        width = 3,
+        argonBadge(
+          text = "My badge",
+          src = "https://www.google.com",
+          pill = FALSE,
+          status = "success"
+        )
+      )
+    ),
+    
+    # progress
+    argonLead("Progress") %>% argonMuted(),
+    argonRow(
+      argonColumn(
+        width = 4,
+        argonProgress(value = 10, status = "danger", text = "Custom Text")
+      ),
+      argonColumn(
+        width = 4,
+        argonProgress(value = 40, status = "info", text = NULL)
+      ),
+      argonColumn(
+        width = 4,
+        argonProgress(value = 90, status = "warning", text = argonIcon("atom"))
+      )
+    ),
+    
+    # alerts
+    argonLead("Alerts") %>% argonMuted(),
+    argonRow(
+      argonColumn(
+        width = 4,
+        argonAlert(
+          icon = argonIcon("basket"),
+          status = "danger",
+          "This is an alert",
+          closable = TRUE
+        )
+      ),
+      argonColumn(
+        width = 4,
+        argonAlert(
+          icon = argonIcon("ui-02"),
+          status = "success",
+          "This is an alert",
+          closable = TRUE
+        )
+      ),
+      argonColumn(
+        width = 4,
+        argonAlert(
+          icon = argonIcon("ui-03"),
+          status = "info",
+          "This is an alert",
+          closable = TRUE
+        )
+      )
+    ),
+    
+    # tabs
+    argonLead("Tabs") %>% argonMuted(),
+    argonRow(
+      argonTabSet(
+        id = "tab-1",
+        card_wrapper = TRUE,
+        horizontal = TRUE,
+        circle = FALSE,
+        size = "sm",
+        width = 6,
+        iconList = list(
+         argonIcon("cloud-upload-96"), 
+         argonIcon("bell-55"), 
+         argonicon("calendar-grid-58")
+        ),
+        argonTab(
+          tabName = "Tab 1",
+          active = FALSE,
+          tabText1
+        ),
+        argonTab(
+          tabName = "Tab 2",
+          active = TRUE,
+          tabText2
+        ),
+        argonTab(
+          tabName = "Tab 3",
+          active = FALSE,
+          tabText3
+        )
+      ),
+      argonTabSet(
+        id = "tab-2",
+        card_wrapper = TRUE,
+        horizontal = FALSE,
+        circle = TRUE,
+        size = "sm",
+        argonTab(
+          tabName = "Tab 4",
+          active = FALSE,
+          tabText1
+        ),
+        argonTab(
+          tabName = "Tab 5",
+          active = TRUE,
+          tabText2
+        ),
+        argonTab(
+          tabName = "Tab 6",
+          active = FALSE,
+          tabText3
+        )
+      )
+    )
+  ) %>% argonMargin(orientation = "t", value = -200)
+  %>% argonPadding(orientation = "t", value = 0),
+  argonSection(
+    size = "lg",
+    status = "warning",
+    gradient = TRUE,
+    separator = TRUE,
+    separator_color = "white",
+    shape = FALSE,
+    argonContainer(
+      size = "lg",
+      argonRow(
+        argonColumn(
+          width = 6,
+          argonH1(
+            display = 3, 
+            "Load modals", 
+            htmltools::span("by clicking on buttons")
+          ) %>% argonTextColor(color = "white"),
+          argonButton(
+            name = "Click me!",
+            status = "danger",
+            icon = argonIcon("atom"),
+            size = "lg",
+            toggle_modal = TRUE,
+            modal_id = "modal1"
+          )
+        ),
+        argonColumn(
+          width = 6,
+          argonModal(
+            id = "modal1",
+            title = "This is a modal",
+            status = "danger",
+            gradient = TRUE,
+            "YOU SHOULD READ THIS!",
+            br(),
+            "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+          ),
+          argonImage(
+            floating = TRUE,
+            src = "https://demos.creative-tim.com/argon-design-system/assets/img/ill/ill-2.svg",
+            hover_lift = TRUE
+          ) %>% argonTooltip(position = "right", title = "I am a nice floating image") 
+          %>% argonBlur(text = "Hi There!", text_color = "white")
+        )
+      ) %>% argonPadding(orientation = "y", value = 5),
+      argonPagination(
+        size = "lg",
+        align = "center",
+        argonPaginationItem(
+          name = 1,
+          src = "test.html"
+        ),
+        argonPaginationItem(
+          name = 2,
+          src = "https://www.google.com"
+        )
+      )
+    )
+  ),
+  argonSection(
+    size = "lg",
+    status = "white",
+    argonRow(
+      argonIconWrapper(
+        iconTag = argonIcon("atom"),
+        size = "lg",
+        status = "danger",
+        shadow = TRUE,
+        hover_shadow = TRUE
+      ),
+      argonH1(display = 3, "ArgonR social") %>% argonPadding(orientation = "l", value = 5)
+    ),
+    argonRow(
+      argonColumn(
+        width = 3,
+        argonUser(
+          title = "Ryan Tompson",
+          subtitle = "Web Developer",
+          src = "https://demos.creative-tim.com/argon-design-system/assets/img/theme/team-1-800x800.jpg"
+        ) %>% argonBlur(text = "Ryan Tompson", text_color = "default")
+      ),
+      argonColumn(
+        width = 3,
+        argonUser(
+          title = "Romina Hadid",
+          subtitle = "Marketing Strategist",
+          src = "https://demos.creative-tim.com/argon-design-system/assets/img/theme/team-2-800x800.jpg"
+        ) %>% argonBlur(text = "Romina Hadid", text_color = "default")
+      ),
+      argonColumn(
+        width = 3,
+        argonUser(
+          title = "Alexander Smith",
+          subtitle = "UI/UX Designer",
+          src = "https://demos.creative-tim.com/argon-design-system/assets/img/theme/team-3-800x800.jpg"
+        ) %>% argonBlur(text = "Alexander Smith", text_color = "default")
+      ),
+      argonColumn(
+        width = 3,
+        argonUser(
+          title = "John Doe",
+          subtitle = "Founder and CEO",
+          src = "https://demos.creative-tim.com/argon-design-system/assets/img/theme/team-4-800x800.jpg"
+        ) %>% argonBlur(text = "John Doe", text_color = "default")
+      )
+    )
+    # br(), br(),
+    # argonContainer(
+    #   argonProfile(
+    #     title = "John",
+    #     subtitle = "Japan, Kagoshima",
+    #     src = "https://image.flaticon.com/icons/svg/1006/1006540.svg",
+    #     url = "https://www.google.com",
+    #     url_1 = "https://www.google.com",
+    #     url_2 = "https://www.google.com",
+    #     stats = argonProfileStats(
+    #       argonProfileStat(
+    #         value = 22,
+    #         description = "Friends"
+    #       ),
+    #       argonProfileStat(
+    #         value = 10,
+    #         description = "Photos"
+    #       ),
+    #       argonProfileStat(
+    #         value = 89,
+    #         description = "Comments"
+    #       )
+    #     ),
+    #     "An artist of considerable range, Ryan — 
+    #     the name taken by Melbourne-raised, 
+    #     Brooklyn-based Nick Murphy — writes, 
+    #     performs and records all of his own music, 
+    #     giving it a warm, intimate feel with a solid 
+    #     groove structure. An artist of considerable 
+    #     range."
+    #   )
+    # )
+  ),
+  argonSection(
+    size = "lg",
+    status = "default",
+    cascade = TRUE,
+    
+    argonH1(display = 3, "ArgonR Cascade Effect") %>% 
+      argonPadding(orientation = "l", value = 5) %>%
+      argonPadding(orientation = "b", value = 5) %>%
+      argonTextColor(color = "white"),
+    
+    argonCascade(
+      argonCascadeItem(name = "diamond", src = "https://www.google.com"),
+      argonCascadeItem(name = "album-2", size = "sm"),
+      argonCascadeItem(name = "app", size = "sm"),
+      argonCascadeItem(name = "atom", size = "sm"),
+      argonCascadeItem(name = "bag-17", src = "https://www.google.com"),
+      argonCascadeItem(name = "bell-55"),
+      argonCascadeItem(name = "credit-card"),
+      argonCascadeItem(name = "briefcase-24", size = "sm", "https://www.google.com"),
+      argonCascadeItem(name = "building", size = "sm"),
+      argonCascadeItem(name = "button-play", size = "sm"),
+      argonCascadeItem(name = "calendar-grid-58"),
+      argonCascadeItem(name = "camera-compact"),
+      argonCascadeItem(name = "chart-bar-32")
+    )
+  )
+)
+
+argonPageTemplate(filename = "example", path = getwd(), example)
+```
+</details>
+<br>

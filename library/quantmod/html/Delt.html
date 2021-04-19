@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate Percent Change</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Delt {quantmod}"><tr><td>Delt {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Calculate Percent Change </h2>
+
+<h3>Description</h3>
+
+<p>Calculate the k-period percent difference within one series, or
+between two series.  Primarily used to calculate the percent change
+from one period to another of a given series, or to calculate
+the percent difference between two series over the full series.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Delt(x1, x2 = NULL, k = 0, type = c("arithmetic", "log"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x1</code></td>
+<td>
+ <p><em>m x 1</em> vector </p>
+</td></tr>
+<tr valign="top"><td><code>x2</code></td>
+<td>
+ <p><em>m x 1</em> vector </p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p> change over <code>k</code>-periods. default k=1 when x2 is NULL. </p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p> type of difference. log or arithmetic (default). </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When called with only <code>x1</code>, the one period percent change of the
+series is returned by default. Internally this happens by copying
+x1 to x2. A two period difference would be specified with <code>k=2</code>.
+</p>
+<p>If called with both <code>x1</code> and <code>x2</code>, the difference between
+the two is returned.  That is, k=0. A one period difference would be
+specified by <code>k=1</code>. <code>k</code> may also be a vector to calculate
+more than one period at a time. The results will then be an m x length(k)
+</p>
+<p>Arithmetic differences are used by default:
+Lag = (x2(t) - x1(t-k))/x1(t-k)
+</p>
+<p>Log differences are calculated:
+Lag = log(x2(t)/x1(t-k))
+</p>
+
+
+<h3>Value</h3>
+
+<p>An matrix of <code>length(x1)</code> rows and <code>length(k)</code> columns.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="OHLC.Transformations.html">OpOp</a></code> <code><a href="OHLC.Transformations.html">OpCl</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+Stock.Open &lt;- c(102.25,102.87,102.25,100.87,103.44,103.87,103.00)
+Stock.Close &lt;- c(102.12,102.62,100.12,103.00,103.87,103.12,105.12)
+
+Delt(Stock.Open)                    #one period pct. price change
+Delt(Stock.Open,k=1)                #same
+Delt(Stock.Open,type='arithmetic')  #using arithmetic differences (default)
+Delt(Stock.Open,type='log')         #using log differences
+
+Delt(Stock.Open,Stock.Close)        #Open to Close pct. change
+Delt(Stock.Open,Stock.Close,k=0:2)  #...for 0,1, and 2 periods
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

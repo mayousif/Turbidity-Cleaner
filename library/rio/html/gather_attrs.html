@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gather attributes from data frame variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gather_attrs {rio}"><tr><td>gather_attrs {rio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gather attributes from data frame variables</h2>
+
+<h3>Description</h3>
+
+<p><code>gather_attrs</code> moves variable-level attributes to the data frame level and <code>spread_attrs</code> reverses that operation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gather_attrs(x)
+
+spread_attrs(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code><a href="import.html">import</a></code> attempts to standardize the return value from the various import functions to the extent possible, thus providing a uniform data structure regardless of what import package or function is used. It achieves this by storing any optional variable-related attributes at the variable level (i.e., an attribute for <code>mtcars$mpg</code> is stored in <code>attributes(mtcars$mpg)</code> rather than <code>attributes(mtcars)</code>). <code>gather_attrs</code> moves these to the data frame level (i.e., in <code>attributes(mtcars)</code>). <code>spread_attrs</code> moves attributes back to the variable level.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>x</code>, with variable-level attributes stored at the data frame level.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="import.html">import</a></code>, <code><a href="characterize.html">characterize</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+e &lt;- import("http://www.stata-press.com/data/r13/auto.dta")
+str(e)
+g &lt;- gather_attrs(e)
+str(attributes(e))
+str(g)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rio</em> version 0.5.26 <a href="00Index.html">Index</a>]</div>
+</body></html>

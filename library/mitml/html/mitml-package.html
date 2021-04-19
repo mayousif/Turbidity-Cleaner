@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: mitml: Tools for multiple imputation in multilevel modeling</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mitml-package {mitml}"><tr><td>mitml-package {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>mitml: Tools for multiple imputation in multilevel modeling</h2>
+
+<h3>Description</h3>
+
+<p>Provides tools for multiple imputation of missing data in multilevel modeling.
+This package includes a user-friendly interface to the algorithms implemented in the R packages <code>pan</code> and <code>jomo</code> as well as several functions for visualizing, managing, and analyzing multiply imputed data sets.
+</p>
+<p>The main interface to <code>pan</code> is the function <code><a href="panImpute.html">panImpute</a></code>, which allows specifying imputation models for continuous variables with missing data at level 1.
+In addition, the function <code><a href="jomoImpute.html">jomoImpute</a></code> provides an interface to <code>jomo</code>, which allows specifying imputation models for both continuous and categorical variables with missing data at levels 1 and 2 as well as single-level data.
+The imputations and parameter values are stored in objects of class <code>mitml</code>.
+To obtain the completed (i.e., imputed) data sets, <code><a href="mitmlComplete.html">mitmlComplete</a></code> is used, producing a list of imputed data sets of class <code>mitml.list</code> that can be used in further analyses.
+</p>
+<p>Several additional functions allow for convenient analysis of multiply imputed data sets including (bot not limited to) multilevel analyses with <code>lme4</code> or <code>nlme</code> and structural equation modeling with <code>lavaan</code>.
+The functions <code><a href="with.mitml.list.html">within</a></code>, <code><a href="sort.mitml.list.html">sort</a></code>, and <code><a href="subset.mitml.list.html">subset</a></code> can be used to manage and manipulate multiply imputed data sets.
+Statistical models are fitted using <code><a href="with.mitml.list.html">with</a></code>.
+Pooled parameter estimates can be extracted with <code><a href="testEstimates.html">testEstimates</a></code>, and model comparisons as well as single- and multi-parameter hypotheses tests can be performed using the functions <code><a href="testModels.html">testModels</a></code> and <code><a href="testConstraints.html">testConstraints</a></code>.
+In addition, the <code><a href="anova.mitml.result.html">anova</a></code> method provides a simple interface to model comparisons.
+</p>
+<p>Data sets can be imported and exported from or to different statistical software packages.
+Currently, <code><a href="mids2mitml.list.html">mids2mitml.list</a></code>, <code><a href="amelia2mitml.list.html">amelia2mitml.list</a></code>, <code><a href="long2mitml.list.html">jomo2mitml.list</a></code>, and <code><a href="long2mitml.list.html">long2mitml.list</a></code> can be used for importing imputations for other packages in R.
+In addition, <code><a href="write.mitmlMplus.html">write.mitmlMplus</a></code>, <code><a href="write.mitmlSAV.html">write.mitmlSAV</a></code>, and <code><a href="write.mitmlSPSS.html">write.mitmlSPSS</a></code> export data sets to M<em>plus</em> and SPSS, respectively.
+</p>
+<p>Finally, the package provides tools for summarizing and visualizing imputation models, which is useful for the assessment of convergence and the reporting of results.
+</p>
+<p>The data sets contained in this package are published under the same license as the package itself.
+They contain simulated data and may be used by anyone free of charge as long as reference to this package is given.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Authors: Simon Grund, Alexander Robitzsch, Oliver Luedtke
+</p>
+<p>Maintainer: Simon Grund &lt;grund@ipn.uni-kiel.de&gt;
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

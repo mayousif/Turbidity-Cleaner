@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: LRT test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lavTestLRT {lavaan}"><tr><td>lavTestLRT {lavaan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>LRT test</h2>
+
+<h3>Description</h3>
+
+<p>LRT test for comparing (nested) lavaan models.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lavTestLRT(object, ..., method = "default", A.method = "delta",
+           scaled.shifted = TRUE,
+           H1 = TRUE, type = "Chisq", model.names = NULL)
+anova(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An object of class <code><a href="lavaan-class.html">lavaan</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional objects of class <code><a href="lavaan-class.html">lavaan</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Character string. The possible options are 
+<code>"satorra.bentler.2001"</code>, <code>"satorra.bentler.2010"</code> and
+<code>"satorra.2000"</code>. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>H1</code></td>
+<td>
+<p>Not used yet</p>
+</td></tr>
+<tr valign="top"><td><code>A.method</code></td>
+<td>
+<p>Character string. The possible options are <code>"exact"</code>
+and <code>"delta"</code>. This is only used when method = <code>"satorra.2000"</code>.
+It determines how the Jacobian of the constraint function (the matrix A)
+will be computed. Note that if <code>A.method = "exact"</code>, the models must
+be nested in the parameter sense, while if <code>A.method = "delta"</code>, they
+only need to be nested in the covariance matrix sense.</p>
+</td></tr>
+<tr valign="top"><td><code>scaled.shifted</code></td>
+<td>
+<p>Logical. Only used when method = <code>"satorra.2000"</code>.
+If <code>TRUE</code>, we use a scaled and shifted test statistic; if <code>FALSE</code>,
+we use a mean and variance adjusted (Satterthwaite style) test statistic.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Character. If <code>"Chisq"</code>, the test statistic for each
+model is the (scaled or unscaled) model fit test statistic. If <code>"Cf"</code>, 
+the test statistic for each model is computed by the 
+<code><a href="lavTablesFit.html">lavTablesFitCf</a></code> function.</p>
+</td></tr> 
+<tr valign="top"><td><code>model.names</code></td>
+<td>
+<p>Character vector. If provided, use these model names in
+the first column of the anova table.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>anova</code> function for lavaan objects simply calls the
+<code>lavTestLRT</code> function, which has a few additional arguments.
+</p>
+<p>If <code>type = "Chisq"</code> and the test statistics are scaled, a
+special scaled difference test statistic is computed. If method is
+<code>"satorra.bentler.2001"</code>, a simple approximation is used
+described in Satorra &amp; Bentler (2001). In some settings,
+this can lead to a negative test statistic. To ensure a positive
+test statistic, we can use the method proposed by 
+Satorra &amp; Bentler (2010). Alternatively, when method is
+<code>"satorra.2000"</code>, the original formulas of Satorra (2000) are
+used.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class anova. When given a single argument, it simply 
+returns the test statistic of this model. When given a sequence of 
+objects, this function tests the models against one another in the order
+specified. 
+</p>
+
+
+<h3>References</h3>
+
+<p>Satorra, A. (2000). Scaled and adjusted restricted tests in multi-sample
+analysis of moment structures. In Heijmans, R.D.H., Pollock, D.S.G. &amp; Satorra,
+A. (eds.), Innovations in multivariate statistical analysis. A Festschrift for
+Heinz Neudecker (pp.233-247). London: Kluwer Academic Publishers.     
+</p>
+<p>Satorra, A., &amp; Bentler, P. M. (2001). A scaled difference chi-square test
+statistic for moment structure analysis. Psychometrika, 66(4), 507-514.
+</p>
+<p>Satorra, A., &amp; Bentler, P. M. (2010). Ensuring postiveness of the scaled
+difference chi-square test statistic. Psychometrika, 75(2), 243-248.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+HS.model &lt;- '
+    visual  =~ x1 + b1*x2 + x3
+    textual =~ x4 + b2*x5 + x6
+    speed   =~ x7 + b3*x8 + x9
+'
+fit1 &lt;- cfa(HS.model, data = HolzingerSwineford1939)
+fit0 &lt;- cfa(HS.model, data = HolzingerSwineford1939, 
+            orthogonal = TRUE)
+lavTestLRT(fit1, fit0)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lavaan</em> version 0.6-8 <a href="00Index.html">Index</a>]</div>
+</body></html>

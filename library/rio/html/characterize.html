@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Character conversion of labelled data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for characterize {rio}"><tr><td>characterize {rio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Character conversion of labelled data</h2>
+
+<h3>Description</h3>
+
+<p>Convert labelled variables to character or factor
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+characterize(x, ...)
+
+factorize(x, ...)
+
+## Default S3 method:
+characterize(x, ...)
+
+## S3 method for class 'data.frame'
+characterize(x, ...)
+
+## Default S3 method:
+factorize(x, coerce_character = FALSE, ...)
+
+## S3 method for class 'data.frame'
+factorize(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A vector or data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to methods</p>
+</td></tr>
+<tr valign="top"><td><code>coerce_character</code></td>
+<td>
+<p>A logical indicating whether to additionally coerce character columns to factor (in <code>factorize</code>). Default <code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>characterize</code> converts a vector with a <code>labels</code> attribute of named levels into a character vector. <code>factorize</code> does the same but to factors. This can be useful at two stages of a data workflow: (1) importing labelled data from metadata-rich file formats (e.g., Stata or SPSS), and (2) exporting such data to plain text files (e.g., CSV) in a way that preserves information.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="gather_attrs.html">gather_attrs</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# vector method
+x &lt;- structure(1:4, labels = c("A" = 1, "B" = 2, "C" = 3))
+characterize(x)
+factorize(x)
+
+# data frame method
+x &lt;- data.frame(v1 = structure(1:4, labels = c("A" = 1, "B" = 2, "C" = 3)),
+                v2 = structure(c(1,0,0,1), labels = c("foo" = 0, "bar" = 1)))
+str(factorize(x))
+str(characterize(x))
+
+# comparison of exported file contents
+import(export(x, "example.csv"))
+import(export(factorize(x), "example.csv"))
+
+# cleanup
+unlink("example.csv")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rio</em> version 0.5.26 <a href="00Index.html">Index</a>]</div>
+</body></html>

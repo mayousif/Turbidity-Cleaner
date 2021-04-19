@@ -1,0 +1,15 @@
+/* Custom */
+.waiter-overlay{
+  text-align: center;
+  z-index:999;
+  color: white;
+  display: flex;
+}
+
+.staticParent{
+  position: static;
+}
+
+.waiter-overlay-content{
+  margin: auto;
+}

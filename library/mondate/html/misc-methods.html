@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Miscellaneous Methods for mondate's</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Miscellaneous-methods {mondate}"><tr><td>Miscellaneous-methods {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Miscellaneous Methods for mondate's</h2>
+
+<h3>Description</h3>
+
+<p>Miscellaneous <code>mondate</code> methods.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ ## S3 method for class 'mondate'
+mean(x, trim = 0, na.rm = FALSE, ...)
+ ## S3 method for class 'mondate'
+unique(x, ...)
+ ## S3 method for class 'mondate'
+quarters(x, abbreviate)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a mondate</p>
+</td></tr>
+<tr valign="top"><td><code>trim</code></td>
+<td>
+<p>see <code>base::mean</code></p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>see <code>base::mean</code></p>
+</td></tr>
+<tr valign="top"><td><code>abbreviate</code></td>
+<td>
+<p><code>logical</code>. Should the names be abbreviated?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to and from other methods</p>
+</td></tr>
+</table>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt><code>mean(x = "mondate", ...)</code></dt><dd>
+<p>Calculate the mean date of <code>mondate</code>s. 
+Arguments <code>trim</code> and <code>na.rm</code> have the usual meaning
+(see <code>base::mean</code>).
+</p>
+</dd>
+<dt><code>pmean(... = "mondate")</code></dt><dd>
+<p>Calculate the &quot;parallel&quot; mean date of <code>mondate</code>s. 
+Arguments in <code>...</code>
+must all be <code>mondate</code>s.
+Result will be a <code>mondate</code>
+with properties equal to those of the first
+<code>mondate</code> in <code>...</code>.
+</p>
+</dd>
+<dt><code>unique(x = "mondate", ...)</code></dt><dd>
+<p>Returns a <code>mondate</code> but with duplicate
+elements/rows removed.
+For an explanation of the arguments in <code>...</code>, 
+see <code>base::unique</code>.
+</p>
+</dd>
+<dt><code>quarters(x = "mondate", abbreviate)</code></dt><dd>
+<p>Returns a <code>character</code> vector of &quot;Q1&quot; to &quot;Q4&quot;.
+See <code><a href="../../base/html/weekday.POSIXt.html">quarters</a></code>.
+</p>
+</dd>
+</dl>
+
+
+<h3>Examples</h3>
+
+<pre>
+(M&lt;-mondate.mdy(12,31,2001:2003))
+mean(M)                           # the middle value, Dec. 31, 2002
+(M&lt;-c(M,mondate.mdy(12,31,2004))) # tack on another yearend
+mean(M)                           # mid-year 2003
+mean(M,12)                        # 12 is coerced to Dec. 31, 2000, so the 
+                                  # mean is again Dec. 31, 2002
+
+x &lt;- mondate.ymd(2001:2005,12)    # five year ends
+y &lt;- x-12                         # one year earlier
+pmean(x,y)                        # 2001-06-30 ... 2005-06-30
+
+unique(M,M)                       # just M
+(M&lt;-matrix(M,nrow=2))             # now a matrix
+rbind(M,M)                        # 2 M's, stacked
+unique(rbind(M,M))                # M again, still a matrix
+
+m &lt;- mondate.ymd(2013, 1:12)      # end of the months of 2013
+quarters(m)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

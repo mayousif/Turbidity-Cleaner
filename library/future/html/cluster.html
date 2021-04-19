@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a cluster future whose value will be resolved...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cluster {future}"><tr><td>cluster {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a cluster future whose value will be resolved asynchronously in a parallel process</h2>
+
+<h3>Description</h3>
+
+<p>A cluster future is a future that uses cluster evaluation,
+which means that its <em>value is computed and resolved in
+parallel in another process</em>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cluster(..., workers = availableWorkers(), envir = parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional named elements passed to <code><a href="ClusterFuture-class.html">ClusterFuture()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>workers</code></td>
+<td>
+<p>A <code><a href="../../parallel/html/makeCluster.html">cluster</a></code> object,
+a character vector of host names, a positive numeric scalar,
+or a function.
+If a character vector or a numeric scalar, a <code>cluster</code> object
+is created using <code><a href="re-exports.html">makeClusterPSOCK</a>(workers)</code>.
+If a function, it is called without arguments <em>when the future
+is created</em> and its value is used to configure the workers.
+The function should return any of the above types.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <a href="../../base/html/environment.html">environment</a> from where global objects should be
+identified.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function will block if all available <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> cluster nodes are
+occupied and will be unblocked as soon as one of the already
+running cluster futures is resolved.
+</p>
+<p>The preferred way to create an cluster future is not to call
+this function directly, but to register it via
+<code><a href="plan.html">plan</a>(cluster)</code> such that it becomes the default
+mechanism for all futures.  After this <code><a href="future.html">future()</a></code>
+and <code><a href="future.html">%&lt;-%</a></code> will create <em>cluster futures</em>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <a href="ClusterFuture-class.html">ClusterFuture</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+## Use cluster futures
+cl &lt;- parallel::makeCluster(2, timeout = 60)
+plan(cluster, workers = cl)
+
+## A global variable
+a &lt;- 0
+
+## Create future (explicitly)
+f &lt;- future({
+  b &lt;- 3
+  c &lt;- 2
+  a * b * c
+})
+
+## A cluster future is evaluated in a separate process.
+## Regardless, changing the value of a global variable will
+## not affect the result of the future.
+a &lt;- 7
+print(a)
+
+v &lt;- value(f)
+print(v)
+stopifnot(v == 0)
+
+## CLEANUP
+parallel::stopCluster(cl)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

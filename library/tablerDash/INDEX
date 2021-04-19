@@ -1,0 +1,35 @@
+tablerAlert             Create a Boostrap 4 alert
+tablerAvatar            Create a Boostrap 4 avatar
+tablerAvatarList        Create a Boostrap 4 avatar list
+tablerBlogCard          Create a Boostrap 4 blog card
+tablerCard              Create a Boostrap 4 card
+tablerDashBody          Create a Boostrap 4 dashboard body
+tablerDashFooter        Create a Boostrap 4 dashboard footer
+tablerDashGallery       Launch the tablerDash Gallery
+tablerDashNav           Create a Boostrap 4 dashboard navbar
+tablerDashPage          Create a Boostrap 4 dashboard page
+tablerDropdown          Create a Boostrap 4 dashboard dropdown
+                        container
+tablerDropdownItem      Create a Boostrap 4 dashboard dropdown
+                        container
+tablerIcon              Create a Boostrap 4 icon
+tablerInfoCard          Create a Boostrap 4 info card
+tablerList              Create a Boostrap 4 list container
+tablerListItem          Create a Boostrap 4 list item
+tablerMediaCard         Create a Boostrap 4 media card
+tablerNavMenu           Create a Boostrap 4 dashboard navbar menu
+tablerNavMenuItem       Create a Boostrap 4 dashboard navbar menu item
+tablerProfileCard       Create a Boostrap 4 profile card
+tablerProgress          Create a Boostrap 4 progress bar
+tablerSocialLink        Create a Boostrap 4 social link
+tablerSocialLinks       Create a Boostrap 4 social link list
+tablerStatCard          Create a Boostrap 4 stat card
+tablerStatus            Create a Boostrap 4 status
+tablerTabItem           One tab to put inside a tab items container
+tablerTabItems          A container for tab items
+tablerTable             Create a Boostrap 4 table container
+tablerTableItem         Create a Boostrap 4 table item
+tablerTag               Create a Boostrap 4 tag
+tablerTagList           Create a Boostrap 4 tag list
+tablerTimeline          Create a Boostrap 4 timeline
+tablerTimelineItem      Create a Boostrap 4 timeline item

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap wells variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_wells {fresh}"><tr><td>bs_vars_wells {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap wells variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+wells panel (e.g. <code><a href="../../shiny/html/wellPanel.html">shiny::wellPanel</a></code> or
+<code><a href="../../shiny/html/sidebarLayout.html">shiny::sidebarPanel</a></code>) in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_wells(bg = NULL, border = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>Background color (default in Shiny is gray).</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Border color.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>See default parameters for Bootstrap: <a href="https://getbootstrap.com/docs/3.4/customize/">https://getbootstrap.com/docs/3.4/customize/</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Background color of wellPanel
+bs_vars_wells(
+  bg = "#CEECF5"
+)
+
+
+if (interactive()) {
+  library(shiny)
+
+  ui &lt;- fluidPage(
+    use_theme(create_theme(
+      theme = "default",
+      bs_vars_wells(
+        bg = "#CEECF5"
+      )
+    )),
+    wellPanel(
+      "This is a wellPanel"
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

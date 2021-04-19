@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a multicore future whose value will be resolved...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for multicore {future}"><tr><td>multicore {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a multicore future whose value will be resolved asynchronously in a forked parallel process</h2>
+
+<h3>Description</h3>
+
+<p>A multicore future is a future that uses multicore evaluation,
+which means that its <em>value is computed and resolved in
+parallel in another process</em>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multicore(
+  ...,
+  workers = availableCores(constraints = "multicore"),
+  envir = parent.frame()
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="Future-class.html">Future()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>workers</code></td>
+<td>
+<p>A positive numeric scalar or a function specifying the
+maximum number of parallel futures that can be active at the same time
+before blocking.
+If a function, it is called without arguments <em>when the future
+is created</em> and its value is used to configure the workers.
+The function should return a numeric scalar.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <a href="../../base/html/environment.html">environment</a> from where global objects should be
+identified.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function will block if all cores are occupied and
+will be unblocked as soon as one of the already running
+multicore futures is resolved.  For the total number of
+cores available including the current/main <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> process, see
+<code><a href="re-exports.html">availableCores()</a></code>.
+</p>
+<p>Not all operating systems support process forking and thereby not multicore
+futures.  For instance, forking is not supported on Microsoft Windows.
+Moreover, process forking may break some R environments such as RStudio.
+Because of this, the future package disables process forking also in
+such cases.  See <code><a href="re-exports.html">supportsMulticore()</a></code> for details.
+Trying to create multicore futures on non-supported systems or when
+forking is disabled will result in multicore futures falling back to
+becoming <a href="sequential.html">sequential</a> futures.
+</p>
+<p>The preferred way to create an multicore future is not to call
+this function directly, but to register it via
+<code><a href="plan.html">plan</a>(multicore)</code> such that it becomes the default
+mechanism for all futures.  After this <code><a href="future.html">future()</a></code>
+and <code><a href="future.html">%&lt;-%</a></code> will create <em>multicore futures</em>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <a href="MulticoreFuture-class.html">MulticoreFuture</a>
+If <code>workers == 1</code>, then all processing using done in the
+current/main <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session and we therefore fall back to using
+an sequential future.  This is also the case whenever multicore
+processing is not supported, e.g. on Windows.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For processing in multiple background <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> sessions, see
+<a href="multisession.html">multisession</a> futures.
+</p>
+<p>Use <code><a href="re-exports.html">availableCores()</a></code> to see the total number of
+cores that are available for the current <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session.
+Use <code><a href="re-exports.html">availableCores</a>("multicore") &gt; 1L</code> to check
+whether multicore futures are supported or not on the current
+system.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Use multicore futures
+plan(multicore)
+
+## A global variable
+a &lt;- 0
+
+## Create future (explicitly)
+f &lt;- future({
+  b &lt;- 3
+  c &lt;- 2
+  a * b * c
+})
+
+## A multicore future is evaluated in a separate forked
+## process.  Changing the value of a global variable
+## will not affect the result of the future.
+a &lt;- 7
+print(a)
+
+v &lt;- value(f)
+print(v)
+stopifnot(v == 0)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

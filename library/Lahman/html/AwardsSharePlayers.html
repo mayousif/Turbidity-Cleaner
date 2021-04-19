@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: AwardsSharePlayers table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for AwardsSharePlayers {Lahman}"><tr><td>AwardsSharePlayers {Lahman}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+AwardsSharePlayers table
+</h2>
+
+<h3>Description</h3>
+
+<p>Award voting for managers awards
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>data(AwardsSharePlayers)</pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 6879 observations on the following 7 variables.
+</p>
+
+<dl>
+<dt><code>awardID</code></dt><dd><p>name of award votes were received for</p>
+</dd>
+<dt><code>yearID</code></dt><dd><p>Year</p>
+</dd>
+<dt><code>lgID</code></dt><dd><p>League; a factor with levels <code>AL</code> <code>ML</code> <code>NL</code></p>
+</dd>
+<dt><code>playerID</code></dt><dd><p>Player ID code</p>
+</dd>
+<dt><code>pointsWon</code></dt><dd><p>Number of points received</p>
+</dd>
+<dt><code>pointsMax</code></dt><dd><p>Maximum number of points possible</p>
+</dd>
+<dt><code>votesFirst</code></dt><dd><p>Number of first place votes</p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>Lahman, S. (2021) Lahman's Baseball Database, 1871-2020, 2020 version, <a href="http://www.seanlahman.com/baseball-archive/statistics/">http://www.seanlahman.com/baseball-archive/statistics/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Vote tallies for post-season player awards
+
+require("dplyr")
+
+# Which awards are represented in this data frame?
+unique(AwardsSharePlayers$awardID)
+
+# Sort the votes for the Cy Young award in decreasing order.
+# Until 1967, the award went to the best pitcher
+# in both leagues.
+
+cyvotes &lt;- AwardsSharePlayers %&gt;%
+              filter(awardID == "Cy Young") %&gt;%
+              group_by(yearID, lgID) %&gt;%
+              arrange(desc(pointsWon))
+
+# 2012 votes
+subset(cyvotes, yearID == 2012)
+
+# top three votegetters each year by league
+
+cya_top3 &lt;- cyvotes %&gt;%
+              group_by(yearID, lgID) %&gt;%
+              do(head(., 3))
+head(cya_top3, 12)
+
+# unanimous Cy Young winners
+subset(cyvotes, pointsWon == pointsMax)
+
+## CYA was a major league award until 1967
+# Find top five pitchers with most top 3 vote tallies in CYA
+# head(with(cya_top3, rev(sort(table(playerID)))), 5)
+
+# Pre-1967
+cya_top3 %&gt;% 
+  filter(yearID &lt;= 1966) %&gt;%
+  group_by(playerID) %&gt;%
+  summarise(yrs_top3 = n()) %&gt;%
+  arrange(desc(yrs_top3)) %&gt;%
+  head(., 2)
+
+# 1967+ (both leagues)
+cya_top3 %&gt;% 
+  filter(yearID &gt; 1966) %&gt;%
+  group_by(playerID) %&gt;%
+  summarise(yrs_top3 = n()) %&gt;%
+  arrange(desc(yrs_top3)) %&gt;%
+  head(., 5)
+
+# 1967+ (by league)
+cya_top3 %&gt;% 
+  filter(yearID &gt; 1966) %&gt;%
+  group_by(playerID, lgID) %&gt;%
+  summarise(yrs_top3 = n()) %&gt;%
+  arrange(desc(yrs_top3)) %&gt;%
+  head(., 5)
+
+# Ditto for MVP awards
+# Top 3 votegetters for MVP award by year and league
+MVP_top3 &lt;- AwardsSharePlayers %&gt;% 
+              filter(awardID == "MVP") %&gt;%
+              group_by(yearID, lgID) %&gt;% 
+              arrange(desc(pointsWon)) %&gt;%
+              do(head(., 3))
+tail(MVP_top3)
+
+## Select players with &gt;= 7 top 3 finishes
+MVP_top3 %&gt;% 
+  group_by(playerID) %&gt;%
+  summarise(n_top3 = n()) %&gt;%
+  arrange(desc(n_top3)) %&gt;%
+  filter(n_top3 &gt; 6)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Lahman</em> version 9.0-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

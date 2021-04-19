@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap components variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_component {fresh}"><tr><td>bs_vars_component {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap components variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+components padding and borders in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_component(
+  padding_base_vertical = NULL,
+  padding_base_horizontal = NULL,
+  padding_large_vertical = NULL,
+  padding_large_horizontal = NULL,
+  padding_small_vertical = NULL,
+  padding_small_horizontal = NULL,
+  padding_xs_vertical = NULL,
+  padding_xs_horizontal = NULL,
+  line_height_large = NULL,
+  line_height_small = NULL,
+  border_radius_base = NULL,
+  border_radius_large = NULL,
+  border_radius_small = NULL,
+  component_active_color = NULL,
+  component_active_bg = NULL,
+  caret_width_base = NULL,
+  caret_width_large = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>padding_base_vertical</code></td>
+<td>
+<p>Vertical base padding.</p>
+</td></tr>
+<tr valign="top"><td><code>padding_base_horizontal</code></td>
+<td>
+<p>Horizontal base padding.</p>
+</td></tr>
+<tr valign="top"><td><code>padding_large_vertical</code></td>
+<td>
+<p>Vertical large padding.</p>
+</td></tr>
+<tr valign="top"><td><code>padding_large_horizontal</code></td>
+<td>
+<p>Horizontal large padding.</p>
+</td></tr>
+<tr valign="top"><td><code>padding_small_vertical</code></td>
+<td>
+<p>Vertical small padding.</p>
+</td></tr>
+<tr valign="top"><td><code>padding_small_horizontal</code></td>
+<td>
+<p>Horizontal small padding.</p>
+</td></tr>
+<tr valign="top"><td><code>padding_xs_vertical</code></td>
+<td>
+<p>Vertical extra small padding.</p>
+</td></tr>
+<tr valign="top"><td><code>padding_xs_horizontal</code></td>
+<td>
+<p>Horizontal extra small padding.</p>
+</td></tr>
+<tr valign="top"><td><code>line_height_large</code></td>
+<td>
+<p>Line height for large elements.</p>
+</td></tr>
+<tr valign="top"><td><code>line_height_small</code></td>
+<td>
+<p>Line height for small elements.</p>
+</td></tr>
+<tr valign="top"><td><code>border_radius_base</code></td>
+<td>
+<p>Base border radius.</p>
+</td></tr>
+<tr valign="top"><td><code>border_radius_large</code></td>
+<td>
+<p>Large border radius.</p>
+</td></tr>
+<tr valign="top"><td><code>border_radius_small</code></td>
+<td>
+<p>Small border radius.</p>
+</td></tr>
+<tr valign="top"><td><code>component_active_color</code></td>
+<td>
+<p>Color for active components.</p>
+</td></tr>
+<tr valign="top"><td><code>component_active_bg</code></td>
+<td>
+<p>Background color for active components.</p>
+</td></tr>
+<tr valign="top"><td><code>caret_width_base</code></td>
+<td>
+<p>Width for caret.</p>
+</td></tr>
+<tr valign="top"><td><code>caret_width_large</code></td>
+<td>
+<p>Widget for large caret.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bs_vars_component(
+  padding_base_vertical = "5px",
+  padding_base_horizontal = "20px",
+  border_radius_base = 0,
+  component_active_bg = "#0B610B"
+)
+
+if (interactive()) {
+  library(shiny)
+  library(shinyWidgets)
+
+  ui &lt;- fluidPage(
+    use_theme(
+      create_theme(
+        theme = "default",
+        bs_vars_component(
+          padding_base_vertical = "5px",
+          padding_base_horizontal = "20px",
+          border_radius_base = 0,
+          component_active_bg = "#0B610B"
+        ),
+        output_file = NULL
+      )
+    ),
+    tags$br(),
+    actionButton("id", "A button"),
+    wellPanel("A wellPanel"),
+    panel(
+      heading = "A panel",
+      status = "primary",
+      "Content"
+    ),
+    navlistPanel(
+      "navlistPanel",
+      tabPanel("First"),
+      tabPanel("Second"),
+      tabPanel("Third")
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

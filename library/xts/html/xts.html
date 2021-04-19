@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create Or Test For An xts Time-Series Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for xts {xts}"><tr><td>xts {xts}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Create Or Test For An xts Time-Series Object </h2>
+
+<h3>Description</h3>
+
+<p>Constructor function for creating an extensible time-series object.
+</p>
+<p><code>xts</code> is used to create an <code>xts</code> object from raw data inputs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+xts(x = NULL,
+    order.by = index(x),
+    frequency = NULL,
+    unique = TRUE,
+    tzone = Sys.getenv("TZ"),
+    ...)
+
+is.xts(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> an object containing the time series data </p>
+</td></tr>
+<tr valign="top"><td><code>order.by</code></td>
+<td>
+<p> a corresponding vector of unique times/dates - must be
+of a known time-based class. See details. </p>
+</td></tr>
+<tr valign="top"><td><code>frequency</code></td>
+<td>
+<p> numeric indicating frequency of <code>order.by</code>. See details. </p>
+</td></tr>
+<tr valign="top"><td><code>unique</code></td>
+<td>
+<p> should index be checked for unique time-stamps? </p>
+</td></tr>
+<tr valign="top"><td><code>tzone</code></td>
+<td>
+<p> time zone of series.  This is ignored for Date indices </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional attributes to be added. See details. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>An <code>xts</code> object extends the S3 class <code>zoo</code> from the package of the
+same name.
+</p>
+<p>Similar to zoo objects, xts objects must have an ordered index.  While zoo
+indexes cannot contain duplicate values, xts objects have optionally supported
+duplicate index elements since version 0.5-0.  The <code>xts</code> class has one
+additional requirement, the index must be a time-based class.  Currently
+supported classes include: &lsquo;Date&rsquo;, &lsquo;POSIXct&rsquo;, &lsquo;timeDate&rsquo;,
+as well as &lsquo;yearmon&rsquo; and &lsquo;yearqtr&rsquo; where the index values
+remain unique.
+</p>
+<p>The uniqueness requirement was relaxed in version 0.5-0, but is still enforced
+by default.  Setting <code>unique = FALSE</code> skips the uniqueness check and only
+ensures that the index is ordered via the <code>isOrdered</code> function.
+</p>
+<p>As of version 0.10-0, xts no longer allows missing values in the index.  This
+is because many xts functions expect all index values to be finite.  The most
+important of these is <code>merge.xts</code>, which is used ubiquitously.  Missing
+values in the index are usually the result of a date-time conversion error (e.g.
+incorrect format, non-existent time due to daylight saving time, etc).  Because
+of how non-finite numbers are represented, a missing timestamp will always be
+at the end of the index (except if it is <code>-Inf</code>, which will be first).
+</p>
+<p>Another difference is that the object may now carry additional
+attributes that may be desired in individual time-series handling.
+This includes the ability to augment the objects data with
+meta-data otherwise not cleanly attachable to a standard zoo object.
+</p>
+<p>Examples of usage from finance may include the addition of data
+for keeping track of sources, last-update times, financial
+instrument descriptions or details, etc.
+</p>
+<p>The idea behind <code>xts</code> is to offer the user the ability to utilize
+a standard zoo object, while providing an mechanism to customize
+the object's meta-data, as well as create custom methods to handle
+the object in a manner required by the user.
+</p>
+<p>Many xts-specific methods have been written to better handle the
+unique aspects of xts.  These include, &lsquo;&quot;[&quot;&rsquo;, merge, cbind,
+rbind, c, Ops, lag, diff, coredata, head and tail.  Additionally
+there are xts specific methods for converting amongst R's different
+time-series classes. 
+</p>
+<p>Subsetting via &quot;[&quot; methods offers the ability to specify dates by
+range, if they are enclosed in quotes.  The style borrows from
+python by creating ranges with a double colon &ldquo;&quot;::&quot;&rdquo; or &ldquo;&quot;/&quot;&rdquo; operator.  Each side of
+the operator may be left blank, which would then default to the beginning
+and end of the data, respectively.  To specify a subset of times,
+it is only required that the time specified be in standard ISO format, with
+some form of separation between the elements. The time must be &lsquo;left-filled&rsquo;,
+that is to specify a full year one needs only to provide the year, a month would require
+the full year and the integer of the month requested - e.g. '1999-01'.
+This format would extend all the way down to seconds - e.g. '1999-01-01 08:35:23'.
+Leading zeros are not necessary.  See the examples for more detail.
+</p>
+<p>Users may also extend the <code>xts</code> class to new classes to
+allow for method overloading.
+</p>
+<p>Additional benefits derive from the use of <code>as.xts</code> and
+<code>reclass</code>, which allow for lossless two-way conversion
+between common R time-series classes and the <code>xts</code> object
+structure. See those functions for more detail. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>An S3 object of class <code>xts</code>. As it inherits and extends
+the zoo class, all zoo methods remain valid.  Additional
+attributes may be assigned and extracted via
+<code>xtsAttributes</code>.
+</p>
+
+
+<h3>Note</h3>
+
+ 
+<p>Most users will benefit the most by using the
+<code>as.xts</code> and <code>reclass</code> functions to
+automagically handle <em>all</em> data objects
+as one would handle a <code>zoo</code> object.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan and Joshua M. Ulrich </p>
+
+
+<h3>References</h3>
+
+ <p><span class="pkg">zoo</span>: </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="as.xts.html">as.xts</a></code>, <code><a href="as.xts.html">reclass</a></code>,
+<code><a href="xtsAttributes.html">xtsAttributes</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(sample_matrix)
+sample.xts &lt;- as.xts(sample_matrix, descr='my new xts object')
+
+class(sample.xts)
+str(sample.xts)
+
+head(sample.xts)  # attribute 'descr' hidden from view
+attr(sample.xts,'descr')
+
+sample.xts['2007']  # all of 2007
+sample.xts['2007-03/']  # March 2007 to the end of the data set
+sample.xts['2007-03/2007']  # March 2007 to the end of 2007
+sample.xts['/'] # the whole data set
+sample.xts['/2007'] # the beginning of the data through 2007
+sample.xts['2007-01-03'] # just the 3rd of January 2007
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>xts</em> version 0.12.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

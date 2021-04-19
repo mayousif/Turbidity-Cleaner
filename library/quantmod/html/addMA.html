@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add Moving Average to Chart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for addMA {quantmod}"><tr><td>addMA {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Add Moving Average to Chart </h2>
+
+<h3>Description</h3>
+
+<p>Add one or more moving averages to a chart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+addSMA(n = 10, on = 1, with.col = Cl, overlay = TRUE, col = "brown")
+
+addEMA(n = 10, wilder = FALSE, ratio=NULL, on = 1,
+       with.col = Cl, overlay = TRUE, col = "blue")
+
+addWMA(n = 10, wts=1:n, on = 1, with.col = Cl, overlay = TRUE, col = "green")
+
+addDEMA(n = 10, on = 1, with.col = Cl, overlay = TRUE, col = "pink")
+
+addEVWMA(n = 10, on = 1, with.col = Cl, overlay = TRUE, col = "yellow")
+
+addZLEMA(n = 10, ratio=NULL, on = 1, with.col = Cl, overlay = TRUE, col = "red")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p> periods to average over </p>
+</td></tr>
+<tr valign="top"><td><code>wilder</code></td>
+<td>
+<p> logical; use wilder? </p>
+</td></tr>
+<tr valign="top"><td><code>wts</code></td>
+<td>
+<p> a vector of weights </p>
+</td></tr>
+<tr valign="top"><td><code>ratio</code></td>
+<td>
+<p> a smoothing/decay ratio </p>
+</td></tr>
+<tr valign="top"><td><code>on</code></td>
+<td>
+<p> apply to which figure (see below) </p>
+</td></tr>
+<tr valign="top"><td><code>with.col</code></td>
+<td>
+<p> using which column of data (see below) </p>
+</td></tr>
+<tr valign="top"><td><code>overlay</code></td>
+<td>
+<p> draw as overlay </p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p> color of MA </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>see the appropriate base MA functions in <span class="pkg">TTR</span> for
+more details and references.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A moving average indicator will be draw on the current
+chart.  A chobTA object will be returned silently.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>References</h3>
+
+<p> see MovingAverages in <span class="pkg">TTR</span> written by Josh Ulrich </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="newTA.html">addTA</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+addSMA()
+addEMA()
+addWMA()
+addDEMA()
+addEVWMA()
+addZLEMA()
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

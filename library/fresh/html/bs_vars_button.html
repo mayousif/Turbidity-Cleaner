@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap button variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_button {fresh}"><tr><td>bs_vars_button {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap button variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+buttons (e.g. <code><a href="../../shiny/html/actionButton.html">shiny::actionButton</a></code>)
+in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_button(
+  font_weight = NULL,
+  default_color = NULL,
+  default_bg = NULL,
+  default_border = NULL,
+  primary_color = NULL,
+  primary_bg = NULL,
+  primary_border = NULL,
+  success_color = NULL,
+  success_bg = NULL,
+  success_border = NULL,
+  info_color = NULL,
+  info_bg = NULL,
+  info_border = NULL,
+  warning_color = NULL,
+  warning_bg = NULL,
+  warning_border = NULL,
+  danger_color = NULL,
+  danger_bg = NULL,
+  danger_border = NULL,
+  link_disabled_color = NULL,
+  border_radius_base = NULL,
+  border_radius_large = NULL,
+  border_radius_small = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>font_weight</code></td>
+<td>
+<p>Text font weight.</p>
+</td></tr>
+<tr valign="top"><td><code>default_color</code></td>
+<td>
+<p>Text color for default buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>default_bg</code></td>
+<td>
+<p>Background color for default buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>default_border</code></td>
+<td>
+<p>Border color for default buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>primary_color</code></td>
+<td>
+<p>Text color for primary buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>primary_bg</code></td>
+<td>
+<p>Background color for primary buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>primary_border</code></td>
+<td>
+<p>Border color for primary buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>success_color</code></td>
+<td>
+<p>Text color for success buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>success_bg</code></td>
+<td>
+<p>Background color for success buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>success_border</code></td>
+<td>
+<p>Border color for success buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>info_color</code></td>
+<td>
+<p>Text color for info buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>info_bg</code></td>
+<td>
+<p>Background color for info buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>info_border</code></td>
+<td>
+<p>Border color for info buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>warning_color</code></td>
+<td>
+<p>Text color for warning buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>warning_bg</code></td>
+<td>
+<p>Background color for warning buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>warning_border</code></td>
+<td>
+<p>Border color for warning buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>danger_color</code></td>
+<td>
+<p>Text color for danger buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>danger_bg</code></td>
+<td>
+<p>Background color for danger buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>danger_border</code></td>
+<td>
+<p>Border color for danger buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>link_disabled_color</code></td>
+<td>
+<p>Color for disabled link.</p>
+</td></tr>
+<tr valign="top"><td><code>border_radius_base</code></td>
+<td>
+<p>Button rounded corner.</p>
+</td></tr>
+<tr valign="top"><td><code>border_radius_large</code></td>
+<td>
+<p>Large button rounded corner.</p>
+</td></tr>
+<tr valign="top"><td><code>border_radius_small</code></td>
+<td>
+<p>Small button rounded corner.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bs_vars_button(
+  default_color = "#FFF",
+  default_bg = "#112446",
+  default_border = "#FFF",
+  primary_color = "#112446",
+  primary_bg = "#FFF",
+  primary_border = "#112446",
+  border_radius_base = 0
+)
+
+if (interactive()) {
+  library(shiny)
+
+  ui &lt;- fluidPage(
+    use_theme(
+      create_theme(
+        theme = "default",
+        bs_vars_button(
+          default_color = "#FFF",
+          default_bg = "#112446",
+          default_border = "#FFF",
+          primary_color = "#112446",
+          primary_bg = "#FFF",
+          primary_border = "#112446",
+          border_radius_base = 0
+        ),
+        output_file = NULL
+      )
+    ),
+    tags$h1("Custom buttons"),
+    actionButton("button1", "This is a default button"),
+    actionButton(
+      "button2", "This is a primary button",
+      class = "btn-primary"
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

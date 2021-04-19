@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap modal variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_modal {fresh}"><tr><td>bs_vars_modal {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap modal variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+modal (e.g. <code><a href="../../shiny/html/modalDialog.html">shiny::modalDialog</a></code>
+in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_modal(
+  md = NULL,
+  lg = NULL,
+  sm = NULL,
+  inner_padding = NULL,
+  title_padding = NULL,
+  title_line_height = NULL,
+  content_bg = NULL,
+  content_border_color = NULL,
+  content_fallback_border_color = NULL,
+  backdrop_bg = NULL,
+  backdrop_opacity = NULL,
+  header_border_color = NULL,
+  footer_border_color = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>md</code></td>
+<td>
+<p>Size in pixel for medium modal, e.g. <code>modalDialog(size = "m")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lg</code></td>
+<td>
+<p>Size in pixel for large modal, e.g. <code>modalDialog(size = "l")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sm</code></td>
+<td>
+<p>Size in pixel for small modal, e.g. <code>modalDialog(size = "s")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>inner_padding</code></td>
+<td>
+<p>Padding applied to the modal body.</p>
+</td></tr>
+<tr valign="top"><td><code>title_padding</code></td>
+<td>
+<p>Padding applied to the modal title.</p>
+</td></tr>
+<tr valign="top"><td><code>title_line_height</code></td>
+<td>
+<p>Modal title line-height.</p>
+</td></tr>
+<tr valign="top"><td><code>content_bg</code></td>
+<td>
+<p>Background color of modal content area.</p>
+</td></tr>
+<tr valign="top"><td><code>content_border_color</code></td>
+<td>
+<p>Modal content border color.</p>
+</td></tr>
+<tr valign="top"><td><code>content_fallback_border_color</code></td>
+<td>
+<p>Modal content border color (for IE8).</p>
+</td></tr>
+<tr valign="top"><td><code>backdrop_bg</code></td>
+<td>
+<p>Modal backdrop background color.</p>
+</td></tr>
+<tr valign="top"><td><code>backdrop_opacity</code></td>
+<td>
+<p>Modal backdrop opacity.</p>
+</td></tr>
+<tr valign="top"><td><code>header_border_color</code></td>
+<td>
+<p>Modal header border color.</p>
+</td></tr>
+<tr valign="top"><td><code>footer_border_color</code></td>
+<td>
+<p>Modal footer border color.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bs_vars_modal(
+  md = "80%",
+  backdrop_opacity = 1,
+  header_border_color = "#112446",
+  footer_border_color = "#112446"
+)
+
+if (interactive()) {
+  library(shiny)
+  library(shinyWidgets)
+
+  ui &lt;- fluidPage(
+    use_theme(
+      create_theme(
+        theme = "default",
+        bs_vars_modal(
+          md = "80%",
+          backdrop_opacity = 1,
+          header_border_color = "#112446",
+          footer_border_color = "#112446"
+        ),
+        output_file = NULL
+      )
+    ),
+    tags$h1("Custom modals"),
+    actionButton("show", "Show modal dialog")
+  )
+
+  server &lt;- function(input, output, session) {
+
+    observeEvent(input$show, {
+      showModal(modalDialog(
+        title = "Important message",
+        "This is an important message!"
+      ))
+    })
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

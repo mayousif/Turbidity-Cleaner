@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Capture contents of an image backend or a display list...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Cairo.capture {Cairo}"><tr><td>Cairo.capture {Cairo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Capture contents of an image backend or a display list snapshot.
+</h2>
+
+<h3>Description</h3>
+
+<p><code>Cairo.capture</code> is essentially the same as
+<code>dev.capture(native=TRUE)</code> with the exception that it works where
+<code>dev.capture</code> doesn't such as <code>onSave</code> callbacks.
+</p>
+<p><code>Cairo.snapshot</code> is very similar to <code>recordPlot</code> except it
+also allows to retrieve the last snapshot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Cairo.capture(device = dev.cur())
+Cairo.snapshot(device = dev.cur(), last=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>device</code></td>
+<td>
+<p>device number or an object of the class <code>Cairo</code> (as
+obtained from the <code><a href="Cairo.html">Cairo</a></code> function).</p>
+</td></tr>
+<tr valign="top"><td><code>last</code></td>
+<td>
+<p>logical, if <code>FALSE</code> then a new snapshot is created
+(exactly the same as <code>recordPlot()</code>), if <code>TRUE</code> then the last
+known snapshot is retrieved, if <code>NA</code> then a snapshot is created
+first, but if the display list is empty last snapshot is retrieved
+instead.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>Cairo.capture</code>: object of the class <code>nativeRaster</code>.
+</p>
+<p><code>Cairo.snapshot</code>: object of the class <code>recordedplot</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Urbanek
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Cairo</em> version 1.5-12.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: WebServer class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for WebServer {httpuv}"><tr><td>WebServer {httpuv}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>WebServer class</h2>
+
+<h3>Description</h3>
+
+<p>This class represents a web server running one application. Multiple servers
+can be running at the same time.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt><code>initialize(host, port, app)</code></dt><dd>
+<p>Create a new <code>WebServer</code> object. <code>app</code> is an httpuv application
+object as described in <code><a href="startServer.html">startServer</a></code>.
+</p>
+</dd>
+<dt><code>getHost()</code></dt><dd><p>Return the value of <code>host</code> that was passed to
+<code>initialize()</code>.
+</p>
+</dd>
+<dt><code>getPort()</code></dt><dd><p>Return the value of <code>port</code> that was passed to
+<code>initialize()</code>.
+</p>
+</dd>
+<dt><code>stop()</code></dt><dd><p>Stops a running server.</p>
+</dd>
+<dt><code>isRunning()</code></dt><dd><p>Returns TRUE if the server is currently running.</p>
+</dd>
+<dt><code>getStaticPaths()</code></dt><dd><p>Returns a list of <code><a href="staticPath.html">staticPath</a></code>
+objects for the server.
+</p>
+</dd>
+<dt><code>setStaticPath(..., .list = NULL)</code></dt><dd><p>Sets a static path for the
+current server. Each static path can be given as a named argument, or as
+an named item in <code>.list</code>. If there already exists a static path with
+the same name, it will be replaced.
+</p>
+</dd>
+<dt><code>removeStaticPath(path)</code></dt><dd><p>Removes a static path with the given
+name.
+</p>
+</dd>
+<dt><code>getStaticPathOptions()</code></dt><dd><p>Returns a list of default
+<code>staticPathOptions</code> for the current server. Each static path will
+use these options by default, but they can be overridden for each static
+path.
+</p>
+</dd>
+<dt><code>setStaticPathOption(..., .list = NULL)</code></dt><dd><p>Sets one or more
+static path options. Each option can be given as a named argument, or as
+a named item in <code>.list</code>.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>Super class</h3>
+
+<p><code><a href="Server.html">httpuv::Server</a></code> -&gt; <code>WebServer</code>
+</p>
+
+
+<h3>Methods</h3>
+
+
+
+<h4>Public methods</h4>
+
+
+<ul>
+<li> <p><a href="#method-new"><code>WebServer$new()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-getHost"><code>WebServer$getHost()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-getPort"><code>WebServer$getPort()</code></a>
+</p>
+</li></ul>
+
+
+
+<details ><summary>Inherited methods</summary>
+
+<ul>
+<li> <span class="pkg-link" data-pkg="httpuv" data-topic="Server" data-id="getStaticPathOptions"><p><a href="../../httpuv/html/Server.html#method-getStaticPathOptions"><code>httpuv::Server$getStaticPathOptions()</code></a></span>
+</p>
+</li>
+<li> <span class="pkg-link" data-pkg="httpuv" data-topic="Server" data-id="getStaticPaths"><p><a href="../../httpuv/html/Server.html#method-getStaticPaths"><code>httpuv::Server$getStaticPaths()</code></a></span>
+</p>
+</li>
+<li> <span class="pkg-link" data-pkg="httpuv" data-topic="Server" data-id="isRunning"><p><a href="../../httpuv/html/Server.html#method-isRunning"><code>httpuv::Server$isRunning()</code></a></span>
+</p>
+</li>
+<li> <span class="pkg-link" data-pkg="httpuv" data-topic="Server" data-id="removeStaticPath"><p><a href="../../httpuv/html/Server.html#method-removeStaticPath"><code>httpuv::Server$removeStaticPath()</code></a></span>
+</p>
+</li>
+<li> <span class="pkg-link" data-pkg="httpuv" data-topic="Server" data-id="setStaticPath"><p><a href="../../httpuv/html/Server.html#method-setStaticPath"><code>httpuv::Server$setStaticPath()</code></a></span>
+</p>
+</li>
+<li> <span class="pkg-link" data-pkg="httpuv" data-topic="Server" data-id="setStaticPathOption"><p><a href="../../httpuv/html/Server.html#method-setStaticPathOption"><code>httpuv::Server$setStaticPathOption()</code></a></span>
+</p>
+</li>
+<li> <span class="pkg-link" data-pkg="httpuv" data-topic="Server" data-id="stop"><p><a href="../../httpuv/html/Server.html#method-stop"><code>httpuv::Server$stop()</code></a></span>
+</p>
+</li></ul>
+
+</details>
+
+<hr>
+<a id="method-new"></a>
+
+
+
+<h4>Method <code>new()</code></h4>
+
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>WebServer$new(host, port, app, quiet = FALSE)</pre></div>
+
+
+<hr>
+<a id="method-getHost"></a>
+
+
+
+<h4>Method <code>getHost()</code></h4>
+
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>WebServer$getHost()</pre></div>
+
+
+<hr>
+<a id="method-getPort"></a>
+
+
+
+<h4>Method <code>getPort()</code></h4>
+
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>WebServer$getPort()</pre></div>
+
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Server.html">Server</a></code> and <code><a href="PipeServer.html">PipeServer</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>httpuv</em> version 1.5.5 <a href="00Index.html">Index</a>]</div>
+</body></html>

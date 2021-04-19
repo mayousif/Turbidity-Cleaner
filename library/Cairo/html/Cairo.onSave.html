@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Cairo callbacks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Cairo.onSave {Cairo}"><tr><td>Cairo.onSave {Cairo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Cairo callbacks
+</h2>
+
+<h3>Description</h3>
+
+<p><code>Cairo.onSave</code> set the <code>onSave</code> callback which allows R code
+to be run when Cairo finalizes a page (either due to a new page being
+created or by the device being closed). The callback expects
+<code>function(device, page)</code> where <code>device</code> will be the device
+number and <code>page</code> is the currently finished page number (starting
+at 1).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Cairo.onSave(device = dev.cur(), onSave)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>device</code></td>
+<td>
+<p>device number or <code>Cairo</code> object (as returned by the
+<code><a href="Cairo.html">Cairo</a></code> function)</p>
+</td></tr>
+<tr valign="top"><td><code>onSave</code></td>
+<td>
+<p>function that will replace the current callback or
+<code>NULL</code> to remove the current callback</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The old callback being replaced or <code>NULL</code> if there was none.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function <code>onSave</code> will be evaluated in the global environment
+and no error checking is done, so you must make sure to catch errors,
+otherwise the behavior is undefined (and may included crashing R or
+other bad things).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Urbanek
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Cairo.html">Cairo</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require(png, quietly=TRUE)) {
+  dev &lt;- Cairo(800, 600, type='raster')
+  Cairo.onSave(dev, function(dev, page)
+    .GlobalEnv$png &lt;- writePNG(Cairo.capture(dev))
+  )
+  plot(1:10, col=2)
+  dev.off()
+  str(png)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Cairo</em> version 1.5-12.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

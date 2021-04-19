@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap table variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_table {fresh}"><tr><td>bs_vars_table {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap table variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+table (produced ever by <code><a href="../../shiny/html/renderTable.html">shiny::renderTable</a></code>
+or by <code><a href="../../shiny/html/renderDataTable.html">shiny::renderDataTable</a></code> and DT equivalent)
+in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_table(
+  cell_padding = NULL,
+  condensed_cell_padding = NULL,
+  bg = NULL,
+  bg_accent = NULL,
+  bg_hover = NULL,
+  bg_active = NULL,
+  border_color = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>cell_padding</code></td>
+<td>
+<p>Cell padding.</p>
+</td></tr>
+<tr valign="top"><td><code>condensed_cell_padding</code></td>
+<td>
+<p>Cell padding when using condensed table.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>Background color.</p>
+</td></tr>
+<tr valign="top"><td><code>bg_accent</code></td>
+<td>
+<p>Background color used in striped table.</p>
+</td></tr>
+<tr valign="top"><td><code>bg_hover</code></td>
+<td>
+<p>Background color used when hovering the table with the mouse.</p>
+</td></tr>
+<tr valign="top"><td><code>bg_active</code></td>
+<td>
+<p>Background color when row is selected.</p>
+</td></tr>
+<tr valign="top"><td><code>border_color</code></td>
+<td>
+<p>Border color.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+bs_vars_table(
+  bg_accent = "lightblue",
+  bg_hover = "firebrick"
+)
+
+
+if (interactive()) {
+  library(shiny)
+  library(fresh)
+
+  ui &lt;- fluidPage(
+
+    use_theme(create_theme(
+      theme = "default",
+      bs_vars_table(
+        bg_accent = "lightblue",
+        bg_hover = "firebrick"
+      )
+    )),
+
+    tags$h1("Tables"),
+    fluidRow(
+      column(
+        width = 6,
+        tableOutput("table")
+      ),
+      column(
+        width = 6,
+        dataTableOutput("datatable")
+      )
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+    output$table &lt;- renderTable(
+      head(iris), striped = TRUE, hover = TRUE
+    )
+
+    output$datatable &lt;- renderDataTable({
+      head(mtcars)
+    })
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

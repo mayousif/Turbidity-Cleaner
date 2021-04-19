@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set random seed for future assignment</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for %seed% {future}"><tr><td>%seed% {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Set random seed for future assignment</h2>
+
+<h3>Description</h3>
+
+<p>Set random seed for future assignment
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fassignment %seed% seed
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fassignment</code></td>
+<td>
+<p>The future assignment, e.g.
+<code>x %&lt;-% { expr }</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>(optional) If TRUE, the random seed, that is, the state of the
+random number generator (RNG) will be set such that statistically sound
+random numbers are produced (also during parallelization).
+If FALSE (default), it is assumed that the future expression does neither
+need nor use random numbers generation.
+To use a fixed random seed, specify a L'Ecuyer-CMRG seed (seven integer)
+or a regular RNG seed (a single integer).  If the latter, then a
+L'Ecuyer-CMRG seed will be automatically created based on the given seed.
+Furthermore, if FALSE, then the future will be monitored to make sure it
+does not use random numbers.  If it does and depending on the value of
+option <code><a href="future.options.html">future.rng.onMisuse</a></code>, the check is
+ignored, an informative warning, or error will be produced.
+If <code>seed</code> is NULL, then the effect is as with <code>seed = FALSE</code>
+but without the RNG check being performed.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

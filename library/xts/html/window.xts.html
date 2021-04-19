@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract time windows from an 'xts' series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for window.xts {xts}"><tr><td>window.xts {xts}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract time windows from an <code>xts</code> series</h2>
+
+<h3>Description</h3>
+
+<p>Method for extracting time windows from <code>xts</code> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'xts'
+window(x, index. = NULL, start = NULL, end = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object.</p>
+</td></tr>
+<tr valign="top"><td><code>index.</code></td>
+<td>
+<p>a user defined time index. This defaults to the <code>xts</code>
+index for the series via <code>.index(x)</code>. When supplied, this is typically
+a subset of the dates in the full series.<br />
+The <code>index.</code> must be a set of dates that are convertible to
+<code>POSIXct</code>. If you want fast lookups, then <code>index.</code> should be
+sorted and of class <code>POSIXct</code>.<br />
+If an unsorted <code>index.</code> is passed in, <code>window</code> will sort it.</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>a start time. Extract <code>xts</code> rows where <code>index. &gt;=
+    start</code>. <code>start</code> may be any class that is convertible to
+<code>POSIXct</code> such as a character variable in the format
+&lsquo;YYYY-MM-DD&rsquo;.<br />
+If <code>start</code> is <code>NULL</code> then all <code>index.</code> dates are matched.</p>
+</td></tr>
+<tr valign="top"><td><code>end</code></td>
+<td>
+<p>an end time. Extract <code>xts</code> rows where <code>index. &lt;= end</code>.
+<code>end</code> must be convertible to <code>POSIXct</code>. If <code>end</code> is
+<code>NULL</code> then all <code>index.</code> dates are matched.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The point of having <code>window</code> in addition to the regular subset function
+is to have a fast way of extracting time ranges from an <code>xts</code> series. In
+particular, this method will convert <code>start</code> and <code>end</code> to
+<code>POSIXct</code> then do a binary lookup on the internal <code>xts</code> index to
+quickly return a range of matching dates. With a user supplied <code>index.</code>,
+a similarly fast invocation of <code>findInterval</code> is used so that large sets
+of sorted dates can be retrieved quickly.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The matching time window is extracted.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Corwin Joy </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="subset.xts.html">subset.xts</a></code>,
+<code><a href="../../base/html/findInterval.html">findInterval</a></code>,
+<code><a href="xts.html">xts</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## xts example
+x.date &lt;- as.Date(paste(2003, rep(1:4, 4:1), seq(1,19,2), sep = "-"))
+x &lt;- xts(matrix(rnorm(20), ncol = 2), x.date)
+x
+
+window(x, start = "2003-02-01", end = "2003-03-01")
+window(x, start = as.Date("2003-02-01"), end = as.Date("2003-03-01"))
+window(x, index = x.date[1:6], start = as.Date("2003-02-01"))
+window(x, index = x.date[c(4, 8, 10)])
+
+## Assign to subset
+window(x, index = x.date[c(4, 8, 10)]) &lt;- matrix(1:6, ncol = 2)
+x
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>xts</em> version 0.12.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

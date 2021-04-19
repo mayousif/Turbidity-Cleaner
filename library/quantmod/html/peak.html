@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find Peaks and Valleys In A Series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for findPeaks {quantmod}"><tr><td>findPeaks {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Find Peaks and Valleys In A Series </h2>
+
+<h3>Description</h3>
+
+<p>Functions to find the peaks (tops) and valleys (bottoms)
+of a given series.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+findPeaks(x, thresh=0)
+findValleys(x, thresh=0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> a time series or vector </p>
+</td></tr>
+<tr valign="top"><td><code>thresh</code></td>
+<td>
+<p> minimum peak/valley threshold </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A vector of integers corresponding to peaks/valleys.
+</p>
+<p>As a peak[valley] is defined as the highest[lowest] value in a series,
+the function can only define it after a change in direction
+has occurred.  This means that the function will always
+return the first period <em>after</em> the peak/valley of the
+data, so as not to accidentally induce a look-ahead bias.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+findPeaks(sin(1:10))
+
+p &lt;- findPeaks(sin(seq(1,10,.1)))
+sin(seq(1,10,.1))[p]
+
+plot(sin(seq(1,10,.1))[p])
+plot(sin(seq(1,10,.1)),type='l')
+points(p,sin(seq(1,10,.1))[p])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

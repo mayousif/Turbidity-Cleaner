@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Mondate Sequence Generation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for seq.mondate {mondate}"><tr><td>seq.mondate {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Mondate Sequence Generation
+</h2>
+
+<h3>Description</h3>
+
+<p>Generate regular <code>mondate</code> sequences. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'mondate'
+seq(from, to, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>from</code></td>
+<td>
+
+<p>a <code>mondate</code>. May be &quot;missing&quot;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+
+<p>a <code>mondate</code>. May be &quot;missing&quot;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>optional arguments passed to <code>seq.default</code>,
+including <code>by</code>, <code>length.out</code>, and <code>along.with</code>.
+See <code><a href="seq.mondate.html">seq</a></code> for more details.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For more details about sequence generation, see <code><a href="seq.mondate.html">seq</a></code>.
+</p>
+<p>If <code>from</code> and <code>to</code> are both provided,
+the <code>displayFormat</code> and <code>timeunits</code> properties are
+taken from <code>from</code>, 
+without a warning if <code>from</code>'s properties differ from 
+<code>to</code>'s.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>mondate</code> vector with <code>displayFormat</code> and <code>timeunits</code>
+from argument <code>from</code>, if provided, otherwise from argument <code>to</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Dan Murphy
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="seq.mondate.html">seq</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x&lt;-mondate.ymd(2010,1)
+x                          # January 31, 2010
+y&lt;-mondate.ymd(2010,12)
+y                          # December 31, 2010
+seq(from=x, to=y)  # all month-ends in 2010
+# 8 quarter-ends beginning 1st quarter 2009; US displayFormat
+seq(mondate("3/31/2009"), by=3, length.out=8) 
+# 8 quarter-ends ending year-end 2009; non-US displayFormat
+seq(to=mondate("2009/12/31"), by=3, length.out=8) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: An multicore future is a future whose value will be resolved...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for MulticoreFuture-class {future}"><tr><td>MulticoreFuture-class {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>An multicore future is a future whose value will be resolved asynchronously in a parallel process</h2>
+
+<h3>Description</h3>
+
+<p>An multicore future is a future whose value will be resolved asynchronously in a parallel process
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+MulticoreFuture(
+  expr = NULL,
+  substitute = TRUE,
+  envir = parent.frame(),
+  globals = TRUE,
+  lazy = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>An <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> <a href="../../base/html/expression.html">expression</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>substitute</code></td>
+<td>
+<p>If TRUE, argument <code>expr</code> is
+<code><a href="../../base/html/substitute.html">substitute</a>()</code>:ed, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <a href="../../base/html/environment.html">environment</a> from where global objects should be
+identified.</p>
+</td></tr>
+<tr valign="top"><td><code>globals</code></td>
+<td>
+<p>(optional) a logical, a character vector, or a named list
+to control how globals are handled.
+For details, see section 'Globals used by future expressions'
+in the help for <code><a href="future.html">future()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lazy</code></td>
+<td>
+<p>If FALSE (default), the future is resolved
+eagerly (starting immediately), otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional named elements passed to <code><a href="Future-class.html">Future()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>MulticoreFuture</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>To evaluate an expression using &quot;multicore future&quot;, see function
+<code><a href="multicore.html">multicore()</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

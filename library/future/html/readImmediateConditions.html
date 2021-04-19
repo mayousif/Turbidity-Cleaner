@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read All 'immediateCondition' RDS Files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for readImmediateConditions {future}"><tr><td>readImmediateConditions {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read All 'immediateCondition' RDS Files</h2>
+
+<h3>Description</h3>
+
+<p>Read All 'immediateCondition' RDS Files
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+readImmediateConditions(
+  path = immediateConditionsPath(),
+  pattern = "[.]rds$",
+  include = getOption("future.relay.immediate", "immediateCondition"),
+  signal = FALSE,
+  remove = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>(character string) The folder where the RDS files are.</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>(character string) A regular expression selecting
+the RDS files to be read.</p>
+</td></tr>
+<tr valign="top"><td><code>include</code></td>
+<td>
+<p>(character vector) The class or classes of the objects
+to be kept.</p>
+</td></tr>
+<tr valign="top"><td><code>signal</code></td>
+<td>
+<p>(logical) If TRUE, the condition read are signaled.</p>
+</td></tr>
+<tr valign="top"><td><code>remove</code></td>
+<td>
+<p>(logical) If TRUE, the RDS files used are removed on exit.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <a href="../../base/html/list.html">base::list</a> of immediateCondition objects.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

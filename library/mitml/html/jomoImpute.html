@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Impute single-level and multilevel missing data using 'jomo'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for jomoImpute {mitml}"><tr><td>jomoImpute {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Impute single-level and multilevel missing data using <code>jomo</code></h2>
+
+<h3>Description</h3>
+
+<p>Performs single- and multilevel imputation for (mixed) continuous and categorical data using the <code>jomo</code> package
+Supports imputation of missing data at level 1 and 2 as well as imputation using random (residual) covariance matrices.
+See 'Details' for further information.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+jomoImpute(data, type, formula, random.L1 = c("none", "mean", "full"),
+  n.burn = 5000, n.iter = 100, m = 10, group = NULL, prior = NULL,
+  seed = NULL, save.pred = FALSE, keep.chains = c("full", "diagonal"),
+  silent = FALSE)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame containing the incomplete data, the auxiliary variables, the cluster indicator variable, and any other variables that should be included in the imputed datasets.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>An integer vector specifying the role of each variable in the imputation model or a list of two vectors specifying a two-level model (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>A formula specifying the role of each variable in the imputation model or a list of two formulas specifying a two-level model. The basic model is constructed by <code>model.matrix</code>, which allows including derived variables in the imputation model using <code>I()</code> (see 'Details' and 'Examples').</p>
+</td></tr>
+<tr valign="top"><td><code>random.L1</code></td>
+<td>
+<p>A character string denoting if the covariance matrix of residuals should vary across groups and how the values of these matrices are stored (see 'Details'). Can be <code>"none"</code> (common covariance matrix), <code>"mean"</code> (random covariance matrix, storing only mean values), or <code>"full"</code> (random covariance matrix, storing all values). Default is <code>"none"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>n.burn</code></td>
+<td>
+<p>The number of burn-in iterations before any imputations are drawn. Default is 5,000.</p>
+</td></tr>
+<tr valign="top"><td><code>n.iter</code></td>
+<td>
+<p>The number of iterations between imputations. Default is 100.</p>
+</td></tr>
+<tr valign="top"><td><code>m</code></td>
+<td>
+<p>The number of imputed data sets to generate. Default is 10.</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>(optional) A character string denoting the name of an additional grouping variable to be used with the <code>formula</code> argument. If specified, the imputation is run separately within each of these groups.</p>
+</td></tr>
+<tr valign="top"><td><code>prior</code></td>
+<td>
+<p>(optional) A list with components <code>Binv</code>, <code>Dinv</code>, and <code>a</code> for specifying prior distributions for the covariance matrix of random effects and the covariance matrix of residuals (see 'Details'). Default is to use least-informative priors.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>(optional) An integer value initializing R's random number generator for reproducible results. Default is to use the global seed.</p>
+</td></tr>
+<tr valign="top"><td><code>save.pred</code></td>
+<td>
+<p>(optional) Logical flag indicating if variables derived using <code>formula</code> should be included in the imputed data sets. Default is <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>keep.chains</code></td>
+<td>
+<p>(optional) A character string denoting which chains of the MCMC algorithm to store. Can be <code>"full"</code> (stores chains for all parameters) or <code>"diagonal"</code> (stores chains for fixed effects and diagonal entries of the covariance matrices). Default is <code>"full"</code> (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>silent</code></td>
+<td>
+<p>(optional) Logical flag indicating if console output should be suppressed. Default is <code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function serves as an interface to the <code>jomo</code> package and supports imputation of single-level and multilevel continuous and categorical data at both level 1 and 2 (see Carpenter &amp; Kenward, 2013; Goldstein et al., 2009).
+In order for categorical variables to be detected correctly, these must be formatted as a <code>factor</code> variables (see 'Examples').
+The imputation model can be specified using either the <code>type</code> or the <code>formula</code> argument.
+</p>
+<p>The <code>type</code> interface is designed to provide quick-and-easy imputations using <code>jomo</code>. The <code>type</code> argument must be an integer vector denoting the role of each variable in the imputation model:
+</p>
+
+<ul>
+<li><p><code>1</code>: target variables containing missing data
+</p>
+</li>
+<li><p><code>2</code>: predictors with fixed effect on all targets (completely observed)
+</p>
+</li>
+<li><p><code>3</code>: predictors with random effect on all targets (completely observed)
+</p>
+</li>
+<li><p><code>-1</code>: grouping variable within which the imputation is run separately
+</p>
+</li>
+<li><p><code>-2</code>: cluster indicator variable
+</p>
+</li>
+<li><p><code>0</code>: variables not featured in the model
+</p>
+</li></ul>
+
+<p>At least one target variable and, for multilevel imputation, the cluster indicator must be specified.
+If the cluster indicator is omitted, single-level imputation will be performed.
+The intercept is automatically included as both a fixed and (for multilevel models) a random effect.
+If a variable of type <code>-1</code> is found, then separate imputations are performed within each level of that variable.
+</p>
+<p>The <code>formula</code> argument is intended as a more flexible and feature-rich interface to <code>jomo</code>.
+Specifying the <code>formula</code> argument is similar to specifying other formulae in R.
+Given below is a list of operators that <code>jomoImpute</code> currently understands:
+</p>
+
+<ul>
+<li><p><code>~</code>: separates the target (left-hand) and predictor (right-hand) side of the model
+</p>
+</li>
+<li><p><code>+</code>: adds target or predictor variables to the model
+</p>
+</li>
+<li><p><code>*</code>: adds an interaction term of two or more predictors
+</p>
+</li>
+<li><p><code>|</code>: denotes cluster-specific random effects and specifies the cluster indicator (e.g., <code>1|ID</code>)
+</p>
+</li>
+<li><p><code>I()</code>: defines functions to be interpreted by <code>model.matrix</code>
+</p>
+</li></ul>
+
+<p>If the cluster indicator is omitted, single-level imputation will be performed.
+For multilevel imputation, predictors are allowed to have fixed effects, random effects, or both on all target variables.
+The intercept is automatically included as both a fixed and (for multilevel models) a random effect.
+Both can be suppressed if needed (see <code><a href="panImpute.html">panImpute</a></code>).
+Note that, when specifying random effects other than the intercept, these will <em>not</em> be automatically added as fixed effects and must be included explicitly.
+Any predictors defined by <code>I()</code> will be used for imputation but not included in the data set unless <code>save.pred = TRUE</code>.
+</p>
+<p>If missing data occur at both level 1 and 2, the imputation model is specified as a list of two <code>formula</code>s or <code>type</code>s, respectively.
+The first element of this list denotes the model specification for variables at level 1.
+The second element denotes the model specification for variables at level 2.
+Missing data are imputed jointly at both levels (see 'Examples', see also Carpenter and Kenward, 2013; Goldstein et al., 2009).
+</p>
+<p>It is possible to model the covariance matrix of residuals at level 1 as random across clusters (Yucel, 2011; Carpenter &amp; Kenward, 2013).
+The <code>random.L1</code> argument determines this behavior and how the values of these matrices are stored.
+If set to <code>"none"</code>, a common covariance matrix is assumed across groups (similar to <code>panImpute</code>).
+If set to <code>"mean"</code>, the covariance matrices are random, but only the average covariance matrix is stored at each iteration.
+If set to <code>"full"</code>, the covariance matrices are random, and all variances and covariances from all clusters are stored.
+</p>
+<p>In order to run separate imputations for each level of an additional grouping variable, the <code>group</code> argument can be used.
+The name of the grouping variable must be given as a character string (i.e., in quotation marks).
+</p>
+<p>The default prior distribution for the covariance matrices in <code>jomoImpute</code> are &quot;least informative&quot; inverse-Wishart priors with minimum positive degrees of freedom (largest dispersion) and the identity matrix for scale.
+The <code>prior</code> argument can be used to specify alternative prior distributions.
+These must be supplied as a list containing the following components:
+</p>
+
+<ul>
+<li><p><code>Binv</code>: scale matrix for the covariance matrix of residuals at level 1
+</p>
+</li>
+<li><p><code>Dinv</code>: scale matrix for the covariance matrix of random effects and residuals at level 2
+</p>
+</li>
+<li><p><code>a</code>: starting value for the degrees of freedom of random covariance matrices of residuals (only used with <code>random.L1 = "mean"</code> or <code>random.L1 = "full"</code>)
+</p>
+</li></ul>
+
+<p>Note that <code>jomo</code> does not allow for the degrees of freedom for the inverse-Wishart prior to be specified by the user.
+These are always set to the lowest value possible (largest dispersion) or determined iteratively if the residuals at level 1 are modeled as random (see above).
+For single-level imputation, only <code>Binv</code> is relevant.
+</p>
+<p>In imputation models with many parameters, the number of chains in the MCMC algorithm being stored can be reduced with the <code>keep.chains</code> argument (see also <code><a href="panImpute.html">panImpute</a></code>).
+This setting influences the storage mode of parameters (e.g., dimensions and indices of arrays) and should be used with caution.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>mitml</code>, containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The original (incomplete) data set, sorted according to the cluster variable and (if given) the grouping variable, with several attributes describing the original order (<code>"sort"</code>), grouping (<code>"group"</code>) and factor levels of categorical variables.</p>
+</td></tr>
+<tr valign="top"><td><code>replacement.mat</code></td>
+<td>
+<p>A matrix containing the multiple replacements (i.e., imputations) for each missing value. The replacement matrix contains one row for each missing value and one one column for each imputed data set.</p>
+</td></tr>
+<tr valign="top"><td><code>index.mat</code></td>
+<td>
+<p>A matrix containing the row and column index for each missing value. The index matrix is used to <em>link</em> the missing values in the data set with their corresponding rows in the replacement matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>The matched function call.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A list containing the names of the cluster variable, the target variables, and the predictor variables with fixed and random effects, at level 1 and level 2, respectively.</p>
+</td></tr>
+<tr valign="top"><td><code>random.L1</code></td>
+<td>
+<p>A character string denoting the handling of the (random) covariance matrix of residuals at level 1 (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>prior</code></td>
+<td>
+<p>The prior parameters used in the imputation model.</p>
+</td></tr>
+<tr valign="top"><td><code>iter</code></td>
+<td>
+<p>A list containing the number of burn-in iterations, the number of iterations between imputations, and the number of imputed data sets.</p>
+</td></tr>
+<tr valign="top"><td><code>par.burnin</code></td>
+<td>
+<p>A multi-dimensional array containing the parameters of the imputation model from the burn-in phase.</p>
+</td></tr>
+<tr valign="top"><td><code>par.imputation</code></td>
+<td>
+<p>A multi-dimensional array containing the parameters of the imputation model from the imputation phase.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>For objects of class <code>mitml</code>, methods for the generic functions <code>print</code>, <code>summary</code>, and <code>plot</code> are available to inspect the fitted imputation model.
+<code>mitmlComplete</code> is used for extracting the imputed data sets.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund, Alexander Robitzsch, Oliver Luedtke</p>
+
+
+<h3>References</h3>
+
+<p>Carpenter, J. R., &amp; Kenward, M. G. (2013). <em>Multiple imputation and its application</em>. Hoboken, NJ: Wiley.
+</p>
+<p>Goldstein, H., Carpenter, J., Kenward, M. G., &amp; Levin, K. A. (2009). Multilevel models with multivariate mixed response types. <em>Statistical Modelling</em>, 9, 173-197.
+</p>
+<p>Yucel, R. M. (2011). Random covariances and mixed-effects models for imputing multivariate multilevel continuous data. <em>Statistical Modelling</em>, 11, 351-370.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="panImpute.html">panImpute</a></code>, <code><a href="mitmlComplete.html">mitmlComplete</a></code>, <code><a href="summary.mitml.html">summary.mitml</a></code>, <code><a href="plot.mitml.html">plot.mitml</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# NOTE: The number of iterations in these examples is much lower than it
+# should be. This is done in order to comply with CRAN policies, and more
+# iterations are recommended for applications in practice!
+
+data(studentratings)
+data(leadership)
+
+# ***
+# for further examples, see "panImpute"
+#
+
+?panImpute
+
+# *** ................................
+# the 'type' interface
+# 
+
+# * Example 1.1 (studentratings): 'ReadDis' and 'SES', predicted by 'ReadAchiev'
+# (random slope)
+
+type &lt;- c(-2, 0, 0, 0, 0, 1, 3, 1, 0, 0)
+names(type) &lt;- colnames(studentratings)
+type
+
+imp &lt;- jomoImpute(studentratings, type = type, n.burn = 100, n.iter = 10, m = 5)
+
+# * Example 1.2 (leadership): all variables (mixed continuous and categorical
+# data with missing values at level 1 and level 2)
+
+type.L1 &lt;- c(-2, 1, 0, 1, 1)   # imputation model at level 1
+type.L2 &lt;- c(-2, 0, 1, 0, 0)   # imputation model at level 2
+names(type.L1) &lt;- names(type.L2) &lt;- colnames(leadership)
+
+type &lt;- list(type.L1, type.L2)
+type
+
+imp &lt;- jomoImpute(leadership, type = type, n.burn = 100, n.iter = 10, m = 5)
+
+# * Example 1.3 (studentratings): 'ReadDis', 'ReadAchiev', and 'SES' predicted
+# with empty model, groupwise for 'FedState' (single-level imputation)
+
+type &lt;- c(0, -1, 0, 0, 0, 1, 1, 1, 0, 0)
+names(type) &lt;- colnames(studentratings)
+type
+
+imp &lt;- jomoImpute(studentratings, type = type, group = "FedState", n.burn = 100,
+                  n.iter = 10, m = 5)
+
+# *** ................................
+# the 'formula' interface
+# 
+
+# * Example 2.1 (studentratings): 'ReadDis' and 'SES' predicted by 'ReadAchiev'
+# (random slope)
+
+fml &lt;- ReadDis + SES ~ ReadAchiev + (1|ID)
+imp &lt;- jomoImpute(studentratings, formula = fml, n.burn = 100, n.iter = 10, m = 5)
+
+# * Example 2.2 (studentratings): 'ReadDis' predicted by 'ReadAchiev' and the
+# the cluster mean of 'ReadAchiev'
+
+fml &lt;- ReadDis ~ ReadAchiev + I(clusterMeans(ReadAchiev, ID)) + (1|ID)
+imp &lt;- jomoImpute(studentratings, formula = fml, n.burn = 100, n.iter = 10, m = 5)
+
+# * Example 2.3 (studentratings): 'ReadDis' predicted by 'ReadAchiev', groupwise
+# for 'FedState'
+
+fml &lt;- ReadDis ~ ReadAchiev + (1|ID)
+imp &lt;- jomoImpute(studentratings, formula = fml, group = "FedState", n.burn = 100,
+                  n.iter = 10, m = 5)
+
+# * Example 2.4 (leadership): all variables (mixed continuous and categorical
+# data with missing values at level 1 and level 2)
+
+fml &lt;- list( JOBSAT + NEGLEAD + WLOAD ~ 1 + (1|GRPID) , COHES ~ 1 )
+imp &lt;- jomoImpute(leadership, formula = fml, n.burn = 100, n.iter = 10, m = 5)
+
+# * Example 2.5 (studentratings): 'ReadDis', 'ReadAchiev', and 'SES' predicted
+# with empty model, groupwise for 'FedState' (single-level imputation)
+
+fml &lt;- ReadDis + ReadAchiev + SES ~ 1
+imp &lt;- jomoImpute(studentratings, formula = fml, group = "FedState", n.burn = 100,
+                  n.iter = 10, m = 5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

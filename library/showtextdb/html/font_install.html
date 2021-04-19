@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Install Fonts to the 'showtextdb' Package</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for font_install {showtextdb}"><tr><td>font_install {showtextdb}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Install Fonts to the 'showtextdb' Package</h2>
+
+<h3>Description</h3>
+
+<p><code>font_install()</code> saves the specified font to the &lsquo;<span class="file">fonts</span>&rsquo; directory of
+the <span class="pkg">showtextdb</span> package, so that it can be used by the <span class="pkg">showtext</span>
+package. This function requires the <span class="pkg">curl</span> package.
+</p>
+<p><code>font_installed()</code> lists fonts that have been installed to
+<span class="pkg">showtextdb</span>.
+</p>
+<p><strong>NOTE</strong>: Since the fonts are installed locally to the package directory,
+they will be removed every time the <span class="pkg">showtextdb</span> package is upgraded or
+re-installed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+font_install(font_desc, quiet = FALSE, ...)
+
+font_installed()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>font_desc</code></td>
+<td>
+<p>A list that provides necessary information of the font
+for installation. See the <strong>Details</strong> section.</p>
+</td></tr>
+<tr valign="top"><td><code>quiet</code></td>
+<td>
+<p>Whether to show the progress of downloading and installation.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed to <code>curl::curl_download()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>font_desc</code> is a list that should contain at least the following components:
+</p>
+
+<dl>
+<dt><code>showtext_name</code></dt><dd><p>The family name of the font that will be used in
+<span class="pkg">showtext</span>.</p>
+</dd>
+<dt><code>font_ext</code></dt><dd><p>Extension name of the font files, e.g., <code>ttf</code> for
+TrueType, and <code>otf</code> for OpenType.</p>
+</dd>
+<dt><code>regular_url</code></dt><dd><p>URL of the font file for &quot;regular&quot; font face.</p>
+</dd>
+</dl>
+
+<p>Optionally, <code>font_desc</code> can also contain <code>bold_url</code>, <code>italic_url</code>,
+<code>bolditalic_url</code>, and <code>symbol_url</code> that provide the URLs of the other
+font faces.
+</p>
+<p>See <code><a href="source_han.html">source_han_sans</a>()</code> and <code><a href="source_han.html">source_han_serif</a>()</code>
+for an example of the <code>font_desc</code> parameter.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yixuan Qiu &lt;<a href="https://statr.me/">https://statr.me/</a>&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+## Install Source Han Serif Simplified Chinese
+font_install(source_han_serif())
+
+## List available font families
+sysfonts::font_families()
+
+## Use the font with the "showtext" package
+if(require(showtext)) {
+    wd = setwd(tempdir())
+    showtext.auto()
+    
+    pdf("source-han-serif.pdf")
+    par(family = "source-han-serif-cn")
+    plot.new()
+    box()
+    text(0.5, 0.9, "\u601d\u6e90\u5b8b\u4f53", cex = 3, font = 2)
+    text(0.5, 0.4, "\u843d\u5176\u5b9e\u8005\u601d\u5176\u6811", cex = 3)
+    text(0.5, 0.2, "\u996e\u5176\u6d41\u8005\u6000\u5176\u6e90", cex = 3)
+    dev.off()
+    setwd(wd)
+}
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>showtextdb</em> version 3.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

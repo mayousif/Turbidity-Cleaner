@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add Bollinger Bands to Chart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for addBBands {quantmod}"><tr><td>addBBands {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Add Bollinger Bands to Chart </h2>
+
+<h3>Description</h3>
+
+<p>Add Bollinger Bands to current chart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+addBBands(n = 20, sd = 2, maType = "SMA", draw = 'bands', on = -1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p> number of moving average periods </p>
+</td></tr>
+<tr valign="top"><td><code>maType</code></td>
+<td>
+<p> type of moving average to be used </p>
+</td></tr>
+<tr valign="top"><td><code>sd</code></td>
+<td>
+<p> number of standard deviations </p>
+</td></tr>
+<tr valign="top"><td><code>draw</code></td>
+<td>
+<p> indicator to draw: bands, percent, or width </p>
+</td></tr>
+<tr valign="top"><td><code>on</code></td>
+<td>
+<p> which figure area of chart to apply to </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The primary addition to this function call over the <span class="pkg">TTR</span>
+version is in the <code>draw</code> argument.  &lsquo;bands&rsquo; will draw
+standard Bollinger Bands, &lsquo;percent&rsquo; will draw Bollinger %b
+and &lsquo;width&rsquo; will draw Bolinger Bands Width.  The last two will
+be drawn in new figure regions.
+</p>
+<p>See bollingerBands in <span class="pkg">TTR</span> for specific details
+as to implementation and references.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Bollinger Bands will be drawn, or scheduled to be drawn,
+on the current chart.  If <code>draw</code> is either percent or width
+a new figure will be added to the current TA figures charted.
+</p>
+<p>A chobTA object will be returned silently.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>References</h3>
+
+<p> See bollingerBands in <span class="pkg">TTR</span> written by Josh Ulrich </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="newTA.html">addTA</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+addBBands()
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

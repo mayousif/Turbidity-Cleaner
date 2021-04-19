@@ -1,0 +1,4 @@
+reactlog_module_ui      Reactlog Shiny Module
+reactlog_render         Reactive Log Visualizer
+reactlog_write          Write reactlog
+setReactLog             Enable or disable the reactlog

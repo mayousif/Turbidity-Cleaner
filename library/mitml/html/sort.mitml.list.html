@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sort a list of imputed data sets</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for sort.mitml.list {mitml}"><tr><td>sort.mitml.list {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sort a list of imputed data sets</h2>
+
+<h3>Description</h3>
+
+<p>Sorts a list of multiply imputed data sets according to an R expression.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+## S3 method for class 'mitml.list'
+sort(x, decreasing = FALSE, by, ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A list of imputed data sets with class <code>mitml.list</code> as produced by <code>mitmlComplete</code> (or similar).</p>
+</td></tr>
+<tr valign="top"><td><code>decreasing</code></td>
+<td>
+<p>Logical flag indicating if data sets should be sorted in decreasing (i.e., reversed) order. Default is '<code>FALSE</code>'.</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>An R expression or a list of multiple expressions by which to sort the imputed data sets (see 'Examples').</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments to '<code>order</code>' (see 'Details').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function sorts a list of imputed data sets according to the R expression given in the <code>by</code> argument.
+The function is based on <code>order</code> and works in a similar manner.
+Note that sorting is performed individually for each data set.
+For this reason, the order of cases may differ across data sets if the variables used for sorting contain different values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of imputed data sets with class <code>mitml.list</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(studentratings)
+
+fml &lt;- ReadDis + SES ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+implist &lt;- mitmlComplete(imp)
+
+# * Example 1: sort by ID
+sort(implist, by = ID)
+
+# * Example 2: sort by combination of variables
+sort(implist, by = list(FedState, ID, -SES))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convolution-Type Smoothed Quantile Regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for conquer {conquer}"><tr><td>conquer {conquer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convolution-Type Smoothed Quantile Regression</h2>
+
+<h3>Description</h3>
+
+<p>Fit a smoothed quantile regression via convolution-type smoothing method. The solution is computed using gradient descent with Barzilai-Borwein step size. Constructs (1-<i>alpha</i>) confidence intervals with multiplier bootstrap.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+conquer(
+  X,
+  Y,
+  tau = 0.5,
+  kernel = c("Gaussian", "uniform", "parabolic", "triangular"),
+  h = 0,
+  checkSing = FALSE,
+  tol = 1e-04,
+  iteMax = 5000,
+  ci = FALSE,
+  alpha = 0.05,
+  B = 1000
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>A <i>n</i> by <i>p</i> design matrix. Each row is a vector of observation with <i>p</i> covariates. Number of observations <i>n</i> must be greater than number of covariates <i>p</i>.</p>
+</td></tr>
+<tr valign="top"><td><code>Y</code></td>
+<td>
+<p>An <i>n</i>-dimensional response vector.</p>
+</td></tr>
+<tr valign="top"><td><code>tau</code></td>
+<td>
+<p>(<strong>optional</strong>) The desired quantile level. Default is 0.5. Value must be between 0 and 1.</p>
+</td></tr>
+<tr valign="top"><td><code>kernel</code></td>
+<td>
+<p>(<strong>optional</strong>)  A character string specifying the choice of kernel function. Default is &quot;Gaussian&quot;. Other choices are &quot;Gaussian&quot;, &quot;uniform&quot;, &quot;parabolic&quot; or &quot;triangular&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>h</code></td>
+<td>
+<p>(<strong>optional</strong>) The bandwidth parameter for kernel smoothing. Default is <i>max(((log(n) + p) / n)^{0.4}, 0.05)</i>. The default will be used if the input value is less than 0.05.</p>
+</td></tr>
+<tr valign="top"><td><code>checkSing</code></td>
+<td>
+<p>(<strong>optional</strong>) A logical flag. Default is FALSE. If <code>checkSing = TRUE</code>, then it will check if the design matrix is singular before running conquer.</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>(<strong>optional</strong>) Tolerance level of the gradient descent algorithm. The gradient descent algorithm terminates when the maximal entry of the gradient is less than <code>tol</code>. Default is 1e-04.</p>
+</td></tr>
+<tr valign="top"><td><code>iteMax</code></td>
+<td>
+<p>(<strong>optional</strong>) Maximum number of iterations. Default is 5000.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>(<strong>optional</strong>) A logical flag. Default is FALSE. If <code>ci = TRUE</code>, then three types of confidence intervals (percentile, pivotal and normal) will be constructed via multiplier bootstrap.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>(<strong>optional</strong>) The nominal level for (1-<i>alpha</i>)-confidence intervals. Default is 0.05. The input value must be in <i>(0, 1)</i>.</p>
+</td></tr>
+<tr valign="top"><td><code>B</code></td>
+<td>
+<p>(<strong>optional</strong>) The size of bootstrap samples. Default is 1000.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object containing the following items will be returned:
+</p>
+
+<dl>
+<dt><code>coeff</code></dt><dd><p>A <i>(p + 1)</i>-vector of estimated quantile regression coefficients, including the intercept.</p>
+</dd>
+<dt><code>ite</code></dt><dd><p>The number of iterations of the gradient descent algorithm for convergence.</p>
+</dd>
+<dt><code>residual</code></dt><dd><p>The residuals of the quantile regression fit.</p>
+</dd>
+<dt><code>bandwidth</code></dt><dd><p>The value of smoothing bandwidth.</p>
+</dd>
+<dt><code>tau</code></dt><dd><p>The desired quantile level.</p>
+</dd>
+<dt><code>kernel</code></dt><dd><p>The choice of kernel function.</p>
+</dd>
+<dt><code>n</code></dt><dd><p>The sample size.</p>
+</dd>
+<dt><code>p</code></dt><dd><p>The dimension of the covariates.</p>
+</dd>
+<dt><code>perCI</code></dt><dd><p>The percentile confidence intervals for regression coefficients. Not available if <code>ci = FALSE</code>.</p>
+</dd>
+<dt><code>pivCI</code></dt><dd><p>The pivotal confidence intervals for regression coefficients. Not available if <code>ci = FALSE</code></p>
+</dd>
+<dt><code>normCI</code></dt><dd><p>The normal-based confidence intervals for regression coefficients. Not available if <code>ci = FALSE</code></p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Xuming He &lt;xmhe@umich.edu&gt;, Xiaoou Pan &lt;xip024@ucsd.edu&gt;, Kean Ming Tan &lt;keanming@umich.edu&gt;, and Wen-Xin Zhou &lt;wez243@ucsd.edu&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Barzilai, J. and Borwein, J. M. (1988). Two-point step size gradient methods. IMA J. Numer. Anal. 8 141–148.
+</p>
+<p>Fernandes, M., Guerre, E. and Horta, E. (2019). Smoothing quantile regressions. J. Bus. Econ. Statist., in press.
+</p>
+<p>He, X., Pan, X., Tan, K. M., and Zhou, W.-X. (2020). Smoothed quantile regression for large-scale inference. Preprint.
+</p>
+<p>Koenker, R. and Bassett, G. (1978). Regression quantiles. Econometrica 46 33-50.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+n = 500; p = 10
+beta = rep(1, p)
+X = matrix(rnorm(n * p), n, p)
+Y = 1 + X %*% beta + rt(n, 2)
+
+## Smoothed quantile regression with Gaussian kernel
+fit.Gauss = conquer(X, Y, tau = 0.5, kernel = "Gaussian")
+beta.hat.Gauss = fit.Gauss$coeff
+
+## Smoothe quantile regression with uniform kernel
+fit.unif = conquer(X, Y, tau = 0.5, kernel = "uniform")
+beta.hat.unif = fit.unif$coeff
+
+## Construct three types of confidence intervals via multiplier bootstrap
+fit = conquer(X, Y, tau = 0.5, kernel = "Gaussian", ci = TRUE)
+ci.per = fit$perCI
+ci.piv = fit$pivCI
+ci.norm = fit$normCI
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>conquer</em> version 1.0.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

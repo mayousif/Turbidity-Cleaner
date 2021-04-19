@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap progress variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_progress {fresh}"><tr><td>bs_vars_progress {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap progress variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+progress bars (e.g. <code><a href="../../shinyWidgets/html/progress-bar.html">shinyWidgets::progressBar</a></code>
+and <code><a href="../../shiny/html/Progress.html">shiny::Progress or shiny::withProgress</a></code>)
+in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_progress(
+  bg = NULL,
+  bar_color = NULL,
+  border_radius = NULL,
+  bar_bg = NULL,
+  bar_success_bg = NULL,
+  bar_warning_bg = NULL,
+  bar_danger_bg = NULL,
+  bar_info_bg = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>Background color of the whole progress component</p>
+</td></tr>
+<tr valign="top"><td><code>bar_color</code></td>
+<td>
+<p>Progress bar text color</p>
+</td></tr>
+<tr valign="top"><td><code>border_radius</code></td>
+<td>
+<p>Variable for setting rounded corners on progress bar.</p>
+</td></tr>
+<tr valign="top"><td><code>bar_bg</code></td>
+<td>
+<p>Default progress bar color.</p>
+</td></tr>
+<tr valign="top"><td><code>bar_success_bg</code></td>
+<td>
+<p>Success progress bar color.</p>
+</td></tr>
+<tr valign="top"><td><code>bar_warning_bg</code></td>
+<td>
+<p>Warning progress bar color.</p>
+</td></tr>
+<tr valign="top"><td><code>bar_danger_bg</code></td>
+<td>
+<p>Danger progress bar color.</p>
+</td></tr>
+<tr valign="top"><td><code>bar_info_bg</code></td>
+<td>
+<p>Info progress bar color.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bs_vars_progress(
+  border_radius = "15px",
+  bar_bg = "#1B9E77",
+  bar_info_bg = "#D95F02",
+  bar_success_bg = "#7570B3",
+  bar_danger_bg = "#E7298A"
+)
+
+if (interactive()) {
+  library(shiny)
+  library(shinyWidgets)
+
+  ui &lt;- fluidPage(
+    use_theme(
+      create_theme(
+        theme = "default",
+        bs_vars_progress(
+          border_radius = "15px",
+          bar_bg = "#1B9E77",
+          bar_info_bg = "#D95F02",
+          bar_success_bg = "#7570B3",
+          bar_danger_bg = "#E7298A"
+        ),
+        output_file = NULL
+      )
+    ),
+    tags$h1("Custom progress bars"),
+    fluidRow(
+      column(
+        width = 6,
+        progressBar(
+          "pb1", value = 90, display_pct = TRUE
+        )
+      ),
+      column(
+        width = 6,
+        progressBar(
+          "pb2", value = 70, status = "info", display_pct = TRUE
+        )
+      ),
+      column(
+        width = 6,
+        progressBar(
+          "pb3", value = 50, status = "success", display_pct = TRUE
+        )
+      ),
+      column(
+        width = 6,
+        progressBar(
+          "pb4", value = 30, status = "danger", display_pct = TRUE
+        )
+      )
+    ),
+    plotOutput("plot")
+  )
+
+  server &lt;- function(input, output, session) {
+
+    output$plot &lt;- renderPlot({
+      withProgress(message = 'Calculation in progress',
+                   detail = 'This may take a while...', value = 0, {
+                     for (i in 1:15) {
+                       incProgress(1/15)
+                       Sys.sleep(0.25)
+                     }
+                   })
+      plot(cars)
+    })
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

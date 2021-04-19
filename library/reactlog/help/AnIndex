@@ -1,0 +1,8 @@
+reactlog_disable	setReactLog
+reactlog_enable	setReactLog
+reactlog_module_server	reactlog_module
+reactlog_module_ui	reactlog_module
+reactlog_render	reactlog_show
+reactlog_show	reactlog_show
+reactlog_write	reactlog_write
+setReactLog	setReactLog

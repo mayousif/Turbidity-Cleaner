@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Load Data from R Binary File</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getSymbols.rda {quantmod}"><tr><td>getSymbols.rda {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Load Data from R Binary File </h2>
+
+<h3>Description</h3>
+
+<p>Downloads <code>Symbols</code> to specified <code>env</code>
+from local R data file.  This method is
+not to be called directly, instead a call to
+<code>getSymbols(Symbols,src='rda')</code> will in
+turn call this method. It is documented for the
+sole purpose of highlighting the arguments
+accepted, and to serve as a guide to creating
+additional getSymbols &lsquo;methods&rsquo;.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getSymbols.rda(Symbols,
+                 env,
+                 dir="",
+                 return.class = "xts",
+                 extension="rda",
+                 col.names=c("Open","High","Low","Close","Volume","Adjusted"),
+                 ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Symbols</code></td>
+<td>
+<p> a character vector specifying
+the names of each symbol to be loaded</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p> where to create objects. (.GlobalEnv) </p>
+</td></tr>  
+<tr valign="top"><td><code>dir</code></td>
+<td>
+<p> directory of rda/RData file </p>
+</td></tr>
+<tr valign="top"><td><code>return.class</code></td>
+<td>
+<p> class of returned object </p>
+</td></tr>  
+<tr valign="top"><td><code>extension</code></td>
+<td>
+<p> extension of R data file </p>
+</td></tr>
+<tr valign="top"><td><code>col.names</code></td>
+<td>
+<p> data column names </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional parameters </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Meant to be called internally by <code>getSymbols</code> (see also).
+</p>
+<p>One of a few currently defined methods for loading
+data for use with <span class="pkg">quantmod</span>.  Essentially a
+simple wrapper to the underlying <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> <code>load</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A call to getSymbols.csv will load into the specified
+environment one object for each
+<code>Symbol</code> specified, with class defined 
+by <code>return.class</code>. Presently this may be <code>ts</code>,
+<code>zoo</code>, <code>xts</code>, <code>data.frame</code>, 
+or <code>timeSeries</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="getSymbols.html">getSymbols</a></code>,
+<code><a href="../../base/html/load.html">load</a></code>,
+<code><a href="setSymbolLookup.html">setSymbolLookup</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# All 3 getSymbols calls return the same
+# MSFT to the global environment
+# The last example is what NOT to do!
+
+## Method #1
+getSymbols('MSFT',src='rda')
+getSymbols('MSFT',src='RData')
+
+
+## Method #2
+setDefaults(getSymbols,src='rda')
+  # OR
+setSymbolLookup(MSFT='rda')
+  # OR
+setSymbolLookup(MSFT=list(src='rda'))
+
+getSymbols('MSFT')
+
+#########################################
+##  NOT RECOMMENDED!!!
+#########################################
+## Method #3
+getSymbols.rda('MSFT',verbose=TRUE,env=globalenv())
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

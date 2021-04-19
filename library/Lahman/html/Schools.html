@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Schools table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Schools {Lahman}"><tr><td>Schools {Lahman}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Schools table
+</h2>
+
+<h3>Description</h3>
+
+<p>Information on schools players attended, by school
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>data(Schools)</pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 1207 observations on the following 5 variables.
+</p>
+
+<dl>
+<dt><code>schoolID</code></dt><dd><p>school ID code</p>
+</dd>
+<dt><code>name_full</code></dt><dd><p>school name</p>
+</dd>
+<dt><code>city</code></dt><dd><p>city where school is located</p>
+</dd>
+<dt><code>state</code></dt><dd><p>state where school's city is located</p>
+</dd>
+<dt><code>country</code></dt><dd><p>country where school is located</p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>Lahman, S. (2021) Lahman's Baseball Database, 1871-2020, 2020 version, <a href="http://www.seanlahman.com/baseball-archive/statistics/">http://www.seanlahman.com/baseball-archive/statistics/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+require("dplyr")
+
+# How many different schools are listed in each state?
+table(Schools$state)
+ 
+# How many different schools are listed in each country?
+table(Schools$country)
+
+# Top 20 schools 
+schoolInfo &lt;- Schools %&gt;% select(-country)
+
+schoolCount &lt;- CollegePlaying %&gt;%
+                 group_by(schoolID) %&gt;%
+                 summarise(players = length(schoolID)) %&gt;%
+                 left_join(schoolInfo, by = "schoolID") %&gt;%
+                 arrange(desc(players)) 
+head(schoolCount, 20)
+
+# sum counts by state
+schoolStates &lt;- schoolCount %&gt;%
+                  group_by(state) %&gt;%
+                  summarise(players = sum(players),
+                            schools = length(state))
+str(schoolStates)
+summary(schoolStates)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Lahman</em> version 9.0-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Download and View Financial Statements</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getFinancials {quantmod}"><tr><td>getFinancials {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Download and View Financial Statements </h2>
+
+<h3>Description</h3>
+
+<p>Download Income Statement, Balance Sheet, and Cash Flow Statements.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getFinancials(Symbol, env = parent.frame(), src = "google", 
+              auto.assign = TRUE,
+              ...)
+
+viewFinancials(x, type=c('BS','IS','CF'), period=c('A','Q'),
+               subset = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Symbol</code></td>
+<td>
+<p> one or more valid google symbol, as a character vector or
+semi-colon delimited string </p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p> where to create the object </p>
+</td></tr>
+<tr valign="top"><td><code>src</code></td>
+<td>
+<p> currently no sources are implemented </p>
+</td></tr>
+<tr valign="top"><td><code>auto.assign</code></td>
+<td>
+<p> should results be loaded to the environment </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> currently unused </p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> an object of class financials </p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p> type of statement to view </p>
+</td></tr>
+<tr valign="top"><td><code>period</code></td>
+<td>
+<p> period of statement to view </p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+ <p>&lsquo;xts&rsquo; style subset string </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A utility to download financial statements for publicly traded companies.
+</p>
+<p>Individual statements can be accessed using
+standard <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> list extraction tools, or by
+using <code>viewFinancials</code>.
+</p>
+<p><code>viewFinancials</code> allows for the use of
+date subsetting as available in the <span class="pkg">xts</span>
+package, as well as the specification of
+the type of statement to view. BS for balance
+sheet, IS for income statement, and CF for cash flow
+statement. The period argument is used to identify
+which statements to view - (A) for annual and (Q)
+for quarterly.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Six individual matrices organized in a list of class &lsquo;financials&rsquo;:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code> IS </code></td>
+<td>
+<p> a list containing (Q)uarterly and (A)nnual Income Statements </p>
+</td></tr>
+<tr valign="top"><td><code> BS </code></td>
+<td>
+<p> a list containing (Q)uarterly and (A)nnual Balance Sheets </p>
+</td></tr>
+<tr valign="top"><td><code> CF </code></td>
+<td>
+<p> a list containing (Q)uarterly and (A)nnual Cash Flow Statements </p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>As with all free data, you may be getting exactly what you pay for.
+Sometimes that may be absolutely nothing.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+getFinancials('JAVA')  # returns JAVA.f to "env"
+getFin('AAPL') # returns AAPL.f to "env"
+
+viewFin(JAVA.f, "IS", "Q")  # Quarterly Income Statement
+viewFin(AAPL.f, "CF", "A")   # Annual Cash Flows
+
+str(AAPL.f)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

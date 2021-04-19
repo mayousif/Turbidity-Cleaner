@@ -1,0 +1,48 @@
+NS                      Namespaced IDs for inputs/outputs
+argonAlert              Create a Boostrap 4 argon alert
+argonBadge              Create a Boostrap 4 badge
+argonBlur               Create a Boostrap 4 blur effect
+argonButton             Create a Boostrap 4 argon button
+argonCard               Create a Boostrap 4 card
+argonCarousel           Create a carousel
+argonCarouselItem       Create a carousel item
+argonCascade            Create a Boostrap 4 cascade effect
+argonCascadeItem        Create a Boostrap 4 cascade item
+argonColumn             Create a Boostrap 4 column
+argonContact            Create a Boostrap 4 argon contact form
+argonContainer          Create a boostrap 4 container
+argonDropdown           Create a Boostrap 4 argon dropdown menu
+argonDropdownItem       Create a Boostrap 4 argon dropdown item
+argonFooter             Create a Boostrap 4 argon footer
+argonH1                 Create a custim h1 tag
+argonIcon               Create a Nucleo icon
+argonIconWrapper        Create a Nucleo icon wrapper
+argonImage              Create a Boostrap 4 image container
+argonInstall            Install argon assets
+argonLead               Create a custom p tag
+argonMargin             Change tag margins
+argonModal              Create a Boostrap 4 argon modal
+argonMuted              Create a muted text
+argonNavItem            Create a Boostrap 4 argon navbar item
+argonNavMenu            Create a Boostrap 4 argon navbar menu
+argonNavbar             Create a Boostrap 4 argon navbar
+argonPadding            Change tag padding
+argonPage               Create a Boostrap 4 argon page
+argonPageTemplate       Create an HTML version of the argonPage
+argonPagination         Build an argon pagination container
+argonPaginationItem     Build an argon pagination item
+argonPersp              Create a Boostrap 4 perspective effect
+argonProfile            Create a Boostrap 4 profile card
+argonProfileStat        Create a Boostrap 4 profile card stat item
+argonProfileStats       Create a Boostrap 4 profile card stats
+                        container
+argonProgress           Create a progress bar
+argonQuote              Create a quotation tag
+argonRow                Create a Boostrap 4 row
+argonSection            Create a Boostrap 4 section container
+argonSocialButton       Create a Boostrap 4 argon social button
+argonTab                Create a Boostrap 4 tab item
+argonTabSet             Create a Boostrap 4 tabs
+argonTextColor          Add a custom color to a text
+argonTooltip            Create a boostrap 4 tooltip
+argonUser               Create a Boostrap 4 user image

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap pills variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_pills {fresh}"><tr><td>bs_vars_pills {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap pills variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+pills (e.g. <code><a href="../../shiny/html/tabsetPanel.html">shiny:tabsetPanel</a></code>
+in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_pills(
+  border_radius = NULL,
+  active_link_hover_bg = NULL,
+  active_link_hover_color = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>border_radius</code></td>
+<td>
+<p>Rounded corner of elements.</p>
+</td></tr>
+<tr valign="top"><td><code>active_link_hover_bg</code></td>
+<td>
+<p>Background color when selected.</p>
+</td></tr>
+<tr valign="top"><td><code>active_link_hover_color</code></td>
+<td>
+<p>Text color when selected.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bs_vars_pills(
+  border_radius = "100px",
+  active_link_hover_bg = "#DF3A01",
+  active_link_hover_color = "#FFF"
+)
+
+if (interactive()) {
+  library(shiny)
+  library(fresh)
+
+  ui &lt;- fluidPage(
+    use_theme(
+      create_theme(
+        theme = "default",
+        bs_vars_pills(
+          border_radius = "100px",
+          active_link_hover_bg = "#DF3A01",
+          active_link_hover_color = "#FFF"
+        ),
+        output_file = NULL
+      )
+    ),
+    tabsetPanel(
+      type = "pills",
+      tabPanel("Plot", plotOutput("plot")),
+      tabPanel("Summary", verbatimTextOutput("summary")),
+      tabPanel("Table", tableOutput("table"))
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

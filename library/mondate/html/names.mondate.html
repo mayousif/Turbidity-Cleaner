@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Assign names to a mondate.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for names method {mondate}"><tr><td>names method {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Assign names to a mondate.
+</h2>
+
+<h3>Description</h3>
+
+<p>Function to assign names to a mondate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 replacement method for class 'mondate'
+names(x) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a <code>mondate</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>the names to assign to <code>x</code>
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Assigns the names attribute to the .Data part of <code>x</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+YE &lt;- mondate.mdy(12, 31, 2011:2012)
+names(YE) &lt;- c("A", "B")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

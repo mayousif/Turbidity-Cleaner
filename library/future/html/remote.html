@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a remote future whose value will be resolved...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for remote {future}"><tr><td>remote {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a remote future whose value will be resolved asynchronously in a remote process</h2>
+
+<h3>Description</h3>
+
+<p>A remote future is a future that uses remote cluster evaluation,
+which means that its <em>value is computed and resolved
+remotely in another process</em>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+remote(
+  ...,
+  workers = NULL,
+  revtunnel = TRUE,
+  myip = NULL,
+  persistent = TRUE,
+  envir = parent.frame()
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional named elements passed to <code><a href="Future-class.html">Future()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>workers</code></td>
+<td>
+<p>A <code><a href="../../parallel/html/makeCluster.html">cluster</a></code> object,
+a character vector of host names, a positive numeric scalar,
+or a function.
+If a character vector or a numeric scalar, a <code>cluster</code> object
+is created using <code><a href="re-exports.html">makeClusterPSOCK</a>(workers)</code>.
+If a function, it is called without arguments <em>when the future
+is created</em> and its value is used to configure the workers.
+The function should return any of the above types.</p>
+</td></tr>
+<tr valign="top"><td><code>revtunnel</code></td>
+<td>
+<p>If TRUE, reverse SSH tunneling is used for the
+PSOCK cluster nodes to connect back to the master <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> process.  This
+avoids the hassle of firewalls, port forwarding and having to know
+the internal / public IP address of the master <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session.</p>
+</td></tr>
+<tr valign="top"><td><code>myip</code></td>
+<td>
+<p>The external IP address of this machine.
+If NULL, then it is inferred using an online service (default).</p>
+</td></tr>
+<tr valign="top"><td><code>persistent</code></td>
+<td>
+<p>If FALSE, the evaluation environment is cleared
+from objects prior to the evaluation of the future.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <a href="../../base/html/environment.html">environment</a> from where global objects should be
+identified.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A <a href="ClusterFuture-class.html">ClusterFuture</a>.
+</p>
+
+
+<h3>'remote' versus 'cluster'</h3>
+
+<p>The <code>remote</code> plan is a very similar to the <code><a href="cluster.html">cluster</a></code> plan, but provides
+more convenient default argument values when connecting to remote machines.  Specifically,
+<code>remote</code> uses <code>persistent = TRUE</code> by default, and it sets <code>homogeneous</code>,
+<code>revtunnel</code>, and <code>myip</code> &quot;wisely&quot; depending on the value of <code>workers</code>.
+See below for example on how <code>remote</code> and <code>cluster</code> are related.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: \donttest{
+
+## Use a remote machine
+plan(remote, workers = "remote.server.org")
+
+## Evaluate expression remotely
+host %&lt;-% { Sys.info()[["nodename"]] }
+host
+[1] "remote.server.org"
+
+
+## The following setups are equivalent:
+plan(remote, workers = "localhost")
+plan(cluster, workers = "localhost", persistent = TRUE)
+plan(cluster, workers = 1, persistent = TRUE)
+plan(multisession, workers = 1, persistent = TRUE)
+
+## The following setups are equivalent:
+plan(remote, workers = "remote.server.org")
+plan(cluster, workers = "remote.server.org", persistent = TRUE, homogeneous = FALSE)
+
+## The following setups are equivalent:
+cl &lt;- makeClusterPSOCK("remote.server.org")
+plan(remote, workers = cl)
+plan(cluster, workers = cl, persistent = TRUE)
+
+}
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

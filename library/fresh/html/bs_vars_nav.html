@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap nav variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_nav {fresh}"><tr><td>bs_vars_nav {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap nav variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+navs (e.g. <code><a href="../../shiny/html/tabsetPanel.html">shiny::tabsetPanel</a></code> or
+<code><a href="../../shiny/html/navlistPanel.html">shiny::navlistPanel</a></code>) in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_nav(
+  link_padding = NULL,
+  link_hover_bg = NULL,
+  disabled_link_color = NULL,
+  disabled_link_hover_color = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>link_padding</code></td>
+<td>
+<p>Padding for links (tabset's titles).</p>
+</td></tr>
+<tr valign="top"><td><code>link_hover_bg</code></td>
+<td>
+<p>Link hover background color.</p>
+</td></tr>
+<tr valign="top"><td><code>disabled_link_color</code></td>
+<td>
+<p>Disabled link color.</p>
+</td></tr>
+<tr valign="top"><td><code>disabled_link_hover_color</code></td>
+<td>
+<p>Disabled link hover color.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>See <code><a href="bs_vars_pills.html">bs_vars_pills</a></code> and <code><a href="bs_vars_tabs.html">bs_vars_tabs</a></code> for more options.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Change color of tabset when hovered
+bs_vars_nav(
+  link_padding = "30px 45px",
+  link_hover_bg = "#FF0000"
+)
+
+if (interactive()) {
+  library(shiny)
+  library(fresh)
+
+  ui &lt;- fluidPage(
+
+    use_theme(create_theme(
+      theme = "default",
+      bs_vars_nav(
+        link_padding = "30px 45px",
+        link_hover_bg = "#FF0000"
+      )
+    )),
+
+    tags$h1("State variables"),
+    fluidRow(
+      column(
+        width = 6,
+        navlistPanel(
+          "Header",
+          tabPanel("First"),
+          tabPanel("Second"),
+          tabPanel("Third")
+        )
+      ),
+      column(
+        width = 6,
+        tabsetPanel(
+          tabPanel("Plot", plotOutput("plot")),
+          tabPanel("Summary", verbatimTextOutput("summary")),
+          tabPanel("Table", tableOutput("table"))
+        )
+      )
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

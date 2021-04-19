@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap dropdown variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_dropdown {fresh}"><tr><td>bs_vars_dropdown {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap dropdown variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+dropdowns (e.g. <code><a href="../../shinyWidgets/html/dropdownButton.html">shinyWidgets::dropdownButton</a></code>
+in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_dropdown(
+  bg = NULL,
+  border = NULL,
+  fallback_border = NULL,
+  divider_bg = NULL,
+  link_color = NULL,
+  link_hover_color = NULL,
+  link_hover_bg = NULL,
+  link_active_color = NULL,
+  link_active_bg = NULL,
+  link_disabled_color = NULL,
+  header_color = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>Background color for the dropdown menu.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Dropdown menu border-color.</p>
+</td></tr>
+<tr valign="top"><td><code>fallback_border</code></td>
+<td>
+<p>Dropdown menu border-color (for IE8).</p>
+</td></tr>
+<tr valign="top"><td><code>divider_bg</code></td>
+<td>
+<p>Divider color for between dropdown items.</p>
+</td></tr>
+<tr valign="top"><td><code>link_color</code></td>
+<td>
+<p>Dropdown link text color.</p>
+</td></tr>
+<tr valign="top"><td><code>link_hover_color</code></td>
+<td>
+<p>Hover color for dropdown links.</p>
+</td></tr>
+<tr valign="top"><td><code>link_hover_bg</code></td>
+<td>
+<p>Hover background for dropdown links.</p>
+</td></tr>
+<tr valign="top"><td><code>link_active_color</code></td>
+<td>
+<p>Active dropdown menu item text color.</p>
+</td></tr>
+<tr valign="top"><td><code>link_active_bg</code></td>
+<td>
+<p>Active dropdown menu item background color.</p>
+</td></tr>
+<tr valign="top"><td><code>link_disabled_color</code></td>
+<td>
+<p>Disabled dropdown menu item background color.</p>
+</td></tr>
+<tr valign="top"><td><code>header_color</code></td>
+<td>
+<p>Text color for headers within dropdown menus.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bs_vars_dropdown(
+  bg = "#FAFAFA",
+  border = "firebrick"
+)
+
+if (interactive()) {
+  library(shiny)
+  library(shinyWidgets)
+
+  ui &lt;- fluidPage(
+    use_theme(
+      create_theme(
+        theme = "default",
+        bs_vars_dropdown(
+          bg = "#FAFAFA",
+          border = "firebrick"
+        ),
+        output_file = NULL
+      )
+    ),
+    tags$h1("Custom dropdowns"),
+    dropdownButton(
+      inputId = "mydropdown",
+      label = "Controls",
+      icon = icon("sliders"),
+      status = "primary",
+      circle = FALSE,
+      sliderInput(
+        inputId = "n",
+        label = "Number of observations",
+        min = 10, max = 100, value = 30
+      ),
+      prettyToggle(
+        inputId = "na",
+        label_on = "NAs keeped",
+        label_off = "NAs removed",
+        icon_on = icon("check"),
+        icon_off = icon("remove")
+      )
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

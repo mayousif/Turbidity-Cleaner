@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply R/S-Plus functions to remote groups of DBMS rows...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dbApply {RMySQL}"><tr><td>dbApply {RMySQL}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply R/S-Plus functions to remote groups of DBMS rows (experimental)</h2>
+
+<h3>Description</h3>
+
+<p>Applies R/S-Plus functions to groups of remote DBMS rows without bringing an
+entire result set all at once.  The result set is expected to be sorted by
+the grouping field.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dbApply(res, ...)
+
+## S4 method for signature 'MySQLResult'
+dbApply(
+  res,
+  INDEX,
+  FUN = stop("must specify FUN"),
+  begin = NULL,
+  group.begin = NULL,
+  new.record = NULL,
+  end = NULL,
+  batchSize = 100,
+  maxBatch = 1e+06,
+  ...,
+  simplify = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>res</code></td>
+<td>
+<p>a result set (see <code><a href="../../DBI/html/dbSendQuery.html">dbSendQuery</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>any additional arguments to be passed to <code>FUN</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>INDEX</code></td>
+<td>
+<p>a character or integer specifying the field name or field
+number that defines the various groups.</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>a function to be invoked upon identifying the last row from every
+group. This function will be passed a data frame holding the records of the
+current group, a character string with the group label, plus any other
+arguments passed to <code>dbApply</code> as <code>"..."</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>begin</code></td>
+<td>
+<p>a function of no arguments to be invoked just prior to retrieve
+the first row from the result set.</p>
+</td></tr>
+<tr valign="top"><td><code>group.begin</code></td>
+<td>
+<p>a function of one argument (the group label) to be
+invoked upon identifying a row from a new group</p>
+</td></tr>
+<tr valign="top"><td><code>new.record</code></td>
+<td>
+<p>a function to be invoked as each individual record is
+fetched.  The first argument to this function is a one-row data.frame
+holding the new record.</p>
+</td></tr>
+<tr valign="top"><td><code>end</code></td>
+<td>
+<p>a function of no arguments to be invoked just after retrieving
+the last row from the result set.</p>
+</td></tr>
+<tr valign="top"><td><code>batchSize</code></td>
+<td>
+<p>the default number of rows to bring from the remote result
+set. If needed, this is automatically extended to hold groups bigger than
+<code>batchSize</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>maxBatch</code></td>
+<td>
+<p>the absolute maximum of rows per group that may be extracted
+from the result set.</p>
+</td></tr>
+<tr valign="top"><td><code>simplify</code></td>
+<td>
+<p>Not yet implemented</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is meant to handle somewhat gracefully(?) large
+amounts of data from the DBMS by bringing into R manageable chunks (about
+<code>batchSize</code> records at a time, but not more than <code>maxBatch</code>); the
+idea is that the data from individual groups can be handled by R, but not
+all the groups at the same time.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with as many elements as there were groups in the result set.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (mysqlHasDefault()) {
+con &lt;- dbConnect(RMySQL::MySQL(), dbname = "test")
+
+dbWriteTable(con, "mtcars", mtcars, overwrite = TRUE)
+res &lt;- dbSendQuery(con, "SELECT * FROM mtcars ORDER BY cyl")
+dbApply(res, "cyl", function(x, grp) quantile(x$mpg, names=FALSE))
+
+dbClearResult(res)
+dbRemoveTable(con, "mtcars")
+dbDisconnect(con)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>RMySQL</em> version 0.10.21 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A cluster future is a future whose value will be resolved...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ClusterFuture-class {future}"><tr><td>ClusterFuture-class {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A cluster future is a future whose value will be resolved asynchronously in a parallel process</h2>
+
+<h3>Description</h3>
+
+<p>A cluster future is a future whose value will be resolved asynchronously in a parallel process
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ClusterFuture(
+  expr = NULL,
+  substitute = TRUE,
+  envir = parent.frame(),
+  globals = TRUE,
+  packages = NULL,
+  local = !persistent,
+  persistent = FALSE,
+  workers = NULL,
+  user = NULL,
+  master = NULL,
+  revtunnel = TRUE,
+  homogeneous = TRUE,
+  ...
+)
+
+MultisessionFuture(
+  expr = NULL,
+  substitute = TRUE,
+  envir = parent.frame(),
+  persistent = FALSE,
+  workers = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>An <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> <a href="../../base/html/expression.html">expression</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>substitute</code></td>
+<td>
+<p>If TRUE, argument <code>expr</code> is
+<code><a href="../../base/html/substitute.html">substitute</a>()</code>:ed, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <a href="../../base/html/environment.html">environment</a> from where global objects should be
+identified.</p>
+</td></tr>
+<tr valign="top"><td><code>globals</code></td>
+<td>
+<p>(optional) a logical, a character vector, or a named list
+to control how globals are handled.
+For details, see section 'Globals used by future expressions'
+in the help for <code><a href="future.html">future()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>packages</code></td>
+<td>
+<p>(optional) a character vector specifying packages
+to be attached in the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> environment evaluating the future.</p>
+</td></tr>
+<tr valign="top"><td><code>local</code></td>
+<td>
+<p>If TRUE, the expression is evaluated such that
+all assignments are done to local temporary environment, otherwise
+the assignments are done to the global environment of the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> process
+evaluating the future.</p>
+</td></tr>
+<tr valign="top"><td><code>persistent</code></td>
+<td>
+<p>If FALSE, the evaluation environment is cleared
+from objects prior to the evaluation of the future.</p>
+</td></tr>
+<tr valign="top"><td><code>workers</code></td>
+<td>
+<p>A <code><a href="../../parallel/html/makeCluster.html">cluster</a></code> object,
+a character vector of host names, a positive numeric scalar,
+or a function.
+If a character vector or a numeric scalar, a <code>cluster</code> object
+is created using <code><a href="re-exports.html">makeClusterPSOCK</a>(workers)</code>.
+If a function, it is called without arguments <em>when the future
+is created</em> and its value is used to configure the workers.
+The function should return any of the above types.</p>
+</td></tr>
+<tr valign="top"><td><code>user</code></td>
+<td>
+<p>(optional) The user name to be used when communicating
+with another host.</p>
+</td></tr>
+<tr valign="top"><td><code>master</code></td>
+<td>
+<p>(optional) The hostname or IP address of the master
+machine running this node.</p>
+</td></tr>
+<tr valign="top"><td><code>revtunnel</code></td>
+<td>
+<p>If TRUE, reverse SSH tunneling is used for the
+PSOCK cluster nodes to connect back to the master <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> process.  This
+avoids the hassle of firewalls, port forwarding and having to know
+the internal / public IP address of the master <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session.</p>
+</td></tr>
+<tr valign="top"><td><code>homogeneous</code></td>
+<td>
+<p>If TRUE, all cluster nodes is assumed to use the
+same path to &lsquo;<span class="file">Rscript</span>&rsquo; as the main <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session.  If FALSE, the
+it is assumed to be on the PATH for each node.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional named elements passed to <code><a href="Future-class.html">Future()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>ClusterFuture()</code> returns an object of class <code>ClusterFuture</code>.
+</p>
+<p><code>MultisessionFuture()</code> returns an object of class
+<code>MultisessionFuture</code>, which inherits from <code>ClusterFuture</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>To evaluate an expression using &quot;cluster future&quot;, see function
+<code><a href="cluster.html">cluster()</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

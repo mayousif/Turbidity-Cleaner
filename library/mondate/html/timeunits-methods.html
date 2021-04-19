@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods to Access 'timeunits' Property</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for timeunits-methods {mondate}"><tr><td>timeunits-methods {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods to Access 'timeunits' Property</h2>
+
+<h3>Description</h3>
+
+<p>Methods to get and set the <code>timeunits</code> value of a <code>mondate</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'mondate'
+timeunits(x)
+## S4 method for signature 'ANY'
+timeunits(x)
+## S4 replacement method for signature 'mondate'
+timeunits(x)&lt;-value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a <code>mondate</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>For the &quot;get&quot; method, 
+a <code>character</code> string indicating the units with which to measure
+time as a result of operations on a <code>mondate</code>.
+Choices are currently
+</p>
+
+<ol>
+<li><p> &quot;months&quot;
+</p>
+</li>
+<li><p> &quot;years&quot;
+</p>
+</li>
+<li><p> &quot;days&quot;
+</p>
+</li></ol>
+
+<p>If <code>x</code> is not a <code>mondate</code>, 
+the &quot;get&quot; value returned is <code>NULL</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>The <code>mondateTimeunits</code> versions have been deprecated.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- mondate("2010-6-30") # The middle of 2010
+timeunits(x)              # "months"
+y &lt;- x + 12               # One year (12 months) later.
+timeunits(y)              # "months"
+y - x                     # Result is 12 months
+timeunits(y) &lt;- "years"
+y - x                     # Result is 1 year, with a warning because 
+                          # x@timeunits != y@timeunits. Units of result
+                          # comes from the first argument.
+timeunits(y) &lt;- "days"
+suppressWarnings(y - x)   # Result is 365 days -- warning suppressed
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

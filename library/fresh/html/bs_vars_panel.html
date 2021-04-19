@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap panel variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_panel {fresh}"><tr><td>bs_vars_panel {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap panel variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+panel (e.g. <code><a href="../../shinyWidgets/html/panel.html">shinyWidgets::panel</a></code>
+in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_panel(
+  bg = NULL,
+  body_padding = NULL,
+  heading_padding = NULL,
+  footer_padding = NULL,
+  border_radius = NULL,
+  inner_border = NULL,
+  footer_bg = NULL,
+  default_text = NULL,
+  default_border = NULL,
+  default_heading_bg = NULL,
+  primary_text = NULL,
+  primary_border = NULL,
+  primary_heading_bg = NULL,
+  success_text = NULL,
+  success_border = NULL,
+  success_heading_bg = NULL,
+  info_text = NULL,
+  info_border = NULL,
+  info_heading_bg = NULL,
+  warning_text = NULL,
+  warning_border = NULL,
+  warning_heading_bg = NULL,
+  danger_text = NULL,
+  danger_border = NULL,
+  danger_heading_bg = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>Background color.</p>
+</td></tr>
+<tr valign="top"><td><code>body_padding</code></td>
+<td>
+<p>Panel body padding.</p>
+</td></tr>
+<tr valign="top"><td><code>heading_padding</code></td>
+<td>
+<p>Panel heading padding.</p>
+</td></tr>
+<tr valign="top"><td><code>footer_padding</code></td>
+<td>
+<p>Panel footer padding.</p>
+</td></tr>
+<tr valign="top"><td><code>border_radius</code></td>
+<td>
+<p>Variable for setting rounded corners on panel.</p>
+</td></tr>
+<tr valign="top"><td><code>inner_border</code></td>
+<td>
+<p>Border color for inner elements in panel.</p>
+</td></tr>
+<tr valign="top"><td><code>footer_bg</code></td>
+<td>
+<p>Panel footer background color.</p>
+</td></tr>
+<tr valign="top"><td><code>default_text</code></td>
+<td>
+<p>Default color for text.</p>
+</td></tr>
+<tr valign="top"><td><code>default_border</code></td>
+<td>
+<p>Default border color.</p>
+</td></tr>
+<tr valign="top"><td><code>default_heading_bg</code></td>
+<td>
+<p>Default background color for panel heading.</p>
+</td></tr>
+<tr valign="top"><td><code>primary_text</code></td>
+<td>
+<p>Text color for primary status.</p>
+</td></tr>
+<tr valign="top"><td><code>primary_border</code></td>
+<td>
+<p>Border color for primary status.</p>
+</td></tr>
+<tr valign="top"><td><code>primary_heading_bg</code></td>
+<td>
+<p>Heading background color for primary status.</p>
+</td></tr>
+<tr valign="top"><td><code>success_text</code></td>
+<td>
+<p>Text color for success status.</p>
+</td></tr>
+<tr valign="top"><td><code>success_border</code></td>
+<td>
+<p>Border color for success status.</p>
+</td></tr>
+<tr valign="top"><td><code>success_heading_bg</code></td>
+<td>
+<p>Heading background color for success status.</p>
+</td></tr>
+<tr valign="top"><td><code>info_text</code></td>
+<td>
+<p>Text color for info status.</p>
+</td></tr>
+<tr valign="top"><td><code>info_border</code></td>
+<td>
+<p>Border color for info status.</p>
+</td></tr>
+<tr valign="top"><td><code>info_heading_bg</code></td>
+<td>
+<p>Heading background color for info status.</p>
+</td></tr>
+<tr valign="top"><td><code>warning_text</code></td>
+<td>
+<p>Text color for warning status.</p>
+</td></tr>
+<tr valign="top"><td><code>warning_border</code></td>
+<td>
+<p>Border color for warning status.</p>
+</td></tr>
+<tr valign="top"><td><code>warning_heading_bg</code></td>
+<td>
+<p>Heading background color for warning status.</p>
+</td></tr>
+<tr valign="top"><td><code>danger_text</code></td>
+<td>
+<p>Text color for danger status.</p>
+</td></tr>
+<tr valign="top"><td><code>danger_border</code></td>
+<td>
+<p>Border color for danger status.</p>
+</td></tr>
+<tr valign="top"><td><code>danger_heading_bg</code></td>
+<td>
+<p>Heading background color for danger status.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bs_vars_panel(
+  border_radius = "15px",
+  default_text = "#FFF",
+  default_heading_bg = "#3f2d54",
+  default_border = "#3f2d54",
+  primary_heading_bg = "#1B9E77",
+  primary_border = "#1B9E77",
+  success_heading_bg = "#D95F02",
+  success_border = "#D95F02",
+  success_text = "#FFF",
+  danger_heading_bg = "#7570B3",
+  danger_border = "#7570B3",
+  danger_text = "#FFF"
+)
+
+if (interactive()) {
+  library(shiny)
+  library(shinyWidgets)
+
+  ui &lt;- fluidPage(
+    use_theme(
+      create_theme(
+        theme = "default",
+        bs_vars_panel(
+          border_radius = "15px",
+          default_text = "#FFF",
+          default_heading_bg = "#3f2d54",
+          default_border = "#3f2d54",
+          primary_heading_bg = "#1B9E77",
+          primary_border = "#1B9E77",
+          success_heading_bg = "#D95F02",
+          success_border = "#D95F02",
+          success_text = "#FFF",
+          danger_heading_bg = "#7570B3",
+          danger_border = "#7570B3",
+          danger_text = "#FFF"
+        ),
+        output_file = NULL
+      )
+    ),
+    tags$h1("Custom panels"),
+    fluidRow(
+      column(
+        width = 3,
+        panel(
+          heading = "Default panel",
+          "Some content"
+        )
+      ),
+      column(
+        width = 3,
+        panel(
+          heading = "Primary panel",
+          status = "primary",
+          "Some content"
+        )
+      ),
+      column(
+        width = 3,
+        panel(
+          heading = "Success panel",
+          status = "success",
+          "Some content"
+        )
+      ),
+      column(
+        width = 3,
+        panel(
+          heading = "Danger panel",
+          status = "danger",
+          "Some content"
+        )
+      )
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

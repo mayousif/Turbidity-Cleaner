@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract imputed data sets</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mitmlComplete {mitml}"><tr><td>mitmlComplete {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract imputed data sets</h2>
+
+<h3>Description</h3>
+
+<p>This function extracts imputed data sets from <code>mitml</code> class objects as produced by <code>panImpute</code> and <code>jomoImpute</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+mitmlComplete(x, print = "all", force.list = FALSE)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object of class <code>mitml</code> as produced by <code>panImpute</code> or <code>jomoImpute</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>print</code></td>
+<td>
+<p>Either an integer vector, <code>"list"</code>, or <code>"all"</code> denoting which data sets to extract. If set to <code>"list"</code> or <code>"all"</code>, all imputed data sets will be returned as a list. Negative values and zero return the original (incomplete) data set. Default is <code>"all"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>force.list</code></td>
+<td>
+<p>(optional) Logical flag indicating if single data sets should be enclosed in a list. Default is <code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Usually a list of imputed data with class <code>mitml.list</code>
+If only one data set is extracted: a data frame unless <code>force.list = TRUE</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="panImpute.html">panImpute</a></code>, <code><a href="jomoImpute.html">jomoImpute</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(studentratings)
+
+fml &lt;- ReadDis + SES ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+# extract original (incomplete) data set
+mitmlComplete(imp, print = 0)
+
+# extract first imputed data set (returned as mitml.list)
+mitmlComplete(imp, print = 1, force.list = TRUE)
+
+# extract all imputed data sets at once
+implist &lt;- mitmlComplete(imp, print = "all")
+
+## Not run: 
+# ... alternatives with same results
+implist &lt;- mitmlComplete(imp, print = 1:5)
+implist &lt;- mitmlComplete(imp, print = "list")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

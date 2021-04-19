@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Download OHLC Data from Alpha Vantage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getSymbols.av {quantmod}"><tr><td>getSymbols.av {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Download OHLC Data from Alpha Vantage </h2>
+
+<h3>Description</h3>
+
+<p>Downloads historical or realtime equity price data
+from <a href="https://www.alphavantage.co/">https://www.alphavantage.co/</a>.
+Free registration is required.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getSymbols.av(Symbols, env, api.key,
+              return.class = "xts",
+              periodicity = "daily",
+              adjusted = FALSE,
+              interval = "1min",
+              output.size = "compact",
+              data.type = "json",
+              ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Symbols</code></td>
+<td>
+<p> a character vector specifying the names
+of the symbols to be loaded</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p> where to create objects (environment) </p>
+</td></tr>
+<tr valign="top"><td><code>api.key</code></td>
+<td>
+<p> the API key issued by Alpha Vantage when you registered (character)</p>
+</td></tr>
+<tr valign="top"><td><code>return.class</code></td>
+<td>
+<p> class of returned object, see Value (character) </p>
+</td></tr>
+<tr valign="top"><td><code>periodicity</code></td>
+<td>
+<p> one of <code>"daily"</code>, <code>"weekly"</code>, <code>"monthly"</code>, or <code>"intraday"</code> </p>
+</td></tr>
+<tr valign="top"><td><code>adjusted</code></td>
+<td>
+<p>if TRUE, include a column of closing prices
+adjusted for dividends and splits</p>
+</td></tr>
+<tr valign="top"><td><code>interval</code></td>
+<td>
+<p>one of <code>"1min"</code>, <code>"5min"</code>, <code>"15min"</code>, <code>"30min"</code>, or <code>"60min"</code>
+(intraday data only)</p>
+</td></tr>
+<tr valign="top"><td><code>output.size</code></td>
+<td>
+<p> either <code>"compact"</code> or <code>"full"</code> </p>
+</td></tr>
+<tr valign="top"><td><code>data.type</code></td>
+<td>
+<p> either <code>"json"</code> or <code>"csv"</code> </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional parameters as per <code><a href="getSymbols.html">getSymbols</a></code> </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Meant to be called internally by <code>getSymbols</code> only.
+This method is not meant to be called directly, instead
+a call to <code>getSymbols("x", src="av")</code> will
+in turn call this method. It is documented for the
+sole purpose of highlighting the arguments accepted.
+</p>
+<p>You must register with Alpha Vantage in order to download their data,
+but the one-time registration is fast and free.
+Register at their web site, <a href="https://www.alphavantage.co/">https://www.alphavantage.co/</a>,
+and you will receive an <em>API key</em>:
+a short string of alphanumeric characters (e.g., &quot;FU4U&quot;).
+Provide the API key every time you call <code>getSymbols</code>;
+or set it globally using <code>setDefaults(getSymbols.av, api.key="yourKey")</code>.
+</p>
+<p>The Alpha Vantage site provides daily, weekly, monthly, and intraday data.
+Use <code>periodicity</code> to select one.
+Note that intraday data will includes today's data (delayed) if downloaded
+while the market is open, which is pretty cool.
+</p>
+<p>Set <code>adjusted=TRUE</code> to include a column of closing prices adjusted for
+dividends and stock splits (available only for daily, weekly, and monthly data).
+</p>
+<p>The intraday data is provided as a sequence of OHLC bars.
+Use the <code>interval</code> argument to determine the &quot;width&quot; of the bars:
+1 minute bars, 5 minutes bars, 15 minutes bars, etc.
+</p>
+<p>By default Alpha Vantage returns the 100 most-recent data points (<code>output.size="compact"</code>).
+Set <code>output.size="full"</code> to obtain the entire available history.
+For daily, weekly, and monthly data, Alpha Vantage says the available data is up to 20 years;
+for intraday data, the available history is the most recent 10 or 15 days.
+Be forewarned that downloading <code>full</code> data requires more time than <code>compact</code> data, of course.
+</p>
+<p>Alpha Vantage provides access to data via two APIs. You can choose the API via
+the <code>data.type</code> argument. <code>data.type="json"</code>, the default, will
+import data using the JSON API. This API includes additional metadata (e.g.
+last updated time, timezone, etc) that is not provided via the CSV API.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A call to <code>getSymbols(Symbols, src="av")</code> will create objects
+in the specified environment,
+one object for each <code>Symbol</code> specified.
+The object class of the object(s) is determined by <code>return.class</code>.
+Presently this may be <code>"ts"</code>, <code>"zoo"</code>, <code>"xts"</code>, or <code>"timeSeries"</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Paul Teetor </p>
+
+
+<h3>References</h3>
+
+<p> Alpha Vantage documentation available at <a href="https://www.alphavantage.co/">https://www.alphavantage.co/</a> </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getSymbols.html">getSymbols</a></code>,
+<code><a href="getSymbols.yahoo.html">getSymbols.yahoo</a></code>,
+<code><a href="quantmod-defunct.html">getSymbols.google</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# You'll need the API key given when you registered
+getSymbols("IBM", src="av", api.key="yourKey")
+
+# The default output.size="compact" returns only the most recent 100 rows.
+# Set output.size="full" for all available data.
+getSymbols("IBM", src="av", api.key="yourKey", output.size="full")
+
+# Intraday data is available for the most recent 10 or 15 days
+# and includes quasi-realtime data (i.e., 20-minute delayed)
+getSymbols("IBM", src="av", api.key="yourKey", output.size="full",
+  periodicity="intraday")
+
+# Repeating your API key every time is tedious.
+# Fortunately, you can set a global default.
+setDefaults(getSymbols.av, api.key="yourKey")
+getSymbols("IBM", src="av")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

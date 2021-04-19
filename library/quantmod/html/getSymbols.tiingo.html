@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Download OHLC Data from Tiingo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getSymbols.tiingo {quantmod}"><tr><td>getSymbols.tiingo {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Download OHLC Data from Tiingo </h2>
+
+<h3>Description</h3>
+
+<p>Downloads historical or realtime equity price data
+from <a href="https://api.tiingo.com/">https://api.tiingo.com/</a>.
+Registration is required.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  getSymbols.tiingo(Symbols, env, api.key,
+                    return.class="xts",
+                    periodicity="daily",
+                    adjust=FALSE,
+                    from='2007-01-01',
+                    to=Sys.Date(),
+                    data.type="json",
+                    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Symbols</code></td>
+<td>
+<p> a character vector specifying the names
+of the symbols to be loaded</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p> where to create objects (environment) </p>
+</td></tr>
+<tr valign="top"><td><code>api.key</code></td>
+<td>
+<p> the API key issued by Tiingo when you registered (character)</p>
+</td></tr>
+<tr valign="top"><td><code>return.class</code></td>
+<td>
+<p> class of returned object, see Value (character) </p>
+</td></tr>
+<tr valign="top"><td><code>periodicity</code></td>
+<td>
+<p> one of <code>"daily"</code>, <code>"weekly"</code>, <code>"monthly"</code>, or <code>"Annually"</code> </p>
+</td></tr>
+<tr valign="top"><td><code>adjust</code></td>
+<td>
+<p> adjust for dividends and splits? (FALSE) </p>
+</td></tr>
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p> Retrieve data no earlier than this date. (2007-01-01)</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p> Retrieve data through this date (Sys.Date())</p>
+</td></tr>
+<tr valign="top"><td><code>data.type</code></td>
+<td>
+<p> either <code>"json"</code> or <code>"csv"</code> </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional parameters as per <code><a href="getSymbols.html">getSymbols</a></code> </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Meant to be called internally by <code>getSymbols</code> only.
+This method is not meant to be called directly, instead
+a call to <code>getSymbols("x", src="tiingo")</code> will
+in turn call this method. It is documented for the
+sole purpose of highlighting the arguments accepted.
+</p>
+<p>You must register with Tiingo in order to download their data.
+Register at their web site, <a href="https://api.tiingo.com">https://api.tiingo.com</a>,
+and you will receive an <em>API key</em>:
+a short string of alphanumeric characters (e.g., &quot;FU4U&quot;).
+Provide the API key every time you call <code>getSymbols</code>;
+or set it globally using <code>setDefaults(getSymbols.tiingo, api.key="yourKey")</code>.
+</p>
+<p>Tiingo provides daily, weekly, monthly, and annual data.
+Use <code>periodicity</code> to select one.
+This API accessor will return adjusted or unadjusted OHLC as well as split and dividend information.
+</p>
+<p>For daily, weekly, and monthly data, Tiingo says the available data is up to 30 years;
+</p>
+<p>Tiingo provides access to data via two APIs. You can choose the API via
+the <code>data.type</code> argument. <code>data.type="json"</code>, the default, will
+import data using the JSON API. This API includes additional metadata (e.g.
+last updated time, timezone, etc) that is not provided via the CSV API.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A call to <code>getSymbols(Symbols, src="tiingo")</code> will create objects
+in the specified environment,
+one object for each <code>Symbol</code> specified.
+The object class of the object(s) is determined by <code>return.class</code>.
+Presently this may be <code>"ts"</code>, <code>"zoo"</code>, <code>"xts"</code>, or <code>"timeSeries"</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Steve Bronder </p>
+
+
+<h3>References</h3>
+
+<p> Tiingo documentation available at <a href="https://www.tiingo.com">https://www.tiingo.com</a> </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="getSymbols.html">getSymbols</a></code>,
+<code><a href="getSymbols.yahoo.html">getSymbols.yahoo</a></code>,
+<code><a href="getSymbols.av.html">getSymbols.av</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# You'll need the API key given when you registered
+getSymbols("IBM", src="tiingo", api.key="yourKey")
+
+# Repeating your API key every time is tedious.
+# Fortunately, you can set a global default.
+setDefaults(getSymbols.tiingo, api.key="yourKey")
+getSymbols("IBM", src="tiingo")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

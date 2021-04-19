@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert imputations from long format to 'mitml.list'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for long2mitml.list {mitml}"><tr><td>long2mitml.list {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert imputations from long format to <code>mitml.list</code></h2>
+
+<h3>Description</h3>
+
+<p>These functions convert data sets containing multiple imputations in long format to objects of class <code>mitml.list</code>. The resulting object can be used in further analyses.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+long2mitml.list(x, split, exclude = NULL)
+
+jomo2mitml.list(x)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame in long format containing multiple imputations (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>split</code></td>
+<td>
+<p>A character string denoting the column in <code>x</code> that identifies different imputations (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>exclude</code></td>
+<td>
+<p>A vector denoting the values of <code>split</code> that should be excluded.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function <code>long2mitml.list</code> converts data frames from the long format to <code>mitml.list</code> (i.e., a list of imputed data sets).
+In long format, all imputations are contained in a single data frame, where different imputations are denoted by <code>split</code>.
+This function splits the data frame into a list of imputed data sets according to <code>split</code>, excluding the values specified by <code>exclude</code> (see the 'Examples').
+</p>
+<p>The <code>jomo2mitml.list</code> function is a special case of <code>long2mitml.list</code> which converts imputations that have been generated with <code>jomo</code> (see the <code>jomo</code> package)).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of imputed data sets with class <code>mitml.list</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="mitmlComplete.html">mitmlComplete</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(studentratings)
+require(jomo)
+
+# impute data using jomo (native functions)
+clus &lt;- studentratings[, "ID"]
+Y &lt;- studentratings[, c("ReadAchiev", "ReadDis")]
+imp &lt;- jomo(Y = Y, clus = clus, nburn = 1000, nbetween = 100, nimp = 5)
+
+# split imputations
+impList &lt;- long2mitml.list(imp, split = "Imputation", exclude = 0)
+impList &lt;- jomo2mitml.list(imp)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions Moved to 'parallelly'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for re-exports {future}"><tr><td>re-exports {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions Moved to 'parallelly'</h2>
+
+<h3>Description</h3>
+
+<p>The following function used to be part of <span class="pkg">future</span> but has since
+been migrated to <span class="pkg">parallelly</span>.  The migration started with
+<span class="pkg">future</span> 1.20.0 (November 2020).  They were moved because they
+are also useful outside of the <span class="pkg">future</span> framework.
+</p>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li> <p><code><a href="../../parallelly/html/as.cluster.html">parallelly::as.cluster()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../parallelly/html/autoStopCluster.html">parallelly::autoStopCluster()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../parallelly/html/availableCores.html">parallelly::availableCores()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../parallelly/html/availableWorkers.html">parallelly::availableWorkers()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../parallelly/html/makeClusterMPI.html">parallelly::makeClusterMPI()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../parallelly/html/makeClusterPSOCK.html">parallelly::makeClusterPSOCK()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../parallelly/html/makeClusterPSOCK.html">parallelly::makeNodePSOCK()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../parallelly/html/supportsMulticore.html">parallelly::supportsMulticore()</a></code>
+</p>
+</li></ul>
+
+<p>For backward-compatible reasons, these functions remain available as
+exact copies also from this package (as re-exports).  For example,<div class="r"></p>
+<pre>cl &lt;- parallelly::makeClusterPSOCK(2)
+</pre></div>
+<p>can still be accessed as:<div class="r"></p>
+<pre>cl &lt;- future::makeClusterPSOCK(2)
+</pre></div>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

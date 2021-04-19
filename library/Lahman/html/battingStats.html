@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate additional batting statistics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for battingStats {Lahman}"><tr><td>battingStats {Lahman}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Calculate additional batting statistics
+</h2>
+
+<h3>Description</h3>
+
+<p>The <code><a href="Batting.html">Batting</a></code> does not contain batting statistics derived from those
+present in the data.frame.  This function calculates
+batting average (<code>BA</code>),
+plate appearances (<code>PA</code>),
+total bases (<code>TB</code>),
+slugging percentage (<code>SlugPct</code>),
+on-base percentage (<code>OBP</code>),
+on-base percentage + slugging (<code>OPS</code>), and
+batting average on balls in play (<code>BABIP</code>)
+for each record in a Batting-like data.frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+battingStats(data = Lahman::Batting, 
+             idvars = c("playerID", "yearID", "stint", "teamID", "lgID"), 
+             cbind = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>input data, typically <code><a href="Batting.html">Batting</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>idvars</code></td>
+<td>
+
+<p>ID variables to include in the output data.frame
+</p>
+</td></tr>
+<tr valign="top"><td><code>cbind</code></td>
+<td>
+
+<p>If <code>TRUE</code>, the calculated statistics are appended to the input data as additional columns
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Standard calculations, e.g., <code>BA &lt;- H/AB</code> are problematic because of the
+presence of <code>NA</code>s and zeros.  This function tries to deal with those
+problems.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data.frame with all the observations in <code>data</code>.
+If <code>cbind==FALSE</code>, only the <code>idvars</code> and the calculated variables are returned.
+
+
+
+
+
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Friendly, Dennis Murphy
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Batting.html">Batting</a></code>, <code><a href="BattingPost.html">BattingPost</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+	bstats &lt;- battingStats()
+	str(bstats)
+	bstats &lt;- battingStats(cbind=FALSE)
+	str(bstats)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Lahman</em> version 9.0-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

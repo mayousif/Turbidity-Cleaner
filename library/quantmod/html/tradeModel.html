@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulate Trading of Fitted quantmod Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for tradeModel {quantmod}"><tr><td>tradeModel {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Simulate Trading of Fitted quantmod Object </h2>
+
+<h3>Description</h3>
+
+<p>Simulated trading of fitted quantmod object.  Given a fitted model, 
+tradeModel calculates the signal generated over a given historical
+period, then applies specified <code>trade.rule</code> to calculate
+and return a <code>tradeLog</code> object.  Additional methods can then 
+be called to evaluate the performance of the model's strategy.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tradeModel(x,
+           signal.threshold = c(0, 0),
+           leverage = 1,
+           return.model = TRUE, 
+           plot.model = FALSE,
+           trade.dates = NULL,
+           exclude.training = TRUE,
+           ret.type = c("weeks", "months", "quarters", "years"),
+           ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> a quantmod object from <code>buildModel</code>  </p>
+</td></tr>
+<tr valign="top"><td><code>signal.threshold</code></td>
+<td>
+<p> a numeric vector describing simple lower
+and upper thresholds before trade occurs</p>
+</td></tr>
+<tr valign="top"><td><code>leverage</code></td>
+<td>
+<p> amount of leverage to apply - currently a constant </p>
+</td></tr>
+<tr valign="top"><td><code>return.model</code></td>
+<td>
+<p> should the full model be returned? </p>
+</td></tr>
+<tr valign="top"><td><code>plot.model</code></td>
+<td>
+<p> plot the model? </p>
+</td></tr>
+<tr valign="top"><td><code>trade.dates</code></td>
+<td>
+<p> specific trade interval - defaults to full dataset </p>
+</td></tr>
+<tr valign="top"><td><code>exclude.training</code></td>
+<td>
+<p> exclude the period trained on? </p>
+</td></tr>
+<tr valign="top"><td><code>ret.type</code></td>
+<td>
+<p> a table of period returns </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional parameters needed by the underlying modelling function, if any </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Still highly experimental and changing. The purpose is to apply
+a newly contructed model from <code>buildModel</code> to a new dataset
+to investigate the model's trading potential.
+</p>
+<p>At present all parameters are very basic. The near term changes include
+allowing for a trade.rule argument to allow for a dynamic trade rule given
+a set of signals. Additional the application of variable leverage and costs
+will become part of the final structure.
+</p>
+<p>Any suggestions as to inclusions or alterations are appreciated and should
+be directed to the maintainer of the package.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A quantmodResults object
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="specifyModel.html">specifyModel</a></code> <code><a href="buildModel.html">buildModel</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+m &lt;- specifyModel(Next(OpCl(QQQQ)) ~ Lag(OpHi(QQQQ)))
+m.built &lt;- buildModel(m,method='rpart',training.per=c('2007-01-01','2007-04-01'))
+
+tradeModel(m.built)
+tradeModel(m.built,leverage=2)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

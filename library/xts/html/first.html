@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Return First or Last n Elements of A Data Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for first {xts}"><tr><td>first {xts}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Return First or Last n Elements of A Data Object </h2>
+
+<h3>Description</h3>
+
+<p>A generic function to return the first or last
+elements or rows of a vector or two-dimensional
+data object.
+</p>
+<p>A more advanced subsetting is available for
+zoo objects with indexes inheriting from POSIXt
+or Date classes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+first(x,...)
+last(x,...)
+
+## Default S3 method:
+first(x,n=1,keep=FALSE,...)
+
+## Default S3 method:
+last(x,n=1,keep=FALSE,...)
+
+## S3 method for class 'xts'
+first(x,n=1,keep=FALSE,...)
+
+## S3 method for class 'xts'
+last(x,n=1,keep=FALSE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> 1 or 2 dimensional data object </p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p> number of periods to return </p>
+</td></tr>
+<tr valign="top"><td><code>keep</code></td>
+<td>
+<p> should removed values be kept? </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional args - unused </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Provides the ability to identify the first or last
+<code>n</code> rows or observations of a data set.  The generic
+method behaves much like <code>head</code> and <code>tail</code> from
+<span class="pkg">base</span>, except by default only the <em>first</em> or
+<em>last</em> observation will be returned.
+</p>
+<p>The more useful method for the xts class allows for
+time based subsetting, given an xtsible object.
+</p>
+<p><code>n</code> may be either a numeric value, indicating the number of
+observations to return - forward from <code>first</code>, or backwards from <code>last</code>,
+or it may be a character string describing the number and type of periods to
+return.
+</p>
+<p><code>n</code> may be positive or negative, in either numeric or character
+contexts. When positive it will return the result expected - e.g.
+<code>last(X,'1 month')</code> will return the last month's data. If negative,
+all data will be returned <em>except</em> for the last month. It is important
+to note that this is not the same as calling <code>first(X,'1 month')</code> or
+<code>first(X,'-1 month')</code>. All 4 variations return different subsets of
+data and have distinct purposes.
+</p>
+<p>If <code>n</code> is a character string, it must be of the form &lsquo;n period.type&rsquo;
+or &lsquo;period.type&rsquo;,
+where <code>n</code> is a numeric value (defaults to 1 if not provided)
+describing the number of <code>period.types</code>
+to move forward (first) or back (last).
+</p>
+<p>For example, to return the last 3 weeks of a time oriented zoo object, one
+could call <code>last(X,'3 weeks')</code>. Valid period.types are: secs, seconds,
+mins, minutes, hours, days, weeks, months, quarters, and years.
+</p>
+<p>It is possible to use any frequency specification (secs, mins, days, ...)
+for the period.type portion of the string, even if the original data is in
+a higher frequency. This makes it possible to return the last &lsquo;2 months&rsquo;
+of data from an oject that has a daily periodicity.
+</p>
+<p>It should be noted that it is only possible to extract data with methods
+equal to or less than the frequency of the original data set. Attempting otherwise
+will result in error.
+</p>
+<p>Requesting more data than is in the original data object will produce a warning
+advising as such, and the object returned will simply be the original data.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A subset of elements/rows of the original data. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+first(1:100)
+last(1:100)
+
+data(LakeHuron)
+first(LakeHuron,10)
+last(LakeHuron)
+
+x &lt;- xts(1:100, Sys.Date()+1:100)
+first(x, 10)
+first(x, '1 day')
+first(x, '4 days')
+first(x, 'month')
+last(x, '2 months')
+last(x, '6 weeks')
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>xts</em> version 0.12.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

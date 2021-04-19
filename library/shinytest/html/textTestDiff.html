@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get textual diff of test results</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for textTestDiff {shinytest}"><tr><td>textTestDiff {shinytest}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get textual diff of test results</h2>
+
+<h3>Description</h3>
+
+<p>Get textual diff of test results
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+textTestDiff(appDir = ".", testnames = NULL, images = TRUE, suffix = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>appDir</code></td>
+<td>
+<p>Directory of the Shiny application that was tested.</p>
+</td></tr>
+<tr valign="top"><td><code>testnames</code></td>
+<td>
+<p>A character vector of names of tests to compare. If NULL,
+compare all test results for which there are differences.</p>
+</td></tr>
+<tr valign="top"><td><code>images</code></td>
+<td>
+<p>Compare screenshot images.</p>
+</td></tr>
+<tr valign="top"><td><code>suffix</code></td>
+<td>
+<p>An optional suffix for the expected results directory. For
+example, if the suffix is <code>"mac"</code>, the expected directory would be
+<code>mytest-expected-mac</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="viewTestDiff.html">viewTestDiff()</a></code> for interactive diff viewer.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>shinytest</em> version 1.5.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

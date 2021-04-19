@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Variable Labels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for battingLabels {Lahman}"><tr><td>battingLabels {Lahman}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Variable Labels
+</h2>
+
+<h3>Description</h3>
+
+<p>These data frames provide descriptive labels for the variables in the
+<code><a href="Batting.html">Batting</a></code>, 
+<code><a href="Pitching.html">Pitching</a></code> and
+<code><a href="Fielding.html">Fielding</a></code> files (and related <code>*Post</code> files).
+They are useful for plots and other output using <code><a href="Label.html">Label</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data(battingLabels)
+
+data(fieldingLabels)
+
+data(pitchingLabels)
+</pre>
+
+
+<h3>Format</h3>
+
+<p>Each is data frame with observations on the following 2 variables.
+</p>
+
+<dl>
+<dt><code>variable</code></dt><dd><p>variable name</p>
+</dd>
+<dt><code>label</code></dt><dd><p>variable label</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Label.html">Label</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(battingLabels)
+str(battingLabels)
+
+require("dplyr")
+
+# find and plot maximum number of homers per year
+batHR &lt;- Batting %&gt;%
+           filter(!is.na(HR)) %&gt;%
+           group_by(yearID) %&gt;%
+           summarise(max=max(HR))
+		
+with(batHR, {
+  plot(yearID, max, 
+       xlab=Label("yearID"), ylab=paste("Maximum", Label("HR")), 
+       cex=0.8)
+  lines(lowess(yearID, max), col="blue", lwd=2)
+  abline(lm(max ~ yearID), col="red", lwd=2)
+	})
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Lahman</em> version 9.0-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

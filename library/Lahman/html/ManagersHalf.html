@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: ManagersHalf table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ManagersHalf {Lahman}"><tr><td>ManagersHalf {Lahman}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+ManagersHalf table
+</h2>
+
+<h3>Description</h3>
+
+<p>Split season data for managers
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>data(ManagersHalf)</pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 93 observations on the following 10 variables.
+</p>
+
+<dl>
+<dt><code>playerID</code></dt><dd><p>Manager (player) ID code</p>
+</dd>
+<dt><code>yearID</code></dt><dd><p>Year</p>
+</dd>
+<dt><code>teamID</code></dt><dd><p>Team; a factor</p>
+</dd>
+<dt><code>lgID</code></dt><dd><p>League; a factor with levels <code>AL</code> <code>NL</code></p>
+</dd>
+<dt><code>inseason</code></dt><dd><p>Managerial order.  One if the individual managed the team
+the entire year.  Otherwise denotes where the manager appeared
+in the managerial order (1 for first manager, 2 for second, etc.).
+A factor with levels <code>1</code> <code>2</code> <code>3</code> <code>4</code> <code>5</code></p>
+</dd>
+<dt><code>half</code></dt><dd><p>First or second half of season</p>
+</dd>
+<dt><code>G</code></dt><dd><p>Games managed</p>
+</dd>
+<dt><code>W</code></dt><dd><p>Wins</p>
+</dd>
+<dt><code>L</code></dt><dd><p>Losses</p>
+</dd>
+<dt><code>rank</code></dt><dd><p>Team's position in standings for the half</p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>Lahman, S. (2021) Lahman's Baseball Database, 1871-2020, 2020 version, <a href="http://www.seanlahman.com/baseball-archive/statistics/">http://www.seanlahman.com/baseball-archive/statistics/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library("dplyr")
+library("reshape2")
+
+# Only have data for 1892 and 1981
+
+# League rank by half for 1981 teams with the same
+# manager in both halves who were hired in-season
+ManagersHalf %&gt;% 
+  filter(yearID &gt;= 1901) %&gt;%
+  group_by(teamID, yearID) %&gt;%
+  filter(all(playerID == playerID[1])) %&gt;%  # same manager in both halves
+  mutate(winPct = round(W/G, 3)) %&gt;%
+  reshape2::dcast(playerID + yearID + teamID + lgID ~ half,
+                     value.var = "rank") %&gt;%
+  rename(rank1 = `1`, rank2 = `2`) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Lahman</em> version 9.0-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

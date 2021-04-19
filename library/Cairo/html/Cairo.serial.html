@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check for changes in the graphics state of Cairo devices.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Cairo.serial {Cairo}"><tr><td>Cairo.serial {Cairo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Check for changes in the graphics state of Cairo devices.
+</h2>
+
+<h3>Description</h3>
+
+<p><code>Cairo.serial</code> returns an integer that is increased with every
+plotting operation on the device. This allows user code to determine
+whether any new content has been added to the device since it was last
+checked.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Cairo.serial(device = dev.cur())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>device</code></td>
+<td>
+<p>device number or an object of the class <code>Cairo</code> (as
+obtained from the <code><a href="Cairo.html">Cairo</a></code> function).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Integer value.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The integer value overflows to 0 at 2^31. Typically only equality
+should be checked and for such it is extremely unlikely that the state
+has changed yet the serial value is the same due to overflow.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Urbanek
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Cairo</em> version 1.5-12.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

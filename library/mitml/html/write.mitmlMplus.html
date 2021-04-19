@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Write 'mitml' objects to Mplus format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for write.mitmlMplus {mitml}"><tr><td>write.mitmlMplus {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Write <code>mitml</code> objects to Mplus format</h2>
+
+<h3>Description</h3>
+
+<p>Saves objects of class <code>mitml</code> as a series of text files which can be processed by the statistical software M<em>plus</em> (Muthen &amp; Muthen, 2012).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+write.mitmlMplus(x, filename, suffix = "list", sep = "\t", dec = ".",
+  na.value = -999)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object of class <code>mitml</code> or <code>mitml.list</code> as produced by <code>panImpute</code>, <code>jomoImpute</code>, <code>mitmlComplete</code>, or similar).</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>File base name for the text files containing the imputed data sets, specified without file extension.</p>
+</td></tr>
+<tr valign="top"><td><code>suffix</code></td>
+<td>
+<p>File name suffix for the index file.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>The field separator.</p>
+</td></tr>
+<tr valign="top"><td><code>dec</code></td>
+<td>
+<p>The decimal separator.</p>
+</td></tr>
+<tr valign="top"><td><code>na.value</code></td>
+<td>
+<p>A numeric value coding the missing data in the resulting data files.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The M<em>plus</em> format for multiply imputed data sets comprises a set of text files, each containing one imputed data set, and an index file containing the names of all data files.
+During export, factors and character variables are converted to numeric.
+To make this more transparent, <code>write.mitmlMplus</code> produces a log file which contains information about the data set and the factors that have been converted.
+</p>
+<p>In addition, a basic M<em>plus</em> input file is generated that can be used for setting up subsequent analysis models.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None (invisible <code>NULL</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund</p>
+
+
+<h3>References</h3>
+
+<p>Muthen, L. K., &amp; Muthen, B. O. (2012). <em>Mplus User's Guide. Seventh Edition.</em> Los Angeles, CA: Muthen &amp; Muthen.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="panImpute.html">panImpute</a></code>, <code><a href="jomoImpute.html">jomoImpute</a></code>, <code><a href="mitmlComplete.html">mitmlComplete</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+data(studentratings)
+
+fml &lt;- ReadDis + SES ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+# write imputation files, index file, and log file
+write.mitmlMplus(imp, filename = "imputation", suffix = "list", na.value = -999)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

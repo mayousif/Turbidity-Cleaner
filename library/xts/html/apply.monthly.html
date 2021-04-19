@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply Function over Calendar Periods</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for apply.monthly {xts}"><tr><td>apply.monthly {xts}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Apply Function over Calendar Periods </h2>
+
+<h3>Description</h3>
+
+<p>Apply a specified function to each distinct period in a given
+time series object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+apply.daily(x, FUN, ...)
+apply.weekly(x, FUN, ...)
+apply.monthly(x, FUN, ...)
+apply.quarterly(x, FUN, ...)
+apply.yearly(x, FUN, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> an time-series object coercible to xts </p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p> an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> function </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional arguments to FUN </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Simple mechanism to apply a function to non-overlapping
+time periods, e.g. weekly, monthly, etc. Different from rolling
+functions in that this will subset the data based on the specified
+time period (implicit in the call), and return a vector of values
+for each period in the original data.
+</p>
+<p>Essentially a wrapper to the <span class="pkg">xts</span> functions
+<code>endpoints</code> and <code>period.apply</code>, mainly as
+a convenience.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of results produced by <code>FUN</code>, corresponding
+to the appropriate periods.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="endpoints.html">endpoints</a></code>, <code><a href="period.apply.html">period.apply</a></code>,
+<code><a href="to.period.html">to.monthly</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+xts.ts &lt;- xts(rnorm(231),as.Date(13514:13744,origin="1970-01-01"))
+
+start(xts.ts)
+end(xts.ts)
+
+apply.monthly(xts.ts,mean)
+apply.monthly(xts.ts,function(x) var(x))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>xts</em> version 0.12.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

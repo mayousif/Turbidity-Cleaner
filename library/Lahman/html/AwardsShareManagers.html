@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: AwardsShareManagers table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for AwardsShareManagers {Lahman}"><tr><td>AwardsShareManagers {Lahman}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+AwardsShareManagers table
+</h2>
+
+<h3>Description</h3>
+
+<p>Award voting for managers awards
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>data(AwardsShareManagers)</pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 425 observations on the following 7 variables.
+</p>
+
+<dl>
+<dt><code>awardID</code></dt><dd><p>name of award votes were received for</p>
+</dd>
+<dt><code>yearID</code></dt><dd><p>Year</p>
+</dd>
+<dt><code>lgID</code></dt><dd><p>League; a factor with levels <code>AL</code> <code>NL</code></p>
+</dd>
+<dt><code>playerID</code></dt><dd><p>Manager (player) ID code</p>
+</dd>
+<dt><code>pointsWon</code></dt><dd><p>Number of points received</p>
+</dd>
+<dt><code>pointsMax</code></dt><dd><p>Maximum number of points possible</p>
+</dd>
+<dt><code>votesFirst</code></dt><dd><p>Number of first place votes</p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>Lahman, S. (2021) Lahman's Baseball Database, 1871-2021, 2021 version, <a href="http://www.seanlahman.com/baseball-archive/statistics/">http://www.seanlahman.com/baseball-archive/statistics/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Voting for the BBWAA Manager of the Year award by year and league
+
+require("dplyr")
+
+# Sort in decreasing order of points by year and league
+AwardsShareManagers %&gt;%
+   group_by(yearID, lgID) %&gt;%
+   arrange(desc(pointsWon))
+
+# Any unanimous winners?
+AwardsShareManagers %&gt;%
+  filter(pointsWon == pointsMax)
+
+# Manager with highest proportion of possible points
+AwardsShareManagers %&gt;%
+   mutate(propWon = pointsWon/pointsMax) %&gt;%
+   arrange(desc(propWon)) %&gt;%
+   head(., 1)
+
+# Bobby Cox's MOY vote tallies
+AwardsShareManagers %&gt;%
+  filter(playerID == "coxbo01")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Lahman</em> version 9.0-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

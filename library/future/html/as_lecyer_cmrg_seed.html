@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get a L'Ecuyer-CMRG seed either from an input seed or the...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for as_lecyer_cmrg_seed {future}"><tr><td>as_lecyer_cmrg_seed {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get a L'Ecuyer-CMRG seed either from an input seed or the current RNG state</h2>
+
+<h3>Description</h3>
+
+<p>Get a L'Ecuyer-CMRG seed either from an input seed or the current RNG state
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+as_lecyer_cmrg_seed(seed)
+
+is_lecyer_cmrg_seed(seed)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>TRUE or NA, or a numeric vector of length one or seven.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>as_lecyer_cmrg_seed()</code> function preserves the current RNG state, that
+is, it leaves <code>globalenv()$.Random.seed</code> intact, which means it also leaved
+the RNG kind (<code>RNGkind()</code>) intact.
+</p>
+<p>Per <code><a href="../../base/html/Random.html">base::RNGkind()</a></code>, a L'Ecuyer-CMRG seed comprise a length-seven integer
+vector of format <code>.Random.seed &lt;- c(rng.kind, n)</code> where <code>length(n) == 6L</code> and <code>rng.kind</code> fulfills <code>rng.kind %% 10000L == 407L</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>as_lecyer_cmrg_seed(seed)</code> returns a L'Ecuyer-CMRG seed, which is a
+7-digit integer vector, based on the input <code>seed</code>.
+If already a L'Ecuyer-CMRG seed, then <code>seed</code> is return as-is.
+If a scalar integer, then a random L'Ecuyer-CMRG seed is created based
+on this seed as the current RNG state.
+If <code>seed = TRUE</code> and the current seed is already a L'Ecuyer-CMRG seed,
+then then current seed (<code>.Random.seed</code>) is return as-is.
+If <code>seed = TRUE</code> and the current seed is <em>not</em> of the 'L'Ecuyer-CMRG' kind,
+or <code>seed = NA</code>, then a random one is created (based on the current RNG
+state).
+Any other values, including FALSE, is an error.
+</p>
+<p><code>is_lecyer_cmrg_seed(seed)</code> returns TRUE if <code>seed</code> is L'Ecuyer-CMRG seed,
+otherwise FALSE.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# The current RNG kind
+okind &lt;- RNGkind()
+oseed &lt;- globalenv()$.Random.seed
+
+# (a) A L'Ecuyer-CMRG seed based on a numeric-scalar seed
+seed1 &lt;- future:::as_lecyer_cmrg_seed(42)
+str(seed1)
+## int [1:7] 10407 -2133391687 507561766 1260545903 1362917092 -1772566379 -1344458670
+# The RNG kind and the RNG state is preserved
+stopifnot(
+  future:::is_lecyer_cmrg_seed(seed1),
+  identical(RNGkind(), okind),
+  identical(globalenv()$.Random.seed, oseed)
+)
+
+# (b) A L'Ecuyer-CMRG seed based on a L'Ecuyer-CMRG seed
+seed2 &lt;- future:::as_lecyer_cmrg_seed(seed1)
+str(seed2)
+## int [1:7] 10407 -2133391687 507561766 1260545903 1362917092 -1772566379 -1344458670
+# The input L'Ecuyer-CMRG seed is returned as-is
+stopifnot(identical(seed2, seed1))
+# The RNG kind and the RNG state is preserved
+stopifnot(
+  future:::is_lecyer_cmrg_seed(seed2),
+  identical(RNGkind(), okind),
+  identical(globalenv()$.Random.seed, oseed)
+)
+
+# (c) A L'Ecuyer-CMRG seed based on the current RNG state
+seed3 &lt;- future:::as_lecyer_cmrg_seed(TRUE)
+str(seed3)
+## int [1:7] 10407 495333909 -1491719214 416071979 49340016 1956499377 899435966
+stopifnot(future:::is_lecyer_cmrg_seed(seed3))
+
+
+# All of the above calls preserve the RNG state including the RNG kind
+stopifnot(
+  identical(RNGkind(), okind),
+  identical(globalenv()$.Random.seed, oseed)
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

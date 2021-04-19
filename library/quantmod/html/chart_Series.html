@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Experimental Charting Version 2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for chart_Series {quantmod}"><tr><td>chart_Series {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Experimental Charting Version 2
+</h2>
+
+<h3>Description</h3>
+
+<p>These are experimental functions for a new version of chartSeries
+in quantmod. Interface, behavior, and functionality will change.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+chart_Series(x,
+             name = deparse(substitute(x)), 
+             type = "candlesticks", 
+             subset = "",
+             TA = "", 
+             pars = chart_pars(), 
+             theme = chart_theme(), 
+             clev = 0,
+             ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>time series object
+</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+
+<p>name for chart
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>one of: 
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+
+<p>an ISO8601 style character string indicating date range
+</p>
+</td></tr>
+<tr valign="top"><td><code>TA</code></td>
+<td>
+
+<p>a character string of semi-colon seperated TA calls.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pars</code></td>
+<td>
+
+<p>chart parameters
+</p>
+</td></tr>
+<tr valign="top"><td><code>theme</code></td>
+<td>
+
+<p>chart theme
+</p>
+</td></tr>
+<tr valign="top"><td><code>clev</code></td>
+<td>
+
+<p>color level (experimental).  Indicates the degree of brightness 0 is darkest color.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional parameters
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions, when complete, will revert back to the original chartSeries naming
+convention.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Called for graphical side effects.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Highly experimental (read: alpha) use with caution.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeffrey A. Ryan
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

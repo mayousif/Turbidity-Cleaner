@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap global variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_global {fresh}"><tr><td>bs_vars_global {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap global variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_global(
+  body_bg = NULL,
+  text_color = NULL,
+  link_color = NULL,
+  link_hover_color = NULL,
+  line_height_base = NULL,
+  grid_columns = NULL,
+  grid_gutter_width = NULL,
+  border_radius_base = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>body_bg</code></td>
+<td>
+<p>Background color for the body.</p>
+</td></tr>
+<tr valign="top"><td><code>text_color</code></td>
+<td>
+<p>Global text color on body.</p>
+</td></tr>
+<tr valign="top"><td><code>link_color</code></td>
+<td>
+<p>Global textual link color.</p>
+</td></tr>
+<tr valign="top"><td><code>link_hover_color</code></td>
+<td>
+<p>Link hover color.</p>
+</td></tr>
+<tr valign="top"><td><code>line_height_base</code></td>
+<td>
+<p>Unit-less 'line-height' for use in components like buttons.</p>
+</td></tr>
+<tr valign="top"><td><code>grid_columns</code></td>
+<td>
+<p>Number of columns in the grid, e.g. in <code><a href="../../shiny/html/fluidPage.html">shiny::fluidRow(shiny::column(...))</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>grid_gutter_width</code></td>
+<td>
+<p>Padding between columns. Gets divided in half for the left and right.</p>
+</td></tr>
+<tr valign="top"><td><code>border_radius_base</code></td>
+<td>
+<p>Base border radius (rounds the corners of elements).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# change background color
+bs_vars_global(
+  body_bg = "#FAFAFA"
+)
+
+if (interactive()) {
+  library(shiny)
+
+  ui &lt;- fluidPage(
+    use_theme(
+      create_theme(
+        theme = "default",
+        bs_vars_global(
+          body_bg = "#F5A9E1",
+          text_color = "#FFF",
+          grid_columns = 16
+        ),
+        output_file = NULL
+      )
+    ),
+    tags$h1("My custom app!"),
+    tags$h3("With plenty of columns!"),
+    fluidRow(
+      column(
+        width = 1, "Column 1"
+      ),
+      column(
+        width = 1, "Column 2"
+      ),
+      column(
+        width = 1, "Column 3"
+      ),
+      column(
+        width = 1, "Column 4"
+      ),
+      column(
+        width = 1, "Column 5"
+      ),
+      column(
+        width = 1, "Column 6"
+      ),
+      column(
+        width = 1, "Column 7"
+      ),
+      column(
+        width = 1, "Column 8"
+      ),
+      column(
+        width = 1, "Column 9"
+      ),
+      column(
+        width = 1, "Column 10"
+      ),
+      column(
+        width = 1, "Column 11"
+      ),
+      column(
+        width = 1, "Column 12"
+      ),
+      column(
+        width = 1, "Column 13"
+      ),
+      column(
+        width = 1, "Column 14"
+      ),
+      column(
+        width = 1, "Column 15"
+      ),
+      column(
+        width = 1, "Column 16"
+      )
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

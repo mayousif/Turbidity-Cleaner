@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap colors variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_color {fresh}"><tr><td>bs_vars_color {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap colors variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+defaults colors in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_color(
+  brand_primary = NULL,
+  brand_success = NULL,
+  brand_info = NULL,
+  brand_warning = NULL,
+  brand_danger = NULL,
+  gray_base = NULL,
+  gray_darker = NULL,
+  gray_dark = NULL,
+  gray = NULL,
+  gray_light = NULL,
+  gray_lighter = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>brand_primary</code></td>
+<td>
+<p>Primary color, default: <span style='width:12px;height:12px;background:#337ab7;border-radius:2px;display:inline-block;margin-right:5px;'></span>#337ab7.</p>
+</td></tr>
+<tr valign="top"><td><code>brand_success</code></td>
+<td>
+<p>Success color, default: <span style='width:12px;height:12px;background:#5cb85c;border-radius:2px;display:inline-block;margin-right:5px;'></span>#5cb85c.</p>
+</td></tr>
+<tr valign="top"><td><code>brand_info</code></td>
+<td>
+<p>Info color, default: <span style='width:12px;height:12px;background:#5bc0de;border-radius:2px;display:inline-block;margin-right:5px;'></span>#5bc0de.</p>
+</td></tr>
+<tr valign="top"><td><code>brand_warning</code></td>
+<td>
+<p>Warning color, default: <span style='width:12px;height:12px;background:#f0ad4e;border-radius:2px;display:inline-block;margin-right:5px;'></span>#f0ad4e.</p>
+</td></tr>
+<tr valign="top"><td><code>brand_danger</code></td>
+<td>
+<p>Danger color, default: <span style='width:12px;height:12px;background:#d9534f;border-radius:2px;display:inline-block;margin-right:5px;'></span>#d9534f.</p>
+</td></tr>
+<tr valign="top"><td><code>gray_base</code></td>
+<td>
+<p>Base gray color.</p>
+</td></tr>
+<tr valign="top"><td><code>gray_darker</code></td>
+<td>
+<p>Darker gray color.</p>
+</td></tr>
+<tr valign="top"><td><code>gray_dark</code></td>
+<td>
+<p>Dark gray color.</p>
+</td></tr>
+<tr valign="top"><td><code>gray</code></td>
+<td>
+<p>Gray color.</p>
+</td></tr>
+<tr valign="top"><td><code>gray_light</code></td>
+<td>
+<p>Light gray color.</p>
+</td></tr>
+<tr valign="top"><td><code>gray_lighter</code></td>
+<td>
+<p>Lighter gray color.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>See default parameters for Bootstrap: <a href="https://getbootstrap.com/docs/3.4/customize/">https://getbootstrap.com/docs/3.4/customize/</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# New colors (for buttons for example)
+bs_vars_color(
+  brand_primary = "#75b8d1",
+  brand_success = "#c9d175",
+  brand_info = "#758bd1",
+  brand_warning = "#d1ab75",
+  brand_danger = "#d175b8"
+)
+
+if (interactive()) {
+  library(shiny)
+  library(shinyWidgets)
+  library(fresh)
+
+  ui &lt;- fluidPage(
+    use_theme(create_theme(
+      theme = "default",
+      bs_vars_color(
+        brand_primary = "#75b8d1",
+        brand_success = "#c9d175",
+        brand_info = "#758bd1",
+        brand_warning = "#d1ab75",
+        brand_danger = "#d175b8"
+      )
+    )),
+    tags$h1("Colors"),
+
+    tags$p("Apply to :"),
+    tags$p("buttons"),
+    actionButton("btn1", "Primary", class = "btn-primary"),
+    actionButton("btn2", "Success", class = "btn-success"),
+    actionButton("btn3", "Danger", class = "btn-danger"),
+    actionButton("btn4", "Warning", class = "btn-warning"),
+    actionButton("btn5", "info", class = "btn-info"),
+    tags$br(), tags$br(),
+    tags$p("links"),
+    tags$a(href = "", "A link (same color as the primary button)"),
+    tags$br(), tags$br(),
+    tags$p("labels"),
+    tags$span(class = "label label-primary", "Primary"),
+    tags$span(class = "label label-success", "Success"),
+    tags$span(class = "label label-danger", "Danger"),
+    tags$span(class = "label label-warning", "Warning"),
+    tags$span(class = "label label-info", "Info"),
+    tags$br(), tags$br(),
+    tags$p("progress bars"),
+    progressBar(
+      "pb1", value = 80, status = "primary", display_pct = TRUE
+    ),
+    progressBar(
+      "pb2", value = 80, status = "success", display_pct = TRUE
+    ),
+    progressBar(
+      "pb3", value = 80, status = "danger", display_pct = TRUE
+    ),
+    progressBar(
+      "pb4", value = 80, status = "warning", display_pct = TRUE
+    ),
+    progressBar(
+      "pb5", value = 80, status = "info", display_pct = TRUE
+    ),
+    tags$br(), tags$br(),
+    tags$p("and panels (only primary)"),
+    panel(
+      heading = "Primary panel",
+      status = "primary",
+      "For other status, look at ?bs_vars_state"
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

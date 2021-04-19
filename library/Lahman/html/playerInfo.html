@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lookup Information for Players and Teams</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for playerInfo {Lahman}"><tr><td>playerInfo {Lahman}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Lookup Information for Players and Teams
+</h2>
+
+<h3>Description</h3>
+
+<p>These functions use <code>grep</code> to lookup information about players
+(from the <code><a href="People.html">People</a></code> file)
+and teams (from the <code><a href="Teams.html">Teams</a></code> file).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+playerInfo(playerID, nameFirst, nameLast, data = Lahman::People, extra = NULL, ...)
+
+teamInfo(teamID, name, data = Lahman::Teams, extra = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>playerID</code></td>
+<td>
+
+<p>pattern for <code>playerID</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>nameFirst</code></td>
+<td>
+
+<p>pattern for first name
+</p>
+</td></tr>
+<tr valign="top"><td><code>nameLast</code></td>
+<td>
+
+<p>pattern for last name
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>The name of the dataset to search
+</p>
+</td></tr>
+<tr valign="top"><td><code>extra</code></td>
+<td>
+
+<p>A character vector of other fields to include in the result
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>other arguments passed to <code><a href="../../base/html/grep.html">grep</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>teamID</code></td>
+<td>
+
+<p>pattern for <code>teamID</code> 
+</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+
+<p>pattern for team name
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a data frame for unique matching rows from <code>data</code>
+
+
+
+
+
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Friendly
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/grep.html">grep</a></code>, ~~~
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+	playerInfo("aaron")
+
+  teamInfo("CH", extra="park")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Lahman</em> version 9.0-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

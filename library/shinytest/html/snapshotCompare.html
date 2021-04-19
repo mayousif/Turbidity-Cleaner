@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compare current and expected snapshots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for snapshotCompare {shinytest}"><tr><td>snapshotCompare {shinytest}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compare current and expected snapshots</h2>
+
+<h3>Description</h3>
+
+<p>This compares current and expected snapshots for a test set, and prints any
+differences to the console.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+snapshotCompare(
+  appDir,
+  testnames = NULL,
+  autoremove = TRUE,
+  images = TRUE,
+  quiet = FALSE,
+  interactive = is_interactive(),
+  suffix = NULL
+)
+
+snapshotUpdate(appDir = ".", testnames = NULL, quiet = FALSE, suffix = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>appDir</code></td>
+<td>
+<p>Directory that holds the tests for an application. This is the
+parent directory for the expected and current snapshot directories.</p>
+</td></tr>
+<tr valign="top"><td><code>testnames</code></td>
+<td>
+<p>Name or names of a test. If NULL, compare all test results.</p>
+</td></tr>
+<tr valign="top"><td><code>autoremove</code></td>
+<td>
+<p>If the current results match the expected results, should
+the current results be removed automatically? Defaults to TRUE.</p>
+</td></tr>
+<tr valign="top"><td><code>images</code></td>
+<td>
+<p>Should screenshots and PNG images be compared? It can be useful
+to set this to <code>FALSE</code> when the expected results were taken on a
+different platform from the current results.</p>
+</td></tr>
+<tr valign="top"><td><code>quiet</code></td>
+<td>
+<p>Should output be suppressed? This is useful for automated
+testing.</p>
+</td></tr>
+<tr valign="top"><td><code>interactive</code></td>
+<td>
+<p>If there are any differences between current results and
+expected results, provide an interactive graphical viewer that shows the
+changes and allows the user to accept or reject the changes.</p>
+</td></tr>
+<tr valign="top"><td><code>suffix</code></td>
+<td>
+<p>An optional suffix for the expected results directory. For
+example, if the suffix is <code>"mac"</code>, the expected directory would be
+<code>mytest-expected-mac</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="testApp.html">testApp()</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>shinytest</em> version 1.5.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

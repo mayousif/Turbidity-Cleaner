@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a multisession future whose value will be resolved...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for multisession {future}"><tr><td>multisession {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a multisession future whose value will be resolved asynchronously in a parallel <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session</h2>
+
+<h3>Description</h3>
+
+<p>A multisession future is a future that uses multisession evaluation,
+which means that its <em>value is computed and resolved in
+parallel in another <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session</em>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multisession(
+  ...,
+  workers = availableCores(),
+  lazy = FALSE,
+  rscript_libs = .libPaths(),
+  envir = parent.frame()
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="Future-class.html">Future()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>workers</code></td>
+<td>
+<p>A positive numeric scalar or a function specifying the
+maximum number of parallel futures that can be active at the same time
+before blocking.
+If a function, it is called without arguments <em>when the future
+is created</em> and its value is used to configure the workers.
+The function should return a numeric scalar.</p>
+</td></tr>
+<tr valign="top"><td><code>lazy</code></td>
+<td>
+<p>If FALSE (default), the future is resolved
+eagerly (starting immediately), otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>rscript_libs</code></td>
+<td>
+<p>A character vector of <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> package library folders that
+the workers should use.  The default is <code>.libPaths()</code> so that multisession
+workers inherits the same library path as the main <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session.
+To avoid this, use <code>plan(multisession, ..., rscript_libs = NULL)</code>.
+<em>Important: Note that the library path is set on the workers when they are
+created, i.e. when <code>plan(multisession)</code> is called.  Any changes to
+<code>.libPaths()</code> in the main R session after the workers have been created
+will have no effect.</em>
+This is passed down as-is to <code><a href="../../parallelly/html/makeClusterPSOCK.html">parallelly::makeClusterPSOCK()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <a href="../../base/html/environment.html">environment</a> from where global objects should be
+identified.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The background <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> sessions (the &quot;workers&quot;) are created using
+<code><a href="re-exports.html">makeClusterPSOCK()</a></code>.
+</p>
+<p>The <code>multisession()</code> function will block if all available
+<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session are occupied
+and will be unblocked as soon as one of the already running
+multisession futures is resolved.  For the total number of
+<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> sessions available including the current/main <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> process, see
+<code><a href="../../parallelly/html/availableCores.html">parallelly::availableCores()</a></code>.
+</p>
+<p>A multisession future is a special type of cluster future.
+</p>
+<p>The preferred way to create an multisession future is not to call
+this function directly, but to register it via
+<code><a href="plan.html">plan</a>(multisession)</code> such that it becomes the default
+mechanism for all futures.  After this <code><a href="future.html">future()</a></code>
+and <code><a href="future.html">%&lt;-%</a></code> will create <em>multisession futures</em>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <a href="ClusterFuture-class.html">MultisessionFuture</a>.
+If <code>workers == 1</code>, then all processing using done in the
+current/main <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session and we therefore fall back to using
+a lazy future.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For processing in multiple forked <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> sessions, see
+<a href="multicore.html">multicore</a> futures.
+</p>
+<p>Use <code><a href="../../parallelly/html/availableCores.html">parallelly::availableCores()</a></code> to see the total number of
+cores that are available for the current <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+## Use multisession futures
+plan(multisession)
+
+## A global variable
+a &lt;- 0
+
+## Create future (explicitly)
+f &lt;- future({
+  b &lt;- 3
+  c &lt;- 2
+  a * b * c
+})
+
+## A multisession future is evaluated in a separate R session.
+## Changing the value of a global variable will not affect
+## the result of the future.
+a &lt;- 7
+print(a)
+
+v &lt;- value(f)
+print(v)
+stopifnot(v == 0)
+
+## Explicitly close multisession workers by switching plan
+plan(sequential)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

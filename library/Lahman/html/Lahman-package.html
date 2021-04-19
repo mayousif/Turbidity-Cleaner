@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sean Lahman's Baseball Database</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Lahman-package {Lahman}"><tr><td>Lahman-package {Lahman}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Sean Lahman's Baseball Database
+</h2>
+
+<h3>Description</h3>
+
+<p>This database contains pitching, hitting, and fielding statistics for
+Major League Baseball from 1871 through 2019.  It includes data from
+the two current leagues (American and National), the four other &quot;major&quot; 
+leagues (American Association, Union Association, Players League, and
+Federal League), and the National Association of 1871-1875. 
+</p>
+<p>This database was created by Sean Lahman, who pioneered the effort to
+make baseball statistics freely available to the general public. What
+started as a one man effort in 1994 has grown tremendously, and now a
+team of researchers have collected their efforts to make this the
+largest and most accurate source for baseball statistics available
+anywhere. 
+</p>
+<p>This database, in the form of an R package offers a variety of interesting
+challenges and opportunities for data processing and visualization in R.
+</p>
+<p>In the current version, the examples make extensive use of the <code>dplyr</code>
+package for data manipulation (tabulation, queries, summaries, merging, etc.),
+reflecting the original relational database design
+and <code>ggplot2</code> for graphics.
+</p>
+
+
+<h3>Details</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Package: </td><td style="text-align: left;"> Lahman</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Type: </td><td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Version: </td><td style="text-align: left;"> 8.0-1</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Date: </td><td style="text-align: left;"> 2021-01-20</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+License: </td><td style="text-align: left;"> GPL version 2 or newer</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+LazyLoad: </td><td style="text-align: left;"> yes</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+LazyData: </td><td style="text-align: left;"> yes</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>The main form of this database is a relational database in Microsoft Access format.
+The design follows these general principles:  Each player is assigned a
+unique code (<code>playerID</code>).  All of the information in different tables relating to that player
+is tagged with his <code>playerID</code>.  The <code>playerID</code>s are linked to names and 
+birthdates in the <code><a href="People.html">People</a></code> table.  Similar links exist among other tables
+via analogous <code>*ID</code> variables.
+</p>
+<p>The database is composed of the following main tables:
+</p>
+
+<dl>
+<dt><code><a href="People.html">People</a></code></dt><dd><p>Player names, dates of birth, death and other biographical info</p>
+</dd>
+<dt><code><a href="Batting.html">Batting</a></code></dt><dd><p>batting statistics</p>
+</dd>
+<dt><code><a href="Pitching.html">Pitching</a></code></dt><dd><p>pitching statistics</p>
+</dd>
+<dt><code><a href="Fielding.html">Fielding</a></code></dt><dd><p>fielding statistics</p>
+</dd>
+</dl>
+
+
+<p>A collection of other tables is also provided:
+</p>
+<p>Teams:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+  <code><a href="Teams.html">Teams</a></code> </td><td style="text-align: left;"> yearly stats and standings</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+  <code><a href="TeamsHalf.html">TeamsHalf</a></code> </td><td style="text-align: left;"> split season data for teams</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+  <code><a href="TeamsFranchises.html">TeamsFranchises</a></code> </td><td style="text-align: left;"> franchise information</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p>Post-season play:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+  <code><a href="BattingPost.html">BattingPost</a></code> </td><td style="text-align: left;"> post-season batting statistics</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+  <code><a href="PitchingPost.html">PitchingPost</a></code> </td><td style="text-align: left;"> post-season pitching statistics</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+  <code><a href="FieldingPost.html">FieldingPost</a></code></td><td style="text-align: left;"> post-season fielding data</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+  <code><a href="SeriesPost.html">SeriesPost</a></code> </td><td style="text-align: left;"> post-season series information</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p>Awards:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+  <code><a href="AwardsManagers.html">AwardsManagers</a></code> </td><td style="text-align: left;"> awards won by managers</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+  <code><a href="AwardsPlayers.html">AwardsPlayers</a></code> </td><td style="text-align: left;"> awards won by players</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+  <code><a href="AwardsShareManagers.html">AwardsShareManagers</a></code> </td><td style="text-align: left;"> award voting for manager awards</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+  <code><a href="AwardsSharePlayers.html">AwardsSharePlayers</a></code> </td><td style="text-align: left;"> award voting for player awards</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p>Hall of Fame:  links to People via <code>hofID</code>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+  <code><a href="HallOfFame.html">HallOfFame</a></code> </td><td style="text-align: left;"> Hall of Fame voting data</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p>Other tables:
+</p>
+
+<p><code><a href="AllstarFull.html">AllstarFull</a></code> - All-Star games appearances;
+<code><a href="Managers.html">Managers</a></code> - managerial statistics;
+<code><a href="FieldingOF.html">FieldingOF</a></code> - outfield position data;
+<code><a href="ManagersHalf.html">ManagersHalf</a></code> - split season data for managers;
+<code><a href="Salaries.html">Salaries</a></code> - player salary data;
+<code><a href="Appearances.html">Appearances</a></code> - data on player appearances;
+<code><a href="Schools.html">Schools</a></code> - Information on schools players attended;
+<code><a href="CollegePlaying.html">CollegePlaying</a></code> - Information on schools players attended, by player and year;
+
+</p>
+<p>Variable label tables are provided for some of the tables:
+</p>
+<p><code><a href="battingLabels.html">battingLabels</a></code>,
+<code><a href="battingLabels.html">pitchingLabels</a></code>,
+<code><a href="battingLabels.html">fieldingLabels</a></code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Friendly, Dennis Murphy, Chris Dalzell, Martin Monkman
+</p>
+<p>Maintainer: Chris Dalzell &lt;cdalzell@gmail.com&gt;
+</p>
+
+
+<h3>Source</h3>
+
+<p>Lahman, S. (2020) Lahman's Baseball Database, 1871-2019, Main page, <a href="http://www.seanlahman.com/baseball-archive/statistics/">http://www.seanlahman.com/baseball-archive/statistics/</a>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Lahman</em> version 9.0-0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Import</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for import {rio}"><tr><td>import {rio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Import</h2>
+
+<h3>Description</h3>
+
+<p>Read in a data.frame from a file. Exceptions to this rule are Rdata, RDS, and JSON input file formats, which return the originally saved object without changing its class.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+import(file, format, setclass, which, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A character string naming a file, URL, or single-file .zip or .tar archive.</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>An optional character string code of file format, which can be used to override the format inferred from <code>file</code>. Shortcuts include: &ldquo;,&rdquo; (for comma-separated values), &ldquo;;&rdquo; (for semicolon-separated values), and &ldquo;|&rdquo; (for pipe-separated values).</p>
+</td></tr>
+<tr valign="top"><td><code>setclass</code></td>
+<td>
+<p>An optional character vector specifying one or more classes to set on the import. By default, the return object is always a &ldquo;data.frame&rdquo;. Allowed values include &ldquo;tbl_df&rdquo;, &ldquo;tbl&rdquo;, or &ldquo;tibble&rdquo; (if using dplyr) or &ldquo;data.table&rdquo; (if using data.table). Other values are ignored, such that a data.frame is returned.</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>This argument is used to control import from multi-object files; as a rule <code>import</code> only ever returns a single data frame (use <code><a href="import_list.html">import_list</a></code> to import multiple data frames from a multi-object file). If <code>file</code> is a compressed directory, <code>which</code> can be either a character string specifying a filename or an integer specifying which file (in locale sort order) to extract from the compressed directory. For Excel spreadsheets, this can be used to specify a sheet name or number. For .Rdata files, this can be an object name. For HTML files, it identifies which table to extract (from document order). Ignored otherwise. A character string value will be used as a regular expression, such that the extracted file is the first match of the regular expression against the file names in the archive.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to the underlying import functions. For example, this can control column classes for delimited file types, or control the use of haven for Stata and SPSS or readxl for Excel (.xlsx) format. See details below.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function imports a data frame or matrix from a data file with the file format based on the file extension (or the manually specified format, if <code>format</code> is specified).
+</p>
+<p><code>import</code> supports the following file formats:
+</p>
+
+<ul>
+<li><p> Comma-separated data (.csv), using <code><a href="../../data.table/html/fread.html">fread</a></code> or, if <code>fread = FALSE</code>, <code><a href="../../utils/html/read.table.html">read.table</a></code> with <code>row.names = FALSE</code> and <code>stringsAsFactors = FALSE</code>
+</p>
+</li>
+<li><p> Pipe-separated data (.psv), using <code><a href="../../data.table/html/fread.html">fread</a></code> or, if <code>fread = FALSE</code>, <code><a href="../../utils/html/read.table.html">read.table</a></code> with <code>sep = '|'</code>, <code>row.names = FALSE</code> and <code>stringsAsFactors = FALSE</code>
+</p>
+</li>
+<li><p> Tab-separated data (.tsv), using <code><a href="../../data.table/html/fread.html">fread</a></code> or, if <code>fread = FALSE</code>, <code><a href="../../utils/html/read.table.html">read.table</a></code> with <code>row.names = FALSE</code> and <code>stringsAsFactors = FALSE</code>
+</p>
+</li>
+<li><p> SAS (.sas7bdat), using <code><a href="../../haven/html/read_sas.html">read_sas</a></code>.
+</p>
+</li>
+<li><p> SAS XPORT (.xpt), using <code><a href="../../haven/html/read_xpt.html">read_xpt</a></code> or, if <code>haven = FALSE</code>, <code><a href="../../foreign/html/read.xport.html">read.xport</a></code>.
+</p>
+</li>
+<li><p> SPSS (.sav), using <code><a href="../../haven/html/read_sav.html">read_sav</a></code>. If <code>haven = FALSE</code>, <code><a href="../../foreign/html/read.spss.html">read.spss</a></code> can be used.
+</p>
+</li>
+<li><p> SPSS compressed (.zsav), using <code><a href="../../haven/html/read_sav.html">read_sav</a></code>.
+</p>
+</li>
+<li><p> Stata (.dta), using <code><a href="../../haven/html/read_dta.html">read_dta</a></code>. If <code>haven = FALSE</code>, <code><a href="../../foreign/html/read.dta.html">read.dta</a></code> can be used.
+</p>
+</li>
+<li><p> SPSS Portable Files (.por), using <code><a href="../../haven/html/read_por.html">read_por</a></code>.
+</p>
+</li>
+<li><p> Excel (.xls and .xlsx), using <code><a href="../../readxl/html/read_excel.html">read_excel</a></code>. Use <code>which</code> to specify a sheet number. For .xlsx files, it is possible to set <code>readxl = FALSE</code>, so that <code><a href="../../openxlsx/html/read.xlsx.html">read.xlsx</a></code> can be used instead of readxl (the default).
+</p>
+</li>
+<li><p> R syntax object (.R), using <code><a href="../../base/html/dget.html">dget</a></code>
+</p>
+</li>
+<li><p> Saved R objects (.RData,.rda), using <code><a href="../../base/html/load.html">load</a></code> for single-object .Rdata files. Use <code>which</code> to specify an object name for multi-object .Rdata files. This can be any R object (not just a data frame).
+</p>
+</li>
+<li><p> Serialized R objects (.rds), using <code><a href="../../base/html/readRDS.html">readRDS</a></code>. This can be any R object (not just a data frame).
+</p>
+</li>
+<li><p> Epiinfo (.rec), using <code><a href="../../foreign/html/read.epiinfo.html">read.epiinfo</a></code>
+</p>
+</li>
+<li><p> Minitab (.mtp), using <code><a href="../../foreign/html/read.mtp.html">read.mtp</a></code>
+</p>
+</li>
+<li><p> Systat (.syd), using <code><a href="../../foreign/html/read.systat.html">read.systat</a></code>
+</p>
+</li>
+<li><p> &quot;XBASE&quot; database files (.dbf), using <code><a href="../../foreign/html/read.dbf.html">read.dbf</a></code>
+</p>
+</li>
+<li><p> Weka Attribute-Relation File Format (.arff), using <code><a href="../../foreign/html/read.arff.html">read.arff</a></code>
+</p>
+</li>
+<li><p> Data Interchange Format (.dif), using <code><a href="../../utils/html/read.DIF.html">read.DIF</a></code>
+</p>
+</li>
+<li><p> Fortran data (no recognized extension), using <code><a href="../../utils/html/read.fortran.html">read.fortran</a></code>
+</p>
+</li>
+<li><p> Fixed-width format data (.fwf), using a faster version of <code><a href="../../utils/html/read.fwf.html">read.fwf</a></code> that requires a <code>widths</code> argument and by default in rio has <code>stringsAsFactors = FALSE</code>. If <code>readr = TRUE</code>, import will be performed using <code><a href="../../readr/html/read_fwf.html">read_fwf</a></code>, where <code>widths</code> should be: <code>NULL</code>, a vector of column widths, or the output of <code><a href="../../readr/html/fwf_empty.html">fwf_empty</a></code>, <code><a href="../../readr/html/fwf_widths.html">fwf_widths</a></code>, or <code><a href="../../readr/html/fwf_positions.html">fwf_positions</a></code>.
+</p>
+</li>
+<li><p> gzip comma-separated data (.csv.gz), using <code><a href="../../utils/html/read.table.html">read.table</a></code> with <code>row.names = FALSE</code> and <code>stringsAsFactors = FALSE</code>
+</p>
+</li>
+<li> <p><a href="https://github.com/csvy">CSVY</a> (CSV with a YAML metadata header) using <code><a href="../../data.table/html/fread.html">fread</a></code>.
+</p>
+</li>
+<li><p> Apache Arrow Parquet (.parquet), using <code><a href="../../arrow/html/read_parquet.html">read_parquet</a></code>
+</p>
+</li>
+<li><p> Feather R/Python interchange format (.feather), using <code><a href="../../feather/html/read_feather.html">read_feather</a></code>
+</p>
+</li>
+<li><p> Fast storage (.fst), using <code><a href="../../fst/html/read.fst.html">read.fst</a></code>
+</p>
+</li>
+<li><p> JSON (.json), using <code><a href="../../jsonlite/html/fromJSON.html">fromJSON</a></code>
+</p>
+</li>
+<li><p> Matlab (.mat), using <code><a href="../../rmatio/html/read.mat.html">read.mat</a></code>
+</p>
+</li>
+<li><p> EViews (.wf1), using <code><a href="../../hexView/html/readEViews.html">readEViews</a></code>
+</p>
+</li>
+<li><p> OpenDocument Spreadsheet (.ods), using <code><a href="../../readODS/html/read_ods.html">read_ods</a></code>.  Use <code>which</code> to specify a sheet number.
+</p>
+</li>
+<li><p> Single-table HTML documents (.html), using <code><a href="../../xml2/html/read_html.html">read_html</a></code>. The data structure will only be read correctly if the HTML file can be converted to a list via <code><a href="../../xml2/html/as_list.html">as_list</a></code>.
+</p>
+</li>
+<li><p> Shallow XML documents (.xml), using <code><a href="../../xml2/html/read_xml.html">read_xml</a></code>. The data structure will only be read correctly if the XML file can be converted to a list via <code><a href="../../xml2/html/as_list.html">as_list</a></code>.
+</p>
+</li>
+<li><p> YAML (.yml), using <code><a href="../../yaml/html/yaml.load.html">yaml.load</a></code>
+</p>
+</li>
+<li><p> Clipboard import (on Windows and Mac OS), using <code><a href="../../utils/html/read.table.html">read.table</a></code> with <code>row.names = FALSE</code>
+</p>
+</li>
+<li><p> Google Sheets, as Comma-separated data (.csv)
+</p>
+</li>
+<li><p> GraphPad Prism (.pzfx) using <code><a href="../../pzfx/html/read_pzfx.html">read_pzfx</a></code>
+</p>
+</li></ul>
+
+<p><code>import</code> attempts to standardize the return value from the various import functions to the extent possible, thus providing a uniform data structure regardless of what import package or function is used. It achieves this by storing any optional variable-related attributes at the variable level (i.e., an attribute for <code>mtcars$mpg</code> is stored in <code>attributes(mtcars$mpg)</code> rather than <code>attributes(mtcars)</code>). If you would prefer these attributes to be stored at the data.frame-level (i.e., in <code>attributes(mtcars)</code>), see <code><a href="gather_attrs.html">gather_attrs</a></code>.
+</p>
+<p>After importing metadata-rich file formats (e.g., from Stata or SPSS), it may be helpful to recode labelled variables to character or factor using <code><a href="characterize.html">characterize</a></code> or <code><a href="characterize.html">factorize</a></code> respectively.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame. If <code>setclass</code> is used, this data frame may have additional class attribute values, such as &ldquo;tibble&rdquo; or &ldquo;data.table&rdquo;.
+</p>
+
+
+<h3>Note</h3>
+
+<p>For csv and txt files with row names exported from <code><a href="export.html">export</a></code>, it may be helpful to specify <code>row.names</code> as the column of the table which contain row names. See example below.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="import_list.html">import_list</a></code>, <code><a href="extensions.html">.import</a></code>, <code><a href="characterize.html">characterize</a></code>, <code><a href="gather_attrs.html">gather_attrs</a></code>, <code><a href="export.html">export</a></code>, <code><a href="convert.html">convert</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# create CSV to import
+export(iris, "iris1.csv")
+
+# specify `format` to override default format
+export(iris, "iris.tsv", format = "csv")
+stopifnot(identical(import("iris1.csv"), import("iris.tsv", format = "csv")))
+
+# import CSV as a `data.table`
+stopifnot(inherits(import("iris1.csv", setclass = "data.table"), "data.table"))
+
+# pass arguments to underlying import function
+iris1 &lt;- import("iris1.csv")
+identical(names(iris), names(iris1))
+
+export(iris, "iris2.csv", col.names = FALSE)
+iris2 &lt;- import("iris2.csv")
+identical(names(iris), names(iris2))
+
+# set class for the response data.frame as "tbl_df" (from dplyr)
+stopifnot(inherits(import("iris1.csv", setclass = "tbl_df"), "tbl_df"))
+
+# non-data frame formats supported for RDS, Rdata, and JSON
+export(list(mtcars, iris), "list.rds")
+li &lt;- import("list.rds")
+identical(names(mtcars), names(li[[1]]))
+
+# cleanup
+unlink("iris.tsv")
+unlink("iris1.csv")
+unlink("iris2.csv")
+unlink("list.rds")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rio</em> version 0.5.26 <a href="00Index.html">Index</a>]</div>
+</body></html>

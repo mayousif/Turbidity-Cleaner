@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit Measures for a Latent Variable Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for fitMeasures {lavaan}"><tr><td>fitMeasures {lavaan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit Measures for a Latent Variable Model</h2>
+
+<h3>Description</h3>
+
+<p>This function computes a variety of fit measures to assess the global
+fit of a latent variable model.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fitMeasures(object, fit.measures = "all", baseline.model = NULL, 
+            output = "vector", ...)
+fitmeasures(object, fit.measures = "all", baseline.model = NULL, 
+            output = "vector", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An object of class <code><a href="lavaan-class.html">lavaan</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.measures</code></td>
+<td>
+<p>If <code>"all"</code>, all fit measures available will be
+returned. If only a single or a few fit measures are specified by name,
+only those are computed and returned.</p>
+</td></tr>
+<tr valign="top"><td><code>baseline.model</code></td>
+<td>
+<p>If not NULL, an object of class
+<code><a href="lavaan-class.html">lavaan</a></code>, representing a user-specified baseline model.
+If a baseline model is provided, all fit indices relying on a
+baseline model (eg. CFI or TLI) will use the test statistics from
+this user-specified baseline model, instead of the default baseline model.</p>
+</td></tr>
+<tr valign="top"><td><code>output</code></td>
+<td>
+<p>Character. If <code>"vector"</code> (the default), display the
+output as a named (lavaan-formatted) vector. If <code>"matrix"</code>, display
+the output as a 1-column matrix. If <code>"text"</code>, display the
+output using subsections and verbose descriptions. The latter is used
+in the summary output, and does not print the chi-square test by default.
+See the examples how to add the chi-square test in the output.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments passed to or from other methods. Not currently
+used for <code>lavaan</code> objects.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named numeric vector of fit measures.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+HS.model &lt;- ' visual  =~ x1 + x2 + x3
+              textual =~ x4 + x5 + x6
+              speed   =~ x7 + x8 + x9 '
+
+fit &lt;- cfa(HS.model, data=HolzingerSwineford1939)
+fitMeasures(fit)
+fitMeasures(fit, "cfi")
+fitMeasures(fit, c("chisq", "df", "pvalue", "cfi", "rmsea"))
+fitMeasures(fit, c("chisq", "df", "pvalue", "cfi", "rmsea"), 
+            output = "matrix")
+print(fitMeasures(fit, c("chisq", "df", "pvalue", "cfi", "rmsea"),
+                  output = "text"), add.h0 = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>lavaan</em> version 0.6-8 <a href="00Index.html">Index</a>]</div>
+</body></html>

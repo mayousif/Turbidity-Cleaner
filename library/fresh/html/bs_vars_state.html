@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap states variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_state {fresh}"><tr><td>bs_vars_state {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap states variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+states colors (used for alerts or panels) in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_state(
+  success_text = NULL,
+  success_bg = NULL,
+  success_border = NULL,
+  info_text = NULL,
+  info_bg = NULL,
+  info_border = NULL,
+  warning_text = NULL,
+  warning_bg = NULL,
+  warning_border = NULL,
+  danger_text = NULL,
+  danger_bg = NULL,
+  danger_border = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>success_text</code></td>
+<td>
+<p>Success text color.</p>
+</td></tr>
+<tr valign="top"><td><code>success_bg</code></td>
+<td>
+<p>Success background color.</p>
+</td></tr>
+<tr valign="top"><td><code>success_border</code></td>
+<td>
+<p>Success border color.</p>
+</td></tr>
+<tr valign="top"><td><code>info_text</code></td>
+<td>
+<p>Info text color.</p>
+</td></tr>
+<tr valign="top"><td><code>info_bg</code></td>
+<td>
+<p>Info background color.</p>
+</td></tr>
+<tr valign="top"><td><code>info_border</code></td>
+<td>
+<p>Info border color.</p>
+</td></tr>
+<tr valign="top"><td><code>warning_text</code></td>
+<td>
+<p>Warning text color.</p>
+</td></tr>
+<tr valign="top"><td><code>warning_bg</code></td>
+<td>
+<p>Warning background color.</p>
+</td></tr>
+<tr valign="top"><td><code>warning_border</code></td>
+<td>
+<p>Warning border color.</p>
+</td></tr>
+<tr valign="top"><td><code>danger_text</code></td>
+<td>
+<p>Danger text color.</p>
+</td></tr>
+<tr valign="top"><td><code>danger_bg</code></td>
+<td>
+<p>Danger background color.</p>
+</td></tr>
+<tr valign="top"><td><code>danger_border</code></td>
+<td>
+<p>Danger border color.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>See default parameters for Bootstrap: <a href="https://getbootstrap.com/docs/3.4/customize/">https://getbootstrap.com/docs/3.4/customize/</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Panels &amp; alerts colors
+bs_vars_state(
+  success_text = "#FFF",
+  success_bg = "#238B45",
+  success_border = "#00441B"
+)
+
+if (interactive()) {
+  library(shiny)
+  library(shinyWidgets)
+  library(fresh)
+
+  ui &lt;- fluidPage(
+
+    use_theme(create_theme(
+      theme = "default",
+      bs_vars_state(
+        success_text = "#FFF",
+        success_bg = "#238B45",
+        success_border = "#00441B"
+      )
+    )),
+
+    tags$h1("State variables"),
+    fluidRow(
+      column(
+        width = 6,
+        tags$div(
+          class = "alert alert-success",
+          tags$b("Alert!"), "this is an alert !"
+        )
+      ),
+      column(
+        width = 6,
+        panel(
+          status = "success",
+          "This is a panel"
+        )
+      )
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

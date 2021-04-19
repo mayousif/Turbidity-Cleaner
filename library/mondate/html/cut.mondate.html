@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert a mondate Object to a Factor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cut.mondate {mondate}"><tr><td>cut.mondate {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert a mondate Object to a Factor</h2>
+
+<h3>Description</h3>
+
+<p>Method for <code>cut</code> applied to mondate objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ ## S3 method for class 'mondate'
+cut(x, breaks, labels = NULL, 
+      include.lowest = TRUE, right = TRUE, 
+      start.on.monday = TRUE, attr.breaks = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a <code>mondate</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+
+<p>a vector of cut points or number giving the number of intervals which x 
+is to be cut into or an interval specification, 
+one of &quot;day&quot;, &quot;week&quot;, &quot;month&quot;, &quot;quarter&quot; or &quot;year&quot;, 
+optionally preceded by an integer and a space, 
+or followed by &quot;s&quot; (pluralized).
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+
+<p>labels for the levels of the resulting category. 
+By default, labels are constructed from the right-hand end of the intervals 
+(which are included for the default value of right). 
+If <code>labels = FALSE</code>, simple integer codes are returned instead of a factor. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>include.lowest</code></td>
+<td>
+
+<p>logical, indicating if an 'x[i]' equal to the lowest 
+(or highest, for <code>right = FALSE</code>) 'breaks' value should be included.
+</p>
+</td></tr>
+<tr valign="top"><td><code>right</code></td>
+<td>
+
+<p>logical, indicating if the intervals should be closed on the right 
+(and open on the left) or vice versa.
+</p>
+</td></tr>
+<tr valign="top"><td><code>start.on.monday</code></td>
+<td>
+
+<p>logical. If <code>breaks = "weeks"</code>, should the week start on Mondays or Sundays?
+</p>
+</td></tr>
+<tr valign="top"><td><code>attr.breaks</code></td>
+<td>
+
+<p>logical. If <code>TRUE</code> the result has a &quot;breaks&quot; attribute which is
+a <code>mondate</code> whose pairwise values determine a covering of <code>x</code>.
+Most helpful when <code>breaks</code> = 
+&quot;days&quot;, &quot;weeks&quot;, &quot;months&quot;, &quot;quarters&quot;, or &quot;years&quot;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>optional arguments passed to or from other methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Convert a <code>mondate</code> to a factor where,
+in the &quot;end-of-business-day&quot; spirit of <code>mondate</code>,
+the levels are labeled by the last day in the period.
+If <code>right = FALSE</code> the levels are labeled by the first day in the period.
+</p>
+<p>For <code>numeric</code> breaks &ndash; which case also includes <code>mondate</code>s &ndash; 
+the method calls <code>cut.default</code> and the intervals encoded in the levels 
+are converted to date format using <code>mondate</code> logic.
+In the spirit of <code>mondate</code>, the default 
+<code>right = TRUE</code> ensures that the intervals are left-open/right-closed.
+The default <code>include.lowest = TRUE</code>
+ensures that <code>min(x)</code> is included in the first interval.
+</p>
+<p>For breaks = &quot;days&quot; or &quot;weeks&quot;, the method calls cut(as.Date(x)).
+For breaks = &quot;months&quot;, &quot;quarters&quot;, and &quot;years&quot;, 
+numeric breaks are determined from the range of x.
+</p>
+<p>If <code>breaks</code> is preceded by an integer, call it <code>step</code>,
+then the period of the first level is determined by <code>min(x)</code>
+and subsequent &quot;day&quot;, &quot;week&quot;, &quot;month&quot;, &quot;quarter&quot;, and &quot;year&quot; periods
+are determined sequentially per
+seq(min(x), max(x), by = step).
+</p>
+<p>When <code>attr.breaks = TRUE</code>, the result will have a &quot;breaks&quot; attribute
+(attr(., &quot;breaks&quot;)) which pairwise &quot;cover&quot; <code>x</code>.
+Such &quot;breaks&quot; are suitable be use by 'hist', for example.
+</p>
+<p>In all cases, the formats of the dates representing the levels are 
+inherited from <code>displayFormat(x)</code>.
+Accordingly, if such resulting potential levels would be non-unique, 
+<code>cut.mondate</code> resorts to the fall-back scheme of <code>cut.default</code>,
+i.e., &quot;labels such as &quot;Range3&quot; will be used.&quot;
+</p>
+
+
+<h3>Value</h3>
+
+<p>A factor is returned, unless <code>labels = FALSE</code> which returns the integer level codes.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Dan Murphy. Many thanks to the R-development team for cut and cut.Date.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="cut.mondate.html">cut</a></code> and <code><a href="../../base/html/cut.POSIXt.html">cut.Date</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- mondate(0:12)
+cut(x, breaks = 4)
+cut(x, mondate.ymd(1999) + c(0, 3, 6, 9, 12)) # same as above
+
+# days
+x &lt;- mondate.ymd(2013, 1, 1:7)
+cut(x, breaks = "days")
+
+# weeks
+x &lt;- mondate.ymd(2013, 1, 1:31)  # days in January 2013
+cut(x, breaks = "weeks") # labeled by the first 5 Sundays of 2013
+cut(x, breaks = "2 weeks") # labeled by 2nd, 4th, and 6th Sundays of 2013
+
+# months
+x &lt;- mondate.ymd(2013, 1:12, 15) # 15th day of each month in 2013
+cut(x, breaks = "months") # labeled by last day of the month
+cut(x, breaks = "months", right = FALSE) # labeled by first day of the month
+cut(x, breaks = "2 months") # labeled by last day of the month
+x1 &lt;- mondate.ymd(2008, 6)
+x2 &lt;- mondate.ymd(2008:2011, 6)
+cx1 &lt;- cut(x1, "month", right = FALSE)
+cx2 &lt;- cut(x2, "month", right = FALSE)
+stopifnot(levels(cx1)[cx1] == levels(cx2)[cx2[1]])
+
+# quarters
+x &lt;- mondate.ymd(2013, 1:12, 15) # 15th day of each month in 2013
+cut(x, "quarters")       # labeled by last day of the quarter
+cut(x, "quarters", right = FALSE) # labeled by first day of the quarter
+cut(x, "2 quarters")
+cut(x, "2 quarters", right = FALSE) # labeled by first day of the quarter
+
+# years
+m &lt;- mondate(0:12)
+cut(m, "years")           # labeled by last day of the year
+cut(m, "years", right = FALSE) # labeled by last day of the year
+displayFormat(m) &lt;- "%Y"
+cut(m, "years")           # labeled by just the year
+x &lt;- mondate.ymd(2008:2013, 6)
+cut(x, "years")                  # 6 levels labeled by last day of the year
+cut(x, "years", right = FALSE)   # 6 levels labeled by first day of the year
+cut(x, "3 years")                # 2 levels
+cut(x, "3 years", right = FALSE) # 2 levels
+x1 &lt;- mondate.ymd(2008, 12)
+x2 &lt;- mondate.ymd(2008:2011, 12)
+cx1 &lt;- cut(x1, "year", right = FALSE)
+cx2 &lt;- cut(x2, "year", right = FALSE)
+stopifnot(levels(cx1)[cx1] == levels(cx2)[cx2[1]])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

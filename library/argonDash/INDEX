@@ -1,0 +1,28 @@
+argonAvatar             Create a Boostrap 4 avatar
+argonAvatars            Create a Boostrap 4 avatar container
+argonDashBody           Create a Boostrap 4 dashboard body
+argonDashFooter         Create a Boostrap 4 dashboard footer
+argonDashGallery        Launch the argonDash Gallery
+argonDashHeader         Create a Boostrap 4 dashboard header
+argonDashNavbar         Create a Boostrap 4 dashboard navbar
+argonDashPage           Create a Boostrap 4 dashboard page
+argonDashSidebar        Create a Boostrap 4 dashboard sidebar
+argonDropNav            Create a Boostrap 4 dashboard dropdown menu
+argonDropNavDivider     Create a Boostrap 4 dashboard dropdown menu
+                        divider
+argonDropNavItem        Create a Boostrap 4 dashboard dropdown menu
+                        item
+argonDropNavTitle       Create a Boostrap 4 dashboard dropdown menu
+                        title
+argonFooterItem         Create a Boostrap 4 dashboard footer menu item
+argonFooterMenu         Create a Boostrap 4 dashboard footer menu
+argonInfoCard           Create a Boostrap 4 dashboard info card
+argonSidebarDivider     A divider to put inside argonDashSidebar
+argonSidebarHeader      A header to put inside argonDashSidebar
+argonSidebarItem        Create a Boostrap 4 argon sidebar menu
+argonSidebarMenu        Create a Boostrap 4 argon sidebar menu
+argonTabItem            One tab to put inside a tab items container
+argonTabItems           A container for tab items
+argonTable              Create a Boostrap 4 table container
+argonTableItem          Create a Boostrap 4 table item
+argonTableItems         Create a Boostrap 4 table item row

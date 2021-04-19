@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: 'diff' for package mondate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for diff.mondate {mondate}"><tr><td>diff.mondate {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+'diff' for package mondate
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns suitably lagged and iterated differences of an object of class <b>mondate</b>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'mondate'
+diff(x, lag = 1L, differences = 1L, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a mondate vector or matrix containing the values to be differenced.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lag</code></td>
+<td>
+
+<p>an integer indicating which lag to use.
+</p>
+</td></tr>
+<tr valign="top"><td><code>differences</code></td>
+<td>
+
+<p>an integer indicating the order of the difference.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>further arguments to be passed to or from methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>See the <code>diff</code> function in <code>base</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>x</code> is a vector of length <code>n</code> and <code>differences=1</code>, 
+then the computed result is equal to the successive differences 
+<code>x[(1+lag):n] - x[1:(n-lag)]</code>.
+</p>
+<p>If <code>difference</code> is larger than one this algorithm is applied 
+recursively to <code>x</code>. 
+Note that the returned value is a vector which is shorter than <code>x</code>.
+</p>
+<p>If <code>x</code> is a matrix then the difference operations 
+are carried out on each column separately.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Dan Murphy
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/diff.html">diff</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+evalDate&lt;-mondate(c(12+12*1:10))  # year ends 2001, ..., 2010
+diff(evalDate)                    # vector of length 9 holding the number 12, 
+                                  # with "timeunits" attribute = "months"
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

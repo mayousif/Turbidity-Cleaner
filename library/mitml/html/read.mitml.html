@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read 'mitml' objects from file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for read.mitml {mitml}"><tr><td>read.mitml {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read <code>mitml</code> objects from file</h2>
+
+<h3>Description</h3>
+
+<p>This function loads <code>mitml</code> class objects from R binary formats (similar to <code>?load</code>), usually produced by <code>write.mitml</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+read.mitml(filename)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Name of the file to read, to be specified with file extension (e.g., <code>.R</code>, <code>.Rdata</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>mitml</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="panImpute.html">panImpute</a></code>, <code><a href="jomoImpute.html">jomoImpute</a></code>, <code><a href="write.mitml.html">write.mitml</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+data(studentratings)
+
+fml &lt;- ReadDis + SES ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+# write 'mitml' object
+write.mitml(imp, filename = "imputation.R")
+
+# read previously saved 'mitml' object
+old.imp &lt;- read.mitml("imputation.R")
+
+class(old.imp)
+old.imp
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

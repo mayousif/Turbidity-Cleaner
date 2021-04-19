@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrap badge variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for bs_vars_badge {fresh}"><tr><td>bs_vars_badge {fresh}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrap badge variables</h2>
+
+<h3>Description</h3>
+
+<p>Those variables can be used to customize
+badge in Bootstrap and Bootswatch themes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bs_vars_badge(
+  color = NULL,
+  bg = NULL,
+  link_hover_color = NULL,
+  active_color = NULL,
+  active_bg = NULL,
+  font_weight = NULL,
+  line_height = NULL,
+  border_radius = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>color</code></td>
+<td>
+<p>Text color.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>Background color.</p>
+</td></tr>
+<tr valign="top"><td><code>link_hover_color</code></td>
+<td>
+<p>Linked badge text color on hover.</p>
+</td></tr>
+<tr valign="top"><td><code>active_color</code></td>
+<td>
+<p>Badge text color in active nav link.</p>
+</td></tr>
+<tr valign="top"><td><code>active_bg</code></td>
+<td>
+<p>Badge background color in active nav link.</p>
+</td></tr>
+<tr valign="top"><td><code>font_weight</code></td>
+<td>
+<p>Font weight, e.g. : <code>"bold"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>line_height</code></td>
+<td>
+<p>Line height.</p>
+</td></tr>
+<tr valign="top"><td><code>border_radius</code></td>
+<td>
+<p>Border radius.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a <code>list</code> that can be used in <code><a href="create_theme.html">create_theme</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bs_vars_badge(
+  color = "firebrick",
+  bg = "steelblue"
+)
+
+
+if (interactive()) {
+
+  library(shiny)
+
+  ui &lt;- fluidPage(
+    use_theme(create_theme(
+      theme = "default",
+      bs_vars_badge(
+        color = "yellow",
+        bg = "firebrick",
+        line_height = 1.2
+      )
+    )),
+    tags$h1("Badges"),
+    tags$span(class = "badge", "Simple badge"),
+    tags$br(),
+    tags$ul(
+      class = "list-group",
+      tags$li(
+        class = "list-group-item",
+        "Badge in list group",
+        tags$span(class = "badge", "badge")
+      ),
+      tags$li(
+        class = "list-group-item",
+        "An other item",
+        tags$span(class = "badge", "other")
+      )
+    )
+  )
+
+  server &lt;- function(input, output, session) {
+
+  }
+
+  shinyApp(ui, server)
+
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>fresh</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

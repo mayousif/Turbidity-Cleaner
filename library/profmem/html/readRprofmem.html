@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read an Rprofmem log file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for readRprofmem {profmem}"><tr><td>readRprofmem {profmem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read an Rprofmem log file</h2>
+
+<h3>Description</h3>
+
+<p>Reads and parses an Rprofmem log file that was created by
+<code><a href="../../utils/html/Rprofmem.html">utils::Rprofmem()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+readRprofmem(pathname, as = c("Rprofmem", "fixed", "raw"), drop = 0L, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pathname</code></td>
+<td>
+<p>The Rprofmem log file to be read.</p>
+</td></tr>
+<tr valign="top"><td><code>as</code></td>
+<td>
+<p>Specifies in what format data should be returned.
+If <code>"raw"</code>, the line content of the file is returned as is
+(as a character vector).
+If <code>"fixed"</code>, as <code>"raw"</code> but with missing newlines added to lines with empty
+stack calls that may be introduced in R (&lt; 3.5.0) (see Ref. 1).
+If <code>"Rprofmem"</code>, the collected Rprofmem data is fully
+parsed into bytes and call stack information.</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>Number of levels to drop from the top of the call stack.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An <code>Rprofmem</code> data.frame or a character vector (if <code>as</code> is <code>"raw"</code>
+or <code>"fixed"</code>).
+An <code>Rprofmem</code> data.frame has columns <code>what</code>, <code>bytes</code>, and <code>trace</code>, with:
+</p>
+
+<ul>
+<li> <p><code>what</code>:  (character) type of memory event;
+either <code>"alloc"</code> or <code>"new page"</code>
+</p>
+</li>
+<li> <p><code>bytes</code>: (numeric) number of bytes allocated or <code>NA_real_</code>
+(when <code>what</code> is <code>"new page"</code>)
+</p>
+</li>
+<li> <p><code>trace</code>: (list of character vectors) zero or more function names
+</p>
+</li></ul>
+
+
+
+<h3>References</h3>
+
+<p>Ref. 1: <a href="https://github.com/HenrikBengtsson/Wishlist-for-R/issues/25">https://github.com/HenrikBengtsson/Wishlist-for-R/issues/25</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+file &lt;- system.file("extdata", "example.Rprofmem.out", package = "profmem")
+
+raw &lt;- readRprofmem(file, as = "raw")
+cat(raw, sep = "\n")
+
+profmem &lt;- readRprofmem(file, as = "Rprofmem")
+print(profmem)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>profmem</em> version 0.6.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

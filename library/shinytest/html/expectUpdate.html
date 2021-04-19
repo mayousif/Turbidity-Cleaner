@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: 'testthat' expectation for a Shiny update</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for expectUpdate {shinytest}"><tr><td>expectUpdate {shinytest}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2><code>testthat</code> expectation for a Shiny update</h2>
+
+<h3>Description</h3>
+
+<p><code>testthat</code> expectation for a Shiny update
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+expectUpdate(
+  app,
+  output,
+  ...,
+  timeout = 3000,
+  iotype = c("auto", "input", "output")
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>app</code></td>
+<td>
+<p>A <code><a href="ShinyDriver.html">ShinyDriver()</a></code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>output</code></td>
+<td>
+<p>Character vector, the name(s) of the output widgets
+that are required to update for the test to succeed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Named arguments specifying updates for Shiny input
+widgets.</p>
+</td></tr>
+<tr valign="top"><td><code>timeout</code></td>
+<td>
+<p>Timeout for the update to happen, in milliseconds.</p>
+</td></tr>
+<tr valign="top"><td><code>iotype</code></td>
+<td>
+<p>Type of the widget(s) to change. These are normally
+input widgets.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+## https://github.com/rstudio/shiny-examples/tree/master/050-kmeans-example
+app &lt;- ShinyDriver$new("050-kmeans-example")
+expectUpdate(app, xcol = "Sepal.Width", output = "plot1")
+expectUpdate(app, ycol = "Petal.Width", output = "plot1")
+expectUpdate(app, clusters = 4, output = "plot1")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>shinytest</em> version 1.5.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

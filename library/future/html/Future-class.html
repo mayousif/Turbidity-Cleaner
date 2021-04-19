@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A future represents a value that will be available at some...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Future-class {future}"><tr><td>Future-class {future}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A future represents a value that will be available at some point in the future</h2>
+
+<h3>Description</h3>
+
+<p>A <em>future</em> is an abstraction for a <em>value</em> that may
+available at some point in the future.  A future can either be
+<code>unresolved</code> or <code>resolved</code>, a state which can be checked
+with <code><a href="resolved.html">resolved()</a></code>.  As long as it is <em>unresolved</em>, the
+value is not available.  As soon as it is <em>resolved</em>, the value
+is available via <code><a href="value.html">value</a>()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Future(
+  expr = NULL,
+  envir = parent.frame(),
+  substitute = TRUE,
+  stdout = TRUE,
+  conditions = "condition",
+  globals = NULL,
+  packages = NULL,
+  seed = FALSE,
+  lazy = FALSE,
+  local = TRUE,
+  gc = FALSE,
+  earlySignal = FALSE,
+  label = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>An <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> <a href="../../base/html/expression.html">expression</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <a href="../../base/html/environment.html">environment</a> from where global objects should be
+identified.</p>
+</td></tr>
+<tr valign="top"><td><code>substitute</code></td>
+<td>
+<p>If TRUE, argument <code>expr</code> is
+<code><a href="../../base/html/substitute.html">substitute</a>()</code>:ed, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>stdout</code></td>
+<td>
+<p>If TRUE (default), then the standard output is captured,
+and re-outputted when <code>value()</code> is called.
+If FALSE, any output is silenced (by sinking it to the null device as
+it is outputted).
+If NA (not recommended), output is <em>not</em> intercepted.</p>
+</td></tr>
+<tr valign="top"><td><code>conditions</code></td>
+<td>
+<p>A character string of conditions classes to be captured
+and relayed.  The default is to relay messages and warnings.
+To not intercept any types of conditions, use <code>conditions = NULL</code>.
+Errors are always relayed.</p>
+</td></tr>
+<tr valign="top"><td><code>globals</code></td>
+<td>
+<p>(optional) a logical, a character vector, or a named list
+to control how globals are handled.
+For details, see section 'Globals used by future expressions'
+in the help for <code><a href="future.html">future()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>packages</code></td>
+<td>
+<p>(optional) a character vector specifying packages
+to be attached in the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> environment evaluating the future.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>(optional) If TRUE, the random seed, that is, the state of the
+random number generator (RNG) will be set such that statistically sound
+random numbers are produced (also during parallelization).
+If FALSE (default), it is assumed that the future expression does neither
+need nor use random numbers generation.
+To use a fixed random seed, specify a L'Ecuyer-CMRG seed (seven integer)
+or a regular RNG seed (a single integer).  If the latter, then a
+L'Ecuyer-CMRG seed will be automatically created based on the given seed.
+Furthermore, if FALSE, then the future will be monitored to make sure it
+does not use random numbers.  If it does and depending on the value of
+option <code><a href="future.options.html">future.rng.onMisuse</a></code>, the check is
+ignored, an informative warning, or error will be produced.
+If <code>seed</code> is NULL, then the effect is as with <code>seed = FALSE</code>
+but without the RNG check being performed.</p>
+</td></tr>
+<tr valign="top"><td><code>lazy</code></td>
+<td>
+<p>If FALSE (default), the future is resolved
+eagerly (starting immediately), otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>local</code></td>
+<td>
+<p>If TRUE, the expression is evaluated such that
+all assignments are done to local temporary environment, otherwise
+the assignments are done to the global environment of the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> process
+evaluating the future.</p>
+</td></tr>
+<tr valign="top"><td><code>gc</code></td>
+<td>
+<p>If TRUE, the garbage collector run (in the process that
+evaluated the future) only after the value of the future is collected.
+Exactly when the values are collected may depend on various factors such
+as number of free workers and whether <code>earlySignal</code> is TRUE (more
+frequently) or FALSE (less frequently).
+<em>Some types of futures ignore this argument.</em></p>
+</td></tr>
+<tr valign="top"><td><code>earlySignal</code></td>
+<td>
+<p>Specified whether conditions should be signaled as soon
+as possible or not.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>An optional character string label attached to the future.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional named elements of the future.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A Future object is itself an <a href="../../base/html/environment.html">environment</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>Future</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>One function that creates a Future is <code><a href="future.html">future()</a></code>.
+It returns a Future that evaluates an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> expression in the future.
+An alternative approach is to use the <code><a href="future.html">%&lt;-%</a></code> infix
+assignment operator, which creates a future from the
+right-hand-side (RHS) <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> expression and assigns its future value
+to a variable as a <em><a href="../../base/html/delayedAssign.html">promise</a></em>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>future</em> version 1.21.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

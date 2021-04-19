@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create an instance of the mondate class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for mondate-methods {mondate}"><tr><td>mondate-methods {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create an instance of the mondate class</h2>
+
+<h3>Description</h3>
+
+<p>All purpose <b>mondate</b> constructor / coercer.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+    mondate(x, 
+      displayFormat = getOption("mondate.displayFormat", 
+                                default = .get.default.displayFormat()), 
+      timeunits = getOption("mondate.timeunits",
+                            default = .get.default.timeunits()),
+      ...)
+    ## S4 method for signature 'mondate'
+mondate(x, displayFormat, timeunits, formatFUN, ...)
+    ## S4 method for signature 'numeric'
+mondate(x, displayFormat, timeunits, ...)
+    ## S4 method for signature 'Date'
+mondate(x, displayFormat, timeunits, ...)
+    ## S4 method for signature 'POSIXt'
+mondate(x, displayFormat, timeunits, ...)
+    ## S4 method for signature 'character'
+mondate(x, displayFormat = "keep", timeunits, format, ...)
+    ## S4 method for signature 'array'
+mondate(x, displayFormat, timeunits, ...)
+    ## S4 method for signature 'missing'
+mondate(x, displayFormat, timeunits, ...)
+    ## S4 method for signature 'ANY'
+mondate(x, displayFormat, timeunits, ...)
+    </pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> object to convert to a <code>mondate</code>. 
+Can be another <code>mondate</code>,
+a character representing a date, a date, a numeric, or an object which
+converts to a numeric with as.numeric(x).
+More details below.
+</p>
+</td></tr>
+<tr valign="top"><td><code>displayFormat</code></td>
+<td>
+
+<p>character string representing the date format with which to display 
+the <code>mondate</code>. 
+The default.displayFormat is determined 
+at the time an instance is created
+according to Sys.getlocale(&quot;LC_TIME&quot;):
+if it contains the words &quot;United States&quot;, the default will be 
+&quot;%m/%d/%Y&quot; 
+<br />
+(MM/DD/YYYY), otherwise &quot;%Y-%m-%d&quot; (YYYY-MM-DD). 
+Other choices are &quot;%m-%d-%Y&quot; and &quot;%Y/%m/%d&quot;.
+See &quot;Details&quot; section for how to change defaults.
+</p>
+</td></tr>
+<tr valign="top"><td><code>timeunits</code></td>
+<td>
+
+<p>character string &quot;months&quot; (default), &quot;years&quot;, or &quot;days&quot; indicating the units
+in which date arithmetic will be carried out.
+</p>
+</td></tr>
+<tr valign="top"><td><code>formatFUN</code></td>
+<td>
+
+<p>format function for converting a mondate to character. 
+In case of conversion from <code>mondate</code>, default is to inherit
+the value.
+</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+
+<p>format string for converting a character to a Date 
+(using <code>as.Date, x, format, ...</code>)
+from which the mondate value is determined.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments to be passed to other methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Package users can change the default values of 
+<code>displayFormat</code> and <code>timeunits</code> using <code>options()</code> with the names
+&quot;mondate.displayFormat&quot; and &quot;mondate.timeunits&quot;, respectively.
+Warning! Use with care! 
+No checks are performed if and when the options are established.
+It is up to the user to ensure the new defaults are valid &ndash; 
+<code>displayFormat</code> must be appropriate for formatting dates in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> and 
+<code>timeunits</code> must be one of
+&quot;months&quot;, &quot;years&quot;, or &quot;days&quot;.
+See an example below.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt><code>signature(x = "mondate")</code></dt><dd>
+<p>For <code>mondate</code> x, this could be a way to copy a <code>mondate</code>
+and perhaps change 
+the <code>mondate</code>'s <code>displayFormat</code> or <code>timeunits</code> slots
+in the process.
+For any class that extends <code>mondate</code>,
+use of this method will return the underlying mondate class without
+additional slots (if any) of the subclass.
+</p>
+</dd>
+<dt><code>signature(x = "numeric")</code></dt><dd>
+<p>For <code>numeric</code> x, the simplest case is when <code>timeunits</code> = &quot;months&quot;, 
+in which case
+the value of x and properties <code>displayFormat</code> and <code>timeunits</code> 
+are simply stored. 
+If <code>timeunits</code> = &quot;years&quot; then it 
+is presumed that the value of x represents the number of years since the
+beginning of the millennium, 
+in which case the value of x is multiplied by 12
+and then stored. 
+If <code>timeunits</code> = &quot;days&quot; then it is presumed 
+that the value of x represents the number of days since the beginning
+of the millennium, 
+in which case the value is calculated using <code>as.Date</code>.
+Note that infinite values of <code>x</code> are allowed, 
+helpful in actuarial 
+(&quot;at ultimate&quot;)
+longitudinal, and time series modeling.
+</p>
+</dd>
+<dt><code>signature(x = "Date")</code></dt><dd>
+</dd>
+<dt><code>signature(x = "POSIXt")</code></dt><dd>
+<p>For a date x, <code>as.POSIXlt</code> is used to convert to an ISO standard date,
+from which the number of months of that day since the beginning of the
+millennium is calculated. 
+</p>
+</dd>
+<dt><code>signature(x = "character")</code></dt><dd>
+<p>If <code>format</code> is provided, then that format
+is used to attempt to convert the character value to a date.
+Otherwise, 
+characters are converted to dates using the first format found in the 
+set of valid formats 
+that successfully converts the first non-NA entry in <code>x</code>, 
+and that format is retained as the
+<code>displayFormat</code> of the result unless
+the user explicitly provides a value for <code>displayFormat</code>.
+The current set of valid formats is
+&quot;%m/%d/%Y&quot;, &quot;%m-%d-%Y&quot;, &quot;%Y-%m-%d&quot;, and &quot;%Y/%m/%d&quot;.
+If any entries of <code>x</code> do not convert successfully, 
+those entries get the value <code>NA</code> and a warning is issued.
+Finally, if <code>format</code> is not provided and
+none of the valid formats successfully converts <code>x</code> to a date, 
+then as a last resort
+the character string is attempted to be coerced to a 
+<code>numeric</code> and then
+to a <code>mondate</code>.
+</p>
+</dd>
+<dt><code>signature(x = "factor")</code></dt><dd>
+<p>The <code>character</code> method is run on <code>as.character(x)</code>.
+</p>
+</dd>
+<dt><code>signature(x = "array")</code></dt><dd>
+<p>If an object <code>x</code> is an <code>array</code>, 
+then this method enables the <code>mondate</code> to inherit its shape. 
+After that, other &quot;signatures&quot; take over.
+</p>
+</dd>
+<dt><code>signature(x = "missing")</code></dt><dd>
+<p>Enables the call <code>mondate()</code> to work.
+Useful for prototypes, e.g.
+Body of method is simply <code>new("mondate")</code>.
+</p>
+</dd>
+<dt><code>signature(x = "ANY")</code></dt><dd>
+<p>For any other class of x an attempt will be made to convert
+to <code>Date</code> (&quot;<code>as.Date(x)</code>&quot;). 
+If unsuccessful, an attempt will be made to convert to <code>numeric</code>;
+if successful, a warning will be issued to check the results
+relative to the <code>numeric</code> conversion, otherwise execution will
+be <code>stop</code>ped.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/DateTimeClasses.html">POSIXt</a></code>, <code><a href="../../zoo/html/yearmon.html">yearmon</a></code>, <code><a href="../../zoo/html/yearqtr.html">yearqtr</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+mondate("1-31-2010") # Jan. 31, 2010
+mondate(60)          # 60 months after 12/31/1999, so Dec. 31, 2004
+dat &lt;- as.Date("2010-1-31")
+(M &lt;- mondate(dat))    # Jan. 31, 2010
+x &lt;- 12 * 1:6
+mondate(x)           # first 6 yearends in 2000's
+y &lt;- x + 12
+mondate(cbind(x,y))  # bounding dates of first 6 years of millennium
+(y &lt;- mondate(1:6,timeunits="years")) # first 6 yearends, 'years' timeunits 
+# The results of date arithmetic on y will be displayed in "years".
+# E.g., the differences of y can be calculated as:
+tail(y,-1) - head(y,-1)# vector of five 1's, with "timeunits" attribute = "years"
+as.numeric(x)
+as.numeric(y)        # the underlying numeric representations are the same
+
+# Demonstrating "infinite" dates
+y &lt;- c(y,Inf)
+y                    # last element shows as Inf
+tail(y,-1) - head(y,-1)# last element is now infinity
+
+# The zoo examples point out a difference between zoo and mondate.
+#   zoo assumes that the zero-th part of a month or quarter is the first
+#   day of the month or quarter, whereas mondate assumes that it is 
+#   the instant before the first day of the month or quarter.
+# Since frac=0 is zoo's as.Date coersion default, a month or quarter in 
+#   zoo's sense converts to the end of the first day rather than
+#   the beginning.
+library(zoo)
+x &lt;- ts(1:10, frequency = 4, start = c(1959, 2)) # starting 2nd qtr of 1959
+x
+# There is no method for class 'ts' so x is coerced (successfully) 
+#   because that class has an as.Date method, but with a warning.
+# The result is a vector of length 10 representing the close of business
+#   at the end of the first day of each of the given quarters.
+mondate(x)      
+
+# The yearmon class will identify any day in June 2010 with that month.
+as.yearmon("2010-6-15") 
+mondate(as.yearmon("2010-6-15"))         # end of first day of June 2010
+mondate(as.yearmon("2010-6-15", frac=1)) # end of  last day of June 2010
+mondate(as.yearqtr("2010-2", frac=1))    # same
+
+# The if missing, displayFormat will be determined from the character input
+x &lt;- mondate("2010-12-31")
+x               # x displays in the input European format
+# The provided, displayFormat must match the format of the character input
+#   or NA's will result.
+mondate("2010-12-31", displayFormat = "%m-%d-%Y") # results in NA
+
+# Always display x using just the year
+x &lt;- mondate(as.Date("2012-3-1"), displayFormat="%Y")
+x                # shows as the year 2012, but month and day are nevertheless retained
+month(x)         # 3
+day(x)           # 1
+
+# Change the default displayFormat to only display the year and month
+options(mondate.displayFormat = "%Y-%m")
+y &lt;- mondate(as.Date("2013-12-31"))
+y
+# mondate: timeunits="months"
+# [1] 2013-12
+# Previous mondate instances retain their display formats:
+x
+# mondate: timeunits="months"
+# [1] 2012
+
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

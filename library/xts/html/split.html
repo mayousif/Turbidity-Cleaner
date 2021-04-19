@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Divide into Groups by Time</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for split.xts {xts}"><tr><td>split.xts {xts}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Divide into Groups by Time
+</h2>
+
+<h3>Description</h3>
+
+<p>Creates a list of xts objects split along
+time periods.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'xts'
+split(x, f = "months", drop=FALSE, k = 1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>an xts object
+</p>
+</td></tr>
+<tr valign="top"><td><code>f</code></td>
+<td>
+
+<p>a 'character' vector describing the period to split by
+</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+
+<p>ignored by split.xts
+</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+
+<p>number of periods to aggregate into each split. See Details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>further args to non-xts method
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A quick way to break up a large xts
+object by standard time periods; e.g. 'months', 'quarters', etc.
+</p>
+<p><code>endpoints</code> is used to find the start and end of
+each period (or k-periods).  See that function for valid
+arguments.
+</p>
+<p>If <code>f</code> is not a character vector, the NextMethod is
+called, which would in turn dispatch to the split.zoo method.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of xts objects.
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>aggregate.zoo</code> would be more flexible, though not as fast
+for xts objects.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeffrey A. Ryan
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="endpoints.html">endpoints</a></code>, 
+<code><a href="../../zoo/html/split.zoo.html">split.zoo</a></code>, 
+<code><a href="../../zoo/html/aggregate.zoo.html">aggregate.zoo</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(sample_matrix)
+x &lt;- as.xts(sample_matrix)
+
+
+split(x)
+split(x, f="weeks")
+split(x, f="weeks", k=4)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>xts</em> version 0.12.1 <a href="00Index.html">Index</a>]</div>
+</body></html>
