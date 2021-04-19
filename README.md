@@ -23,4 +23,4 @@ This program uses turbidity, water level, and precipitation data. These data mus
 There are no requirements for the naming and location of these files.
 
 # Running the Program
-To start the program, open “RunProgram.cmd”. This should open a new window in your default internet browser. The initial startup screen will allow you to choose which level of data will be worked on (ex: Level 1 == raw data, which will lead to applying the automated detection algorithm). The program can apply one step per run. Therefore, it needs to be restarted after each step.
+To start the program, open “RunProgram.cmd”. This should open a new window in your default internet browser. The initial startup screen will allow you to choose which level of data will be worked on (ex: Level 1 == raw data, which will lead to applying the automated detection algorithm). The program can apply one step per run. Therefore, it needs to be restarted after each step. Please refer to the videos for a more thourough step-by-step example of running the program.
