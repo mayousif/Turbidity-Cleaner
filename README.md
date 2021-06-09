@@ -12,7 +12,7 @@ Prior to installation of this program, the R software environment (https://www.r
 3.	Right-click and edit “RunProgram.cmd”. Change the paths in quotations to the paths of “Rscript.exe” (located where R is installed) and “run.R” (located in the “shiny” folder of this program) respectively
 4.	Save “RunProgram.cmd”
 
-The correct use of backslashes (\) and forward slashes (/) in these file paths are needed for the program to work correctly, so please follow the same formatting as the placeholder file paths.
+The correct use of backslashes (\\) and forward slashes (/) in these file paths are needed for the program to work correctly, so please follow the same formatting as the placeholder file paths.
 
 # Data Structure
 This program uses turbidity, water level, and precipitation data. These data must be split into three separate files. All three data files need to be structured as follows:
