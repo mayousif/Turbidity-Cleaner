@@ -6,13 +6,13 @@ This program is designed to automatically detect anomalous turbidity data from h
 * Level 3 to Level 4: This final step applies a multivariate imputation model for gap-filling of missing data
 
 # Installation and Setup
-Prior to installation of this program, the R software environment (https://www.r-project.org/) needs to be installed. This program was developed using R version 3.5.3, so it is recommended that this version of R is installed to ensure compatibility. To install this program, file path locations need to be adjusted:
+Prior to installation of this program, the R software environment (https://www.r-project.org/) needs to be installed. This program was developed using R version 3.5.3, so it is recommended that this version of R is installed to ensure compatibility (**this program will not work with R 4.0+**). To install this program, file path locations need to be adjusted:
 1.	Download the latest release and extract the folder from the zip file to any preferred location
 2.	Edit the “run.R” file, located in the “shiny” folder, and change the path in line 8 to the path of where this program is located (i.e., the path to the extracted folder)
 3.	Right-click and edit “RunProgram.cmd”. Change the paths in quotations to the paths of “Rscript.exe” (located where R is installed) and “run.R” (located in the “shiny” folder of this program) respectively
 4.	Save “RunProgram.cmd”
 
-The correct use of backslashes (\) and forward slashes (/) in these file paths are needed for the program to work correctly, so please follow the same formatting as the placeholder file paths.
+The correct use of backslashes (\\) and forward slashes (/) in these file paths are needed for the program to work correctly, so please follow the same formatting as the placeholder file paths.
 
 # Data Structure
 This program uses turbidity, water level, and precipitation data. These data must be split into three separate files. All three data files need to be structured as follows:
@@ -23,4 +23,4 @@ This program uses turbidity, water level, and precipitation data. These data mus
 There are no requirements for the naming and location of these files.
 
 # Running the Program
-To start the program, open “RunProgram.cmd”. This should open a new window in your default internet browser. The initial startup screen will allow you to choose which level of data will be worked on (ex: Level 1 == raw data, which will lead to applying the automated detection algorithm). The program can apply one step per run. Therefore, it needs to be restarted after each step.
+To start the program, open “RunProgram.cmd”. This should open a new window in your default internet browser. The initial startup screen will allow you to choose which level of data will be worked on (ex: Level 1 == raw data, which will lead to applying the automated detection algorithm). The program can apply one step per run. Therefore, it needs to be restarted after each step. Please refer to the videos for a more thourough step-by-step example of running the program.
