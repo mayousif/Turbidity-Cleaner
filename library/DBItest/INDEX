@@ -1,0 +1,12 @@
+DBItest-package         DBItest: Testing 'DBI' 'Backends'
+make_context            Test contexts
+test_all                Run all tests
+test_compliance         Test full compliance to DBI
+test_connection         Test the "Connection" class
+test_driver             Test the "Driver" class
+test_getting_started    Getting started with testing
+test_meta               Test metadata functions
+test_result             Test the "Result" class
+test_sql                Test SQL methods
+test_transaction        Test transaction functions
+tweaks                  Tweaks for DBI tests
