@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Dataset Created by specifyModel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for modelData {quantmod}"><tr><td>modelData {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Extract Dataset Created by specifyModel </h2>
+
+<h3>Description</h3>
+
+<p>Extract from a <code>quantmod</code> object the
+dataset created for use in modelling.
+</p>
+<p>specifyModel creates a <code>zoo</code> object for
+use in subsequent workflow stages (
+<code>buildModel</code>,<code>tradeModel</code>) that
+combines all model inputs, from a variety
+of sources, into one model frame.
+</p>
+<p><code>modelData</code> returns this object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+modelData(x, data.window = NULL, exclude.training = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> a <code>quantmod</code> object </p>
+</td></tr> 
+<tr valign="top"><td><code>data.window</code></td>
+<td>
+<p> a character vector of subset start
+and end dates to return </p>
+</td></tr>
+<tr valign="top"><td><code>exclude.training</code></td>
+<td>
+<p> remove training period </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When a model is created by <code>specifyModel</code>, it
+is attached to the returned object. One of the
+slots of this S4 class is <code>model.data</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>zoo</code> containing all
+transformations to data specified in
+<code>specifyModel</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="specifyModel.html">specifyModel</a></code>,<code><a href="getModelData.html">getModelData</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+m &lt;- specifyModel(Next(OpCl(SPY)) ~ Cl(SPY) + OpHi(SPY) + Lag(Cl(SPY)))
+modelData(m) 
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

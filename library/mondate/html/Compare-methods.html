@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Comparison Methods</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Compare-methods {mondate}"><tr><td>Compare-methods {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Comparison Methods</h2>
+
+<h3>Description</h3>
+
+<p>Methods for the <code>Compare</code> group of functions.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt><code>signature(e1 = "mondate", e2 = "mondate")</code></dt><dd>
+<p>compares two <code>mondate</code>s.
+The usual recycling rules apply to the shorter of the two <code>mondate</code>s.
+The result will be logical. 
+The usual rules apply as to the shape of the result.
+</p>
+</dd>
+</dl>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../methods/html/S4groupGeneric.html">Compare</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+A&lt;-mondate.ymd(2001:2003,12,31) # three year ends
+B&lt;-mondate.ymd(2001:2003, 6,30) # three mid-years
+B&lt;A                             # c(TRUE, TRUE, TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

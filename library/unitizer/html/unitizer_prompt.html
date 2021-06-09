@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interactively Retrieve User Input</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for unitizer_prompt {unitizer}"><tr><td>unitizer_prompt {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interactively Retrieve User Input</h2>
+
+<h3>Description</h3>
+
+<p>Different functions used in different contexts to capture user input.
+<code>unitizer_prompt</code>, <code>navigate_prompt</code>, and <code>review_prompt</code> are
+more advanced and allow evaluation of arbitrary expressions, in addition to
+searching for specific commands such as &quot;Y&quot;, &quot;N&quot;, etc. <code>simple_prompt</code>
+only matches along specified values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+unitizer_prompt(
+  text,
+  browse.env = baseenv(),
+  help = character(),
+  help.opts = character(),
+  valid.opts,
+  hist.con = NULL,
+  exit.condition = function(exp, env) FALSE,
+  global,
+  warn.sticky = FALSE,
+  ...
+)
+
+navigate_prompt(
+  x,
+  curr.id,
+  text,
+  browse.env1 = globalenv(),
+  browse.env2 = globalenv(),
+  help = character(),
+  help.opts = character(),
+  valid.opts,
+  warn.sticky = FALSE
+)
+
+review_prompt(x, nav.env)
+
+simple_prompt(
+  message,
+  values = c("Y", "N"),
+  prompt = "unitizer&gt; ",
+  attempts = 5L,
+  case.sensitive = FALSE
+)
+
+exit_fun(y, env, valid.vals)
+
+read_line(prompt = "")
+
+read_line_set_vals(vals)
+
+interactive_mode()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>the prompt text to display</p>
+</td></tr>
+<tr valign="top"><td><code>browse.env</code></td>
+<td>
+<p>the environment to evaluate user expressions in; typically
+this will contain interesting objects (use <code>ls()</code> to review)</p>
+</td></tr>
+<tr valign="top"><td><code>help</code></td>
+<td>
+<p>a character vector with help suggestions: the first value in the
+vector is <code><a href="text_wrap.html">word_cat</a></code> output, the rest normal <code>cat</code></p>
+</td></tr>
+<tr valign="top"><td><code>help.opts</code></td>
+<td>
+<p>a character vector of help options</p>
+</td></tr>
+<tr valign="top"><td><code>valid.opts</code></td>
+<td>
+<p>the special letters user can type to get a special action,
+typically a character vector where the names are one letter (though they
+don't actually have to be) and are looked for as user typed input; note that
+the quit and help options will always be appended to this</p>
+</td></tr>
+<tr valign="top"><td><code>hist.con</code></td>
+<td>
+<p>connection to save history to</p>
+</td></tr>
+<tr valign="top"><td><code>exit.condition</code></td>
+<td>
+<p>function used to evaluate whether user input should
+cause the prompt loop to exit; this function should accept two parameters:
+</p>
+
+<ul>
+<li><p> expression typed in by the user
+</p>
+</li>
+<li><p> environment the environment user expressions get evaluated in
+</p>
+</li></ul>
+
+<p>The function can then decide to exit or not based on either the literal
+expression or evaluate the expression and decide based on the result.  This
+is implemented this way because <code>eval_user_exp</code> will print to screen
+which may not be desirable.  Function should return a value which will then
+be returned by <code>unitizer_prompt</code>, unless this value is <code>FALSE</code>
+in which case <code>unitizer_prompt</code> will continue with normal evaluation.</p>
+</td></tr>
+<tr valign="top"><td><code>global</code></td>
+<td>
+<p>unitizerGlobal or NULL, if the global state tracking object;
+will be used to record state after evaluating user expressions</p>
+</td></tr>
+<tr valign="top"><td><code>warn.sticky</code></td>
+<td>
+<p>TRUE or FALSE (default) whether any changes to the &quot;warn&quot;
+global option made by the evaluation of an R expression under the prompt
+should be allowed to stick after the evaluation.  Normally that option value
+is reset after each evaluation.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments for <code>exit.condition</code></p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a unitizerBrowse object</p>
+</td></tr>
+<tr valign="top"><td><code>curr.id</code></td>
+<td>
+<p>which id we are currently browsing</p>
+</td></tr>
+<tr valign="top"><td><code>browse.env1</code></td>
+<td>
+<p>environment to have user review tests, run commands, etc</p>
+</td></tr>
+<tr valign="top"><td><code>browse.env2</code></td>
+<td>
+<p>navigation environment</p>
+</td></tr>
+<tr valign="top"><td><code>nav.env</code></td>
+<td>
+<p>an environment</p>
+</td></tr>
+<tr valign="top"><td><code>message</code></td>
+<td>
+<p>character ask the user a question</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>character valid responses</p>
+</td></tr>
+<tr valign="top"><td><code>prompt</code></td>
+<td>
+<p>see <code><a href="../../base/html/readline.html">readline</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>attempts</code></td>
+<td>
+<p>how many times to try before erroring</p>
+</td></tr>
+<tr valign="top"><td><code>case.sensitive</code></td>
+<td>
+<p>whether to care about case sensitivity when matching
+user input</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The set-up is intended to replicate something similar to what happens when
+code hits a <code>browse()</code> statement.  User expressions are evaluated
+and output to screen, and special expressions as described above cause the
+evaluation loop to terminate.
+</p>
+<p><code>navigate_prompt</code> is just a wrapper around <code>unitizer_prompt</code> that
+provides the special shortcuts to navigate to other tests in the
+<code>unitizer</code>.
+</p>
+<p><code>review_prompt</code> is also a wrapper, but used only when at the menu that
+presents available test items to navigate to.
+</p>
+<p><code>simple_prompt</code> simpler prompting function used to allow user to select
+from pre-specified values.
+</p>
+<p><code>exit_fun</code> is used as a generic function to pass to the
+<code>exit.condition</code> argument of <code>unitizer_prompt</code>.
+</p>
+<p><code>read_line</code> and <code>read_line_set_vals</code> are utility functions that
+are used to implement a version of <code><a href="../../base/html/readline.html">readline</a></code> that can be
+automated for testing.
+</p>
+<p><code>interactive_mode</code> returns interactive status, accounting for whether
+we are in faux-interactive mode as set by <code>read_line_set_vals</code>
+</p>
+
+
+<h3>Value</h3>
+
+
+<ul>
+<li> <p><code>unitizer_prompt</code>: mixed allowable user input
+</p>
+</li>
+<li> <p><code>navigate_prompt</code>: a <code>unitizerBrowse</code> object, or allowable
+user input
+</p>
+</li>
+<li> <p><code>review_prompt</code>: a <code>unitizerBrowse</code> object, or &quot;Q&quot; if the
+user chose to quit
+</p>
+</li>
+<li> <p><code>simple_prompt</code>: one of <code>values</code> as selected by user
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>browse_unitizer_items
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

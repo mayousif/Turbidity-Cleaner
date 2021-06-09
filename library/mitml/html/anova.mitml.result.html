@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compare several nested models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for anova.mitml.result {mitml}"><tr><td>anova.mitml.result {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compare several nested models</h2>
+
+<h3>Description</h3>
+
+<p>Performs model comparisons for a series of nested statistical models fitted using <code>with.mitml.list</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+## S3 method for class 'mitml.result'
+anova(object, ..., method = c("D3", "D4", "D2"),
+  ariv = c("default", "positive", "robust"),
+  data = NULL)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An object of class <code>mitml.result</code> as produced by <code><a href="with.mitml.list.html">with.mitml.list</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional objects of class <code>mitml.result</code> to be compared.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>A character string denoting the method used for the model comparison. Can be <code>"D3"</code>, <code>"D4"</code> or <code>"D2"</code> (see 'Details'). Default is <code>"D3"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ariv</code></td>
+<td>
+<p>A character string denoting how the ARIV is calculated. Can be <code>"default"</code>, <code>"positive"</code>, or <code>"robust"</code> (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>(optional) A list of imputed data sets (see 'Details').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function performs likelihood-based comparisons between multiple statistical models fitted with <code><a href="with.mitml.list.html">with.mitml.list</a></code>.
+If possible, the models are compared using the <i>D_3</i> statistic (Meng &amp; Rubin, 1992).
+If this method is unavailable, the <i>D_4</i> or <i>D_2</i> statistic is used instead (Chan &amp; Meng, 2019; Li, Meng, Raghunathan, &amp; Rubin, 1991).
+</p>
+<p>This function is essentially a wrapper for <code><a href="testModels.html">testModels</a></code> with the advantage that several models can be compared simultaneously.
+For a list of supported models and further options for more specific model comparisons, see <code>testModels</code>.
+</p>
+<p>The <code>ariv</code> argument affects how the average relative increase in variance is calculated (see also <code>testModels</code>).
+Note that the <i>D_4</i> method can fail if the data to which the model was fitted cannot be found.
+In such a case, the <code>data</code> argument can be used to specify the list of imputed data sets directly (see also <code>testModels</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing the results of each model comparison.
+A <code>print</code> method is used for more readable output.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund</p>
+
+
+<h3>References</h3>
+
+<p>Meng, X.-L., &amp; Rubin, D. B. (1992). Performing likelihood ratio tests with multiply-imputed data sets. <em>Biometrika, 79</em>, 103-111. 
+</p>
+<p>Laird, N., Lange, N., &amp; Stram, D. (1987). Maximum likelihood computations with repeated measures: Application of the em algorithm. <em>Journal of the American Statistical Association, 82</em>, 97-105.
+</p>
+<p>Li, K. H., Raghunathan, T. E., &amp; Rubin, D. B. (1991). Large-sample significance levels from multiply imputed data using moment-based statistics and an F reference distribution. <em>Journal of the American Statistical Association, 86</em>, 1065-1073.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="with.mitml.list.html">with.mitml.list</a></code>, <code><a href="testModels.html">testModels</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(lme4)
+data(studentratings)
+
+fml &lt;- ReadDis + SES ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+implist &lt;- mitmlComplete(imp)
+
+# simple comparison (same as testModels)
+fit0 &lt;- with(implist, lmer(ReadAchiev ~ (1|ID), REML = FALSE))
+fit1 &lt;- with(implist, lmer(ReadAchiev ~ ReadDis + (1|ID), REML = FALSE))
+anova(fit1, fit0)
+
+## Not run: 
+# multiple comparisons
+fit2 &lt;- with(implist, lmer(ReadAchiev ~ ReadDis + (1 + ReadDis|ID), REML = FALSE))
+anova(fit2, fit1, fit0)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: One Line Description of Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for desc {unitizer}"><tr><td>desc {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>One Line Description of Object</h2>
+
+<h3>Description</h3>
+
+<p>Objects are described by class, and dimensions.  Dimensions is always denoted
+in square brackets.  For example, &ldquo;int[10]&rdquo; means an integer of length
+ten.  Typically an object will be identified by <code>head(class(obj), 1L)</code>
+along with its dimensions.  Recursive objects will have the first level shown
+provided that doing so fits within <code>limit</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+desc(val, limit = getOption("width"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>val</code></td>
+<td>
+<p>object to describe</p>
+</td></tr>
+<tr valign="top"><td><code>limit</code></td>
+<td>
+<p>max characters to display</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Eventually this will be migrated to an S3 generic to allow recursive dispatch
+on object type.
+</p>
+
+
+<h3>Value</h3>
+
+<p>character(1L) describing object
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+desc(list(a=iris, b=lm(dist ~ speed, cars), 1:10, matrix(letters, 2)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

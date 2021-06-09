@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extraction Method for Mondates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for [-methods {mondate}"><tr><td>[-methods {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extraction Method for Mondates</h2>
+
+<h3>Description</h3>
+
+<p>Methods to extract portions of a <code>mondate</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'mondate'
+head(x, ...)
+## S3 method for class 'mondate'
+tail(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a <code>mondate</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>See the <code>base</code> functions for details.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Whether the <code>mondate x</code> is shaped as a <code>vector</code> or a <code>matrix</code>, 
+the <code>head</code> and <code>rbind</code> methods will behave just as they
+would if <code>x</code> were <code>numeric</code>.
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt><code>[(x = "mondate")</code></dt><dd>
+<p>See <code>[</code> for more details.
+</p>
+</dd>
+</dl>
+
+
+<h3>Examples</h3>
+
+<pre>
+(m&lt;-structure(mondate.ymd(2001:2010,12,31),names=LETTERS[1:10]))
+m[1]
+m[2:5]
+head(m)
+tail(m,2)
+
+(M&lt;-cbind(m-12,m,m+12, deparse.level=2))  # a matrix
+M[1:5,1:2]    # '[' works with matrix mondates
+head(M,2)  # as does 'head'
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

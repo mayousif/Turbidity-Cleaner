@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Contains Representation For a Section of Tests</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for unitizerSection-class {unitizer}"><tr><td>unitizerSection-class {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Contains Representation For a Section of Tests</h2>
+
+<h3>Description</h3>
+
+<p><code>unitizerSectionExpression-class</code> contains the actual expressions that
+belong to the section, whereas <code>unitizerSection-class</code> only contains
+the meta data.  The latter objects are used within <code>]unitizer-class</code>,
+whereas the former is really just a temporary object until we can generate
+the latter.
+</p>
+
+
+<h3>Details</h3>
+
+<p><code>unitizerSectionNA-class</code> is a specialized section for tests that actually
+don't have a section (removed tests that are nonetheless chosen to be kept
+by user in interactive environment)
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>title</code></dt><dd><p>1 lenght character, the name of the section</p>
+</dd>
+<dt><code>details</code></dt><dd><p>character vector containing additional info on the section</p>
+</dd>
+<dt><code>compare</code></dt><dd><p>functions to compare the various aspects of a
+<code>unitizerItem-class</code> @slot length tracks size of the section</p>
+</dd>
+</dl>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

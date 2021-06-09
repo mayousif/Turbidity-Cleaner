@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convenience functions for importing/exporting DBMS tables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dbReadTable,MySQLConnection,character-method {RMySQL}"><tr><td>dbReadTable,MySQLConnection,character-method {RMySQL}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convenience functions for importing/exporting DBMS tables</h2>
+
+<h3>Description</h3>
+
+<p>These functions mimic their R/S-Plus counterpart <code>get</code>, <code>assign</code>,
+<code>exists</code>, <code>remove</code>, and <code>objects</code>, except that they generate
+code that gets remotely executed in a database engine.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'MySQLConnection,character'
+dbReadTable(conn, name, row.names, check.names = TRUE, ...)
+
+## S4 method for signature 'MySQLConnection'
+dbListTables(conn, ...)
+
+## S4 method for signature 'MySQLConnection,character'
+dbExistsTable(conn, name, ...)
+
+## S4 method for signature 'MySQLConnection,character'
+dbRemoveTable(conn, name, ...)
+
+## S4 method for signature 'MySQLConnection,character'
+dbListFields(conn, name, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>conn</code></td>
+<td>
+<p>a <code><a href="MySQLConnection-class.html">MySQLConnection</a></code> object, produced by
+<code><a href="../../DBI/html/dbConnect.html">dbConnect</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>a character string specifying a table name.</p>
+</td></tr>
+<tr valign="top"><td><code>row.names</code></td>
+<td>
+<p>A string or an index specifying the column in the DBMS table
+to use as <code>row.names</code> in the output data.frame. Defaults to using the
+<code>row_names</code> column if present. Set to <code>NULL</code> to never use
+row names.</p>
+</td></tr>
+<tr valign="top"><td><code>check.names</code></td>
+<td>
+<p>If <code>TRUE</code>, the default, column names will be
+converted to valid R identifiers.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Unused, needed for compatiblity with generic.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data.frame in the case of <code>dbReadTable</code>; otherwise a logical
+indicating whether the operation was successful.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Note that the data.frame returned by <code>dbReadTable</code> only has
+primitive data, e.g., it does not coerce character data to factors.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (mysqlHasDefault()) {
+con &lt;- dbConnect(RMySQL::MySQL(), dbname = "test")
+
+# By default, row names are written in a column to row_names, and
+# automatically read back into the row.names()
+dbWriteTable(con, "mtcars", mtcars[1:5, ], overwrite = TRUE)
+dbReadTable(con, "mtcars")
+dbReadTable(con, "mtcars", row.names = NULL)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>RMySQL</em> version 0.10.21 <a href="00Index.html">Index</a>]</div>
+</body></html>

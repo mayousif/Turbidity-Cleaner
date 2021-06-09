@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Unitizer Options</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for unitizer.opts {unitizer}"><tr><td>unitizer.opts {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Unitizer Options</h2>
+
+<h3>Description</h3>
+
+<p>Description of major <code>unitizer</code> option settings.  Once <code>unitizer</code>
+is loaded, you can see a full list of <code>unitizer</code> options with
+<code>grep("^unitizer", options(), value=TRUE)</code>.
+</p>
+
+
+<h3>Basic State Options</h3>
+
+<p>Basic state options:
+</p>
+
+<ul>
+<li> <p><code>unitizer.state</code>: default state tracking setting (see
+<code>unitizerState</code>)
+</p>
+</li>
+<li> <p><code>unitizer.seed</code>: default seed to use when random seed tracking
+is enabled; this is of type &quot;Wichman-Hill&quot; because it is a lot more
+compact than the default R random seed, and should be adequate for most
+unit testing purposes.
+</p>
+</li></ul>
+
+
+
+<h3>Options State Options</h3>
+
+<p>Additionally, when tracking option state we set options to what you would
+find in a freshly loaded vanilla R session, except for systems specific
+options which we leave unchanged (e.g. <code>getOption("papersize")</code>).
+If you want to add default option values or options to leave unchanged, you
+can use:
+</p>
+
+<ul>
+<li> <p><code>unitizer.opts.init</code>: named list, where names are options, and
+the associated value is the value to use as the default value for that
+option when a <code>unitizer</code> is launched with options tracking enabled.
+</p>
+</li>
+<li> <p><code>unitizer.opts.asis</code>: character, containing regular expressions
+to match options to leave unchanged (e.g <code>"^unitizer\."</code>)
+</p>
+</li></ul>
+
+
+
+<h3>Search Path and Namespace State Options</h3>
+
+<p>We also provide options to limit what elements can be removed from
+the search path and/or have their namespaces unloaded when <code>unitizer</code>
+tracks the search path state.  For example, we use this mechanism to prevent
+removal of the <code>unitizer</code> package itself as well as the default
+R vanilla session packages.
+</p>
+
+<ul>
+<li> <p><code>unitizer.namespace.keep</code>: character, names of namespaces to
+keep loaded (e.g. <code>"utils"</code>); note that any imported namespaces
+imported by namespaces listed here will also remain loaded
+</p>
+</li>
+<li> <p><code>unitizer.search.path.keep</code>: character, names of objects to
+keep on search path (e.g. <code>"package:utils"</code>, note the
+<code>"package:"</code>); associated namespaces will also be kept loaded
+</p>
+</li></ul>
+
+<p><b>IMPORTANT</b>: There is a dependency between options tracking and search
+path / namespace exceptions that stems from most packages setting their
+default options when they are loaded.  As a result, if you add any packages
+or namespaces to these options and options state tracking is enabled, then
+you must also add their options to <code>unitizer.opts.init</code> or
+<code>unitizer.opts.asis</code> to ensure those options remain loaded or at least
+set to reasonable values.  If you do not do this the packages risk having
+their options unset.
+</p>
+<p>Some packages cannot be easily loaded and unloaded.  For example
+<code>data.table</code> (&lt;= 1.9.5) cannot be unloaded without causing a segfault
+(see issue <a href="https://github.com/Rdatatable/data.table/issues/990">#990</a>).
+For this reason <code>data.table</code> is included in
+<code>getOption("unitizer.namespace.keep")</code> by default.
+</p>
+
+
+<h3>Sytem Default State Options</h3>
+
+<p>The following options hold the default system values for the search
+path / namespace and options state tracking options:
+</p>
+
+<ul>
+<li> <p><code>unitizer.namespace.keep.base</code>: namespaces that are known to
+cause problems when unloaded (as of this writing includes
+<code>data.table</code>)
+</p>
+</li>
+<li> <p><code>unitizer.search.path.keep.base</code>: vanilla R session packages,
+plus <code>"package:unitizer"</code> and <code>"tools:rstudio"</code>, the latter
+because its implementation prevents re-attaching it if it is detached.
+</p>
+</li>
+<li> <p><code>unitizer.opts.asis.base</code>: system specific options that should
+not affect test evaluation (e.g. <code>getOption("editor")</code>).
+</p>
+</li>
+<li> <p><code>unitizer.opts.init.base</code>: base options (e.g.
+<code>getOption("width")</code> that will be set to what we believe are the
+factory settings for them.
+</p>
+</li></ul>
+
+<p>These are kept separate from the user specified ones to limit the possibility
+of inadvertent modification. They are exposed as options to allow the user to
+unset single values if required, though this is intended to be rare.
+<code>unitizer</code> runs with the union of user options and the system versions
+described here.  For <code>unitizer.opts.init</code>, any options set that are
+also present in <code>unitizer.opts.init.base</code> will overrule the base
+version.
+</p>
+
+
+<h3>Display / Text Capture Options</h3>
+
+<p>These options control how <code>unitizer</code> displays data such as diffs, test
+results, etc.
+</p>
+
+<ul>
+<li> <p><code>unitizer.test.out.lines</code>: integer(2L), where first values is
+maximum number of lines of screen output to show for each test, and
+second value is the number of lines to show if there are more lines than
+allowed by the first value
+</p>
+</li>
+<li> <p><code>unitizer.test.msg.lines</code>: like <code>unitizer.test.out.lines</code>,
+but for <code>stderr output</code>
+</p>
+</li>
+<li> <p><code>unitizer.test.fail.context.lines</code>: integer(2L), used
+exclusively when comparing new to references tests when test faile; first
+values is maximum number of lines of context to show around a test,
+centered on differences if there are any, and second value is the number
+of context lines to show if using the first value is not sufficient to
+fully display the test results
+</p>
+</li>
+<li> <p><code>unitizer.show.output</code>: TRUE or FALSE, whether to display test
+<code>stdout</code> and <code>stderr</code> output as it is evaluated.
+</p>
+</li>
+<li> <p><code>unitizer.disable.capt</code>: logical(2L), not NA, with names
+<code>c("output", "message")</code> where each value indicates whether the
+corresponding stream should be captured or not.  For <code>stdout</code> the
+stream is still captured but setting the value to FALSE tees it.
+</p>
+</li>
+<li> <p><code>unitizer.max.capture.chars</code>: integer(1L) maximum number of
+characters to allow capture of per test
+</p>
+</li>
+<li> <p><code>unitizer.color</code> whether to use ANSI color escape sequences,
+set to TRUE to force, FALSE to force off, or NULL to attempt to auto
+detect (based on code from package:crayon, thanks Gabor Csardi)
+</p>
+</li>
+<li> <p><code>unitizer.use.diff</code> TRUE or FALSE, whether to use a diff of
+test errors (defaults to TRUE)
+</p>
+</li></ul>
+
+
+
+<h3>Misc Options</h3>
+
+
+<ul>
+<li> <p><code>unitizer.history.file</code> character(1L) location of file to use
+to store history of command entered by user in in interactive
+<code>unitizer</code> prompt; <code>""</code> is interpreted as tempfile()
+</p>
+</li>
+<li> <p><code>unitizer.prompt.b4.quit.time</code> integer(1L) <code>unitizers</code> that
+take more seconds than this to evaluate will post a confirmation prompt
+before quitting; this is to avoid accidentally quitting after running a
+<code>unitizer</code> with many slow running tests and having to re-run them
+again.
+</p>
+</li>
+<li> <p><code>unitizer.restarts.ok</code> TRUE or FALSE, suppresses warnings when
+running inside a 'withRestarts' block, which is normally a warning.
+Needed due to 'test_that' adding a 'withRestart'
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="unitizerState.html">unitizerState</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

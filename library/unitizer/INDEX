@@ -1,0 +1,28 @@
+$.unitizerItem          Retrieve Test Contents From Test Item
+all.equal.condition     Compare Conditions
+all_eq                  Like all.equal but Returns Empty String If Not
+                        all.equal
+conditionList           Contains A List of Conditions
+desc                    One Line Description of Object
+editCalls               Edit Calls In Unitizer
+filename_to_storeid     Create a Store ID from a Test File Name
+healEnvs                Fix Environment Ancestries
+infer_unitizer_location
+                        Infers Possible Unitizer Path From Context
+mock_item               Generates a Dummy Item For Use in Examples
+repair_environments     Repair Environment Chains
+set_unitizer            Set and Retrieve Store Contents
+show.conditionList      Prints A list of Conditions
+testFuns                Store Functions for New vs. Reference Test
+                        Comparisons
+testthat_translate_file
+                        Convert a 'testthat' Test File to a 'unitizer'
+unitize                 Unitize an R Test Script
+unitizer                unitizer
+unitizer.opts           Unitizer Options
+unitizerList            S4 Object To Implement Base List Methods
+unitizerState           Tests and Session State
+unitizer_demo           Demo Details and Helper Functions
+unitizer_result         Return Values and Related Methods for 'unitize'
+                        Functions
+unitizer_sect           Define a 'unitizer' Section

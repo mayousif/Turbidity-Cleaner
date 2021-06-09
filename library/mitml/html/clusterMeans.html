@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate cluster means</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for clusterMeans {mitml}"><tr><td>clusterMeans {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate cluster means</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the mean of a given variable within each cluster, possibly conditioning on an additional grouping variable.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+clusterMeans(x, cluster, adj = FALSE, group = NULL)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A numeric vector for which cluster means should be calculated. Can also be supplied as a character string denoting a variable in the current environment (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>cluster</code></td>
+<td>
+<p>A numeric vector or a factor denoting the cluster membership of each unit in <code>x</code>. Can also be supplied as a character string (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>adj</code></td>
+<td>
+<p>Logical flag indicating if person-adjusted group means should be calculated. If <code>TRUE</code>, cluster means are calculated for each unit by excluding that unit from calculating the cluster mean. Default is <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>(optional) A grouping factor or a variable that can be interpreted as such. If specified, cluster means are calculated separately within the sub-groups defined by <code>group</code>. Can also be supplied as a character string (see 'Details').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function calculates the mean of a variable within each level of a cluster variable.
+Any <code>NA</code> are omitted during calculation.
+</p>
+<p>The three main arguments of the function can also be supplied as (single) character strings, denoting the name of the respective variables in the current environment.
+This is especially useful for calculating several cluster means simultaneously, for example using <code><a href="with.mitml.list.html">within.mitml.list</a></code> (see 'Example 2' below).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector with the same length as <code>x</code> containing the cluster mean for all units.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund, Alexander Robitzsch</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="with.mitml.list.html">within.mitml.list</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(studentratings)
+
+fml &lt;- ReadDis + SES ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+implist &lt;- mitmlComplete(imp)
+
+# * Example 1: single cluster means
+
+# calculate cluster means (for each data set)
+with(implist, clusterMeans(ReadAchiev, ID))
+
+# ... person-adjusted cluster means
+with(implist, clusterMeans(ReadAchiev, ID, adj = TRUE))
+
+# ... groupwise cluster means
+with(implist, clusterMeans(ReadAchiev, ID, group = Sex))
+
+# * Example 2: automated cluster means using 'for' and 'assign'
+
+# calculate multiple cluster means within multiply imputed data sets
+within(implist,{
+  vars &lt;- c("ReadAchiev", "MathAchiev", "CognAbility")
+  for(i in vars) assign(paste(i, "Mean", sep = "."), clusterMeans(i, ID))
+  rm(i, vars)
+})
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

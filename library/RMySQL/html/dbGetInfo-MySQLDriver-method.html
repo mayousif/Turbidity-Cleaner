@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get information about a MySQL driver.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dbGetInfo,MySQLDriver-method {RMySQL}"><tr><td>dbGetInfo,MySQLDriver-method {RMySQL}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get information about a MySQL driver.</h2>
+
+<h3>Description</h3>
+
+<p>Get information about a MySQL driver.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'MySQLDriver'
+dbGetInfo(dbObj, what = "", ...)
+
+## S4 method for signature 'MySQLDriver'
+dbListConnections(drv, ...)
+
+## S4 method for signature 'MySQLDriver'
+summary(object, verbose = FALSE, ...)
+
+## S4 method for signature 'MySQLDriver'
+show(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dbObj, object, drv</code></td>
+<td>
+<p>Object created by <code><a href="MySQLDriver-class.html">MySQL</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p>Optional</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Ignored. Needed for compatibility with generic.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If <code>TRUE</code>, print extra info.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+db &lt;- RMySQL::MySQL()
+
+db
+dbGetInfo(db)
+dbListConnections(db)
+summary(db)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>RMySQL</em> version 0.10.21 <a href="00Index.html">Index</a>]</div>
+</body></html>

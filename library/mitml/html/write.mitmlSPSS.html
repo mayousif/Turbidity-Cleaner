@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Write 'mitml' objects to SPSS compatible format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for write.mitmlSPSS {mitml}"><tr><td>write.mitmlSPSS {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Write <code>mitml</code> objects to SPSS compatible format</h2>
+
+<h3>Description</h3>
+
+<p>Saves objects of class <code>mitml</code> as a text and a syntax file which can be processed by the statistical software SPSS (IBM Corp., 2013).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+write.mitmlSPSS(x, filename, sep = "\t", dec = ".", na.value = -999, syntax = TRUE,
+  locale = NULL)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object of class <code>mitml</code> or <code>mitml.list</code> as produced by <code>panImpute</code>, <code>jomoImpute</code>, <code>mitmlComplete</code>, or similar).</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>File base name of the data and syntax files, specified without file extension.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>The field separator.</p>
+</td></tr>
+<tr valign="top"><td><code>dec</code></td>
+<td>
+<p>The decimal separator.</p>
+</td></tr>
+<tr valign="top"><td><code>na.value</code></td>
+<td>
+<p>A numeric value coding the missing data in the resulting data file.</p>
+</td></tr>
+<tr valign="top"><td><code>syntax</code></td>
+<td>
+<p>A logical flag indicating if an SPSS syntax file should be generated. This file contains instructions for SPSS for reading in the data file. Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>locale</code></td>
+<td>
+<p>(optional) A character string specifying the localization to be used in SPSS (e.g., <code>"en_US"</code>, <code>"de_DE"</code>; see 'Details').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In SPSS, multiply imputed data are contained in a single file, in which an <code>Imputation_</code> variable separates the original data and the various imputed data sets.
+During export, factors are converted to numeric, whereas character variables are left &ldquo;as is&rdquo;.
+</p>
+<p>By default, <code>write.mitmlSPSS</code> generates a raw text file containing the data, along with a syntax file containing instructions for SPSS.
+This syntax file mimics SPSS's functionality to read text files with sensible settings.
+In order to read in the data, the syntax file must be opened and executed using SPSS, or open using the GUI.
+Manual changes to the syntax file can be required, for example, if the file path of the data file is not correctly represented in the syntax.
+The <code>locale</code> argument can be used to ensure that SPSS reads the data in the correct locale.
+</p>
+<p>Alternatively, <code><a href="write.mitmlSAV.html">write.mitmlSAV</a></code> may be used for exporting directly to the SPSS native <code>.sav</code> format.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None (invisible <code>NULL</code>).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund</p>
+
+
+<h3>References</h3>
+
+<p>IBM Corp. <em>IBM SPSS Statistics for Windows</em>. Armonk, NY: IBM Corp
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="panImpute.html">panImpute</a></code>, <code><a href="jomoImpute.html">jomoImpute</a></code>, <code><a href="mitmlComplete.html">mitmlComplete</a></code>, <code><a href="write.mitmlSAV.html">write.mitmlSAV</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+data(studentratings)
+
+fml &lt;- ReadDis + SES ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+# write data file and SPSS syntax
+write.mitmlSPSS(imp, filename = "imputation", sep = "\t", dec = ".",
+                na.value = -999, locale = "en_US")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

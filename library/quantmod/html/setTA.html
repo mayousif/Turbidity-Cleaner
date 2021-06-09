@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Manage TA Argument Lists</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for setTA {quantmod}"><tr><td>setTA {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Manage TA Argument Lists </h2>
+
+<h3>Description</h3>
+
+<p>Used to manage the TA arguments used inside <code>chartSeries</code>
+calls.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setTA(type = c("chartSeries", "barChart", "candleChart"))
+
+listTA(dev)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p> the function to apply defaults TAs to </p>
+</td></tr>
+<tr valign="top"><td><code>dev</code></td>
+<td>
+<p> the device to display TA arguments for </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>setTA</code> and <code>unsetTA</code> provide a simple
+way to reuse the same TA arguments for multiple
+charts.  By default all charting functions will be
+set to use the current chart's defaults.
+</p>
+<p>It is important to note that the <em>current</em> device
+will be used to extract the list of TA arguments to apply.
+This is done with a call to listTA internally, and followed
+by calls to setDefaults of the appropriate functions.
+</p>
+<p>An additional way to set default TA arguments for subsequent
+charts is via <code>setDefaults</code>. See the examples.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Called for its side-effect of setting the default
+TA arguments to quantmod's charting functions.
+</p>
+
+
+<h3>Note</h3>
+
+ 
+<p>Using <code>setDefaults</code> directly will require the vector
+of default TA calls to be wrapped in a call to 
+<code>substitute</code> to prevent unintended evaluations; <em>OR</em>
+a call to <code>listTA</code> to get the present TA arguments.  This last
+approach is what <code>setTA</code> wraps.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="chartSeries.html">chartSeries</a></code>,
+<code><a href="newTA.html">addTA</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+listTA()
+setTA()
+
+# a longer way to accomplish the same
+setDefaults(chartSeries,TA=listTA())
+setDefaults(barCart,TA=listTA())
+setDefaults(candleChart,TA=listTA())
+
+setDefaults(chartSeries,TA=substitute(c(addVo(),addBBands())))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

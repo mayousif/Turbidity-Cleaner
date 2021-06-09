@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print diagnostic plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.mitml {mitml}"><tr><td>plot.mitml {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print diagnostic plots</h2>
+
+<h3>Description</h3>
+
+<p>Generates diagnostic plots for assessing the convergence and autocorrelation behavior of <code>pan</code>'s and <code>jomo</code>'s MCMC algorithms.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+## S3 method for class 'mitml'
+plot(x, print = c("beta", "beta2", "psi", "sigma"), pos = NULL, group = "all",
+  trace = c("imputation", "burnin", "all"), thin = 1, smooth = 3, n.Rhat = 3,
+  export = c("none", "png", "pdf"), dev.args = list(), ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object of class <code>mitml</code> as produced by <code>panImpute</code> or <code>jomoImpute</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>print</code></td>
+<td>
+<p>A character vector containing one or several of <code>"beta"</code>, <code>"beta2"</code>, <code>"psi"</code> or <code>"sigma"</code> denoting which parameters should be plotted. Default is to plot all parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p>Either <code>NULL</code> or an integer vector denoting a specific entry in <code>"beta"</code>, <code>"beta2"</code>, <code>"psi"</code> or <code>"sigma"</code>. Default is <code>NULL</code>, which plots all entries.</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>Either <code>"all"</code> or an integer denoting for which group the plots should be generated. Used only when groupwise imputation was used. Default is <code>"all"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>One of <code>"imputation"</code>, <code>"burnin"</code> or <code>"all"</code> denoting which part of the chain should be used for the trace plot. Default is <code>"imputation"</code>, which plots only the iterations after burn-in.</p>
+</td></tr>
+<tr valign="top"><td><code>thin</code></td>
+<td>
+<p>An integer denoting the thinning factor that is applied before plotting. Default is <code>1</code>, which corresponds to no thinning.</p>
+</td></tr>
+<tr valign="top"><td><code>smooth</code></td>
+<td>
+<p>A numeric value denoting the smoothing factor for the trend line in trace plots. Higher values correspond to less smoothing. Default is <code>3</code>. If set to <code>0</code> or <code>NULL</code>, the trend line is suppressed.</p>
+</td></tr>
+<tr valign="top"><td><code>n.Rhat</code></td>
+<td>
+<p>An integer denoting the number of segments of each chain used for calculating the potential scale reduction factor. Default is <code>3</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>export</code></td>
+<td>
+<p>(optional) A character string specifying if plots should be exported to a file. If <code>"png"</code> or <code>"pdf"</code>, then plots are printed into a folder named &quot;mitmlPlots&quot; in the current directory using either the <code>png</code> or the <code>pdf</code> device. Default is <code>"none"</code>, which does not export files.</p>
+</td></tr>
+<tr valign="top"><td><code>dev.args</code></td>
+<td>
+<p>(optional) A named list containing additional arguments that are passed to the graphics device.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Parameters passed to the plotting functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>plot</code> method generates a series of plots for the parameters of the imputation model which can be used for diagnostic purposes.
+In addition, a short summary of the parameter chain is displayed.
+</p>
+<p>Setting <code>print</code> to <code>"beta"</code>, <code>"beta2"</code>, <code>"psi"</code> and <code>"sigma"</code> will plot the fixed effects, the variances and covariances of the random effects, and the variances and covariances of the residuals, respectively.
+In this context, <code>"beta2"</code> refers to the fixed effects for target variables at level 2 and is only used when a two-part model was specified in (<code><a href="jomoImpute.html">jomoImpute</a></code>).
+Each plotting window contains a trace plot (upper left), an autocorrelation plot (lower left), a kernel density approximation of the posterior distribution (upper right), and a posterior summary (lower right).
+The summary includes the following quantities:
+</p>
+
+<dl>
+<dt><code>EAP</code>:</dt><dd><p>Expected value a posteriori (i.e., the mean of the parameter chain)</p>
+</dd>
+<dt><code>MAP</code>:</dt><dd><p>Mode a posteriori (i.e., the mode of the parameter chain)</p>
+</dd>
+<dt><code>SD</code>:</dt><dd><p>Standard deviation of the parameter chain</p>
+</dd>
+<dt><code>2.5%</code>:</dt><dd><p>The 2.5% quantile of parameter values</p>
+</dd>
+<dt><code>97.5%</code>:</dt><dd><p>The 97.5% quantile of parameter values</p>
+</dd>
+<dt><code>Rhat</code>:</dt><dd><p>Estimated potential scale reduction factor (<i>\hat{R}</i>)</p>
+</dd>
+<dt><code>ACF-k</code>:</dt><dd><p>Smoothed autocorrelation at lag <i>k</i>, where <i>k</i> is the number of iterations between imputations (see <code><a href="summary.mitml.html">summary.mitml</a></code>)</p>
+</dd>
+</dl>
+
+<p>The <code>trace</code> and <code>smooth</code> arguments can be used to influence how the trace plot is drawn and what part of the chain should be used for it.
+The <code>thin</code> argument can be used for thinning the chain before plotting, in which case the number of data points is reduced in the trace plot, and the autocorrelation is calculated up to lag <i>k/thin</i> (see above).
+The <code>n.Rhat</code> argument controls the number of segments that are used for calculating the potential scale reduction factor (<i>\hat{R}</i>) in each plot (see <code>summary.mitml</code>).
+Further aguments to the graphics device are supplied using the <code>dev.args</code> argument.
+</p>
+<p>The <code>plot</code> function computes and displays diagnostic information primarily for the imputation phase (i.e., for iterations after burn-in).
+This is the default in the <code>plot</code> function and the recommended method for most users.
+If <code>trace = "all"</code>, the full chain is displayed with emphasis on the imputation phase, and the posterior summary is calculated based on only the iterations after burn-in (as recommended).
+If <code>trace = "burnin"</code>, the posterior summary and the trace plots are calculated based on only the burn-on interations, which is generally not sufficient to establish convergence and should be used with caution.
+</p>
+
+
+<h3>Value</h3>
+
+<p>None (invisible <code>NULL</code>).
+</p>
+
+
+<h3>Note</h3>
+
+<p>The plots are presented on-screen one at a time.
+To proceed with the next plot, the user may left-click in the plotting window or press the &quot;enter&quot; key while in the R console, depending on the operating system.
+No plots are displayed when exporting to file.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="panImpute.html">panImpute</a></code>, <code><a href="jomoImpute.html">jomoImpute</a></code>, <code><a href="summary.mitml.html">summary.mitml</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+data(studentratings)
+
+# * Example 1: simple imputation
+
+fml &lt;- ReadDis + SES ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+# plot all parameters (default)
+plot(imp)
+
+# plot fixed effects only
+plot(imp, print = "beta")
+
+# export plots to file (using pdf device)
+plot(imp, export = "pdf", dev.args = list(width = 9, height = 4, pointsize = 12))
+
+# * Example 2: groupwise imputation
+
+fml &lt;- ReadDis + SES ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, group = FedState, n.burn = 1000,
+       n.iter = 100, m = 5)
+
+# plot fixed effects for all groups (default for 'group')
+plot(imp, print = "beta", group = "all")
+
+# plot fixed effects for first group only
+plot(imp, print = "beta", group = 1)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

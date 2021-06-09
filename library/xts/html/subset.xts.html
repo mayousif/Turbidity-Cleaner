@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Subsets of xts Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for [.xts {xts}"><tr><td>[.xts {xts}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Extract Subsets of xts Objects
+</h2>
+
+<h3>Description</h3>
+
+<p>Details on efficient subsetting of <code>xts</code> objects
+for maximum performance and compatibility.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'xts'
+x[i, j, drop = FALSE, which.i=FALSE, ...]
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>xts object
+</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+
+<p>the rows to extract. Numeric, timeBased or ISO-8601 style (see details)
+</p>
+</td></tr>
+<tr valign="top"><td><code>j</code></td>
+<td>
+
+<p>the columns to extract, numeric or by name
+</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+
+<p>should dimension be dropped, if possible. See NOTE.
+</p>
+</td></tr>
+<tr valign="top"><td><code>which.i</code></td>
+<td>
+
+<p>return the &lsquo;i&rsquo; values used for subsetting. No
+subset will be performed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>additional arguments (unused)
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>One of the primary motivations, and key points of differentiation
+of the time series class xts, is the ability to subset rows
+by specifying ISO-8601 compatible range strings.  This allows
+for natural range-based time queries without requiring prior
+knowledge of the underlying time object used in construction.
+</p>
+<p>When a raw character vector is used for the <code>i</code>
+subset argument, it is processed as if it was ISO-8601
+compliant.  This means that it is parsed from left to
+right, according to the following specification:
+</p>
+<p>CCYYMMDD HH:MM:SS.ss+
+</p>
+<p>A full description will be expanded from a left-specified
+truncated one.
+</p>
+<p>Additionally, one may specify range-based queries
+by simply supplying two time descriptions seperated
+by a forward slash:
+</p>
+<p>CCYYMMDD HH:MM:SS.ss+/CCYYMMDD HH:MM:SS.ss
+</p>
+<p>The algorithm to parse the above is <code>.parseISO8601</code> from
+the <span class="pkg">xts</span> package.
+</p>
+<p>ISO-style subsetting, given a range type query, makes use
+of a custom binary search mechanism that allows for
+very fast subsetting as no linear search though the index
+is required.  ISO-style character vectors may be longer than
+length one, allowing for multiple non-contiguous ranges
+to be selected in one subsetting call.
+</p>
+<p>If a character <em>vector</em> representing time is used in place of 
+numeric values, ISO-style queries, or timeBased
+objects, the above parsing will be carried out on
+each element of the i-vector.  This overhead can
+be very costly. If the character approach is used when
+no ISO range querying is needed, it is
+recommended to wrap the &lsquo;i&rsquo; character vector with the <code>I()</code>
+function call, to allow for more efficient internal processing.
+Alternately converting character vectors to POSIXct objects will
+provide the most performance efficiency.
+</p>
+<p>As <code>xts</code> uses POSIXct time representations
+of all user-level index classes internally, the fastest
+timeBased subsetting will always be from POSIXct objects,
+regardless of the <code>tclass</code> of the original
+object.  All non-POSIXct time classes
+are converted to character first to preserve
+consistent TZ behavior.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An extraction of the original xts object.  If <code>which.i</code>
+is TRUE, the corresponding integer &lsquo;i&rsquo; values used to
+subset will be returned.
+</p>
+
+
+<h3>Note</h3>
+
+<p>By design, drop=FALSE in the default case.  This preserves the basic
+underlying type of <code>matrix</code> and the <code>dim()</code> to be non-NULL.
+This is different from both matrix and <code>zoo</code> behavior as <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>
+uses <code>drop=TRUE</code>.  Explicitly passing <code>drop=TRUE</code> may
+be required when performing certain matrix operations.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeffrey A. Ryan
+</p>
+
+
+<h3>References</h3>
+
+<p>ISO 8601: Date elements and interchange formats -
+Information interchange - Representation of dates and time
+<a href="https://www.iso.org">https://www.iso.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="xts.html">xts</a></code>,
+<code><a href="parseISO8601.html">.parseISO8601</a></code>,
+<code><a href="tclass.html">.index</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- xts(1:3, Sys.Date()+1:3)
+xx &lt;- cbind(x,x)
+
+# drop=FALSE for xts, differs from zoo and matrix
+z &lt;- as.zoo(xx)
+z/z[,1]
+
+m &lt;- as.matrix(xx)
+m/m[,1]
+
+# this will fail with non-conformable arrays (both retain dim)
+tryCatch(
+  xx/x[,1], 
+  error=function(e) print("need to set drop=TRUE")
+)
+
+# correct way
+xx/xx[,1,drop=TRUE]
+
+# or less efficiently
+xx/drop(xx[,1])
+# likewise
+xx/coredata(xx)[,1]
+
+
+x &lt;- xts(1:1000, as.Date("2000-01-01")+1:1000)
+y &lt;- xts(1:1000, as.POSIXct(format(as.Date("2000-01-01")+1:1000)))
+
+x.subset &lt;- index(x)[1:20]
+x[x.subset] # by original index type
+system.time(x[x.subset]) 
+x[as.character(x.subset)] # by character string. Beware!
+system.time(x[as.character(x.subset)]) # slow!
+system.time(x[I(as.character(x.subset))]) # wrapped with I(), faster!
+
+x['200001'] # January 2000
+x['1999/2000'] # All of 2000 (note there is no need to use the exact start)
+x['1999/200001'] # January 2000 
+
+x['2000/200005'] # 2000-01 to 2000-05
+x['2000/2000-04-01'] # through April 01, 2000
+y['2000/2000-04-01'] # through April 01, 2000 (using POSIXct series)
+
+
+### Time of day subsetting 
+
+i &lt;- 0:60000
+focal_date &lt;- as.numeric(as.POSIXct("2018-02-01", tz = "UTC"))
+x &lt;- .xts(i, c(focal_date + i * 15), tz = "UTC", dimnames = list(NULL, "value"))
+
+# Select all observations between 9am and 15:59:59.99999:
+w1 &lt;- x["T09/T15"] # or x["T9/T15"]
+head(w1)
+
+# timestring is of the form THH:MM:SS.ss/THH:MM:SS.ss
+
+# Select all observations between 13:00:00 and 13:59:59.9999 in two ways:
+y1 &lt;- x["T13/T13"]
+head(y1)
+
+x[.indexhour(x) == 13]
+
+# Select all observations between 9:30am and 30 seconds, and 4.10pm:
+x["T09:30:30/T16:10"]
+
+# It is possible to subset time of day overnight.
+# e.g. This is useful for subsetting FX time series which trade 24 hours on week days
+
+# Select all observations between 23:50 and 00:15 the following day, in the xts time zone
+z &lt;- x["T23:50/T00:14"]
+z["2018-02-10 12:00/"] # check the last day
+
+
+# Select all observations between 7pm and 8.30am the following day:
+z2 &lt;- x["T19:00/T08:29:59"]
+head(z2); tail(z2)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>xts</em> version 0.12.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

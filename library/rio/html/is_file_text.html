@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Determine whether a file is &quot;plain-text&quot; or some sort of...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for is_file_text {rio}"><tr><td>is_file_text {rio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Determine whether a file is &ldquo;plain-text&rdquo; or some sort of binary format</h2>
+
+<h3>Description</h3>
+
+<p>Determine whether a file is &ldquo;plain-text&rdquo; or some sort of binary format
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+is_file_text(file, maxsize = Inf, text_bytes = as.raw(c(7:16, 18, 19, 32:255)))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>Path to the file</p>
+</td></tr>
+<tr valign="top"><td><code>maxsize</code></td>
+<td>
+<p>Maximum number of bytes to read</p>
+</td></tr>
+<tr valign="top"><td><code>text_bytes</code></td>
+<td>
+<p>Which characters are used by normal text (though not 
+necessarily just ASCII). To detect just ASCII, the 
+following value can be used: 
+<code>as.raw(c(7:16, 18, 19, 32:127))</code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A logical
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(datasets)
+export(iris, "iris.yml")
+is_file_text("iris.yml") # TRUE
+
+export(iris, "iris.sav")
+is_file_text("iris.sav") # FALSE
+
+# cleanup
+unlink("iris.yml")
+unlink("iris.sav")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rio</em> version 0.5.26 <a href="00Index.html">Index</a>]</div>
+</body></html>

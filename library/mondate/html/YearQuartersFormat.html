@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Formatting Functions for mondate Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for YearQuartersFormat {mondate}"><tr><td>YearQuartersFormat {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Formatting Functions for mondate Objects</h2>
+
+<h3>Description</h3>
+
+<p>Functions to format a <code>mondate</code> into its character
+representation according to the <code>displayFormat</code> property.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+YearQuartersFormat(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a <code>mondate</code> or a <code>Date</code> or a <code>POSIXt</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>YearQuartersFormat is an example of a special formatting function
+that can be provided to a <code>mondate</code> object when created.
+It will represent the date as YYYYQ* where * is 1-4.
+See Examples
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+b &lt;- mondate(1:12, formatFUN = YearQuartersFormat)   # end of first 12 months of 2000
+b         
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

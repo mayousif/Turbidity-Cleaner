@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Download Option Chains</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getOptionChain {quantmod}"><tr><td>getOptionChain {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Download Option Chains </h2>
+
+<h3>Description</h3>
+
+<p>Function to download option chain data from
+data providers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getOptionChain(Symbols, Exp = NULL, src="yahoo", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Symbols</code></td>
+<td>
+<p> The name of the underlying symbol. </p>
+</td></tr>
+<tr valign="top"><td><code>Exp</code></td>
+<td>
+<p> One or more expiration dates, NULL, or an ISO-8601 style string.
+If <code>Exp</code> is missing, only the front month contract will be returned.
+</p>
+</td></tr>
+<tr valign="top"><td><code>src</code></td>
+<td>
+<p> Source of data.  Currently only &lsquo;yahoo&rsquo; is provided. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Additional parameters. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is a wrapper to data-provider specific
+APIs.  By default the data is sourced from yahoo.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list containing two data.frames, one
+for calls and one for puts.  If more than one
+expiration was requested, this two-element list
+will be contained within list of length <code>length(Exp)</code>.
+Each element of this list will be named with the expiration
+month, day, and year (for Yahoo sourced data).
+</p>
+<p>If <code>Exp</code> is set to <code>NULL</code>, all expirations
+will be returned. Not explicitly setting will only
+return the front month.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan, Joshua M. Ulrich </p>
+
+
+<h3>References</h3>
+
+ <p><a href="https://finance.yahoo.com">https://finance.yahoo.com</a> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# Only the front-month expiry
+AAPL.OPT &lt;- getOptionChain("AAPL")
+# All expiries
+AAPL.OPTS &lt;- getOptionChain("AAPL", NULL)
+# All 2015 and 2016 expiries
+AAPL.2015 &lt;- getOptionChain("AAPL", "2015/2016")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

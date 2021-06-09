@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Options Used by the 'parallelly' Package</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for parallelly.options {parallelly}"><tr><td>parallelly.options {parallelly}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Options Used by the 'parallelly' Package</h2>
+
+<h3>Description</h3>
+
+<p>Below are the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> options and environment variables that are used by the
+<span class="pkg">parallelly</span> package and packages enhancing it.<br />
+<br />
+<em>WARNING: Note that the names and the default values of these options may
+change in future versions of the package.  Please use with care until
+further notice.</em>
+</p>
+
+
+<h3>Backward compatibility with the <span class="pkg">future</span> package</h3>
+
+<p>The functions in the <span class="pkg">parallelly</span> package originates from the
+<span class="pkg">future</span> package.  Because they are widely used within the future
+ecosystem, we need to keep them backward compatible for quite a long time,
+in order for all existing packages and R scripts to have time to adjust.
+This also goes for the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> options and the environment variables used to
+configure these functions.
+All options and environment variables used here have prefixes <code>parallelly.</code>
+and <code>R_PARALLELLY_</code>, respectively.  Because of the backward compatibility
+with the <span class="pkg">future</span> package, the same settings can also be controlled
+by options and environment variables with prefixes <code>future.</code> and
+<code>R_FUTURE_</code> until further notice.
+</p>
+
+
+<h3>Options for debugging</h3>
+
+
+<dl>
+<dt><span class="option">parallelly.debug</span>:</dt><dd><p>(logical) If <code>TRUE</code>, extensive debug messages are generated. (Default: <code>FALSE</code>)</p>
+</dd>
+</dl>
+
+
+
+<h3>Options for configuring low-level system behaviors</h3>
+
+
+<dl>
+<dt><span class="option">parallelly.availableCores.logical</span> / <span class="option">future.availableCores.logical</span>:</dt><dd><p>(logical) The default value of argument <code>logical</code> as used by <code>availableCores()</code>, <code>availableWorkers()</code>, and <code>availableCores()</code> for querying <code>parallel::detectCores(logical = logical)</code>.  If not specified, this option is set according to system environment variable <span class="env">R_PARALLELLY_AVAILABLECORES_LOGICAL</span> when the <span class="pkg">parallelly</span> package is <em>loaded</em>.  The default is <code>TRUE</code> just like it is for <code><a href="../../parallel/html/detectCores.html">parallel::detectCores()</a></code>.</p>
+</dd>
+<dt><span class="option">parallelly.availableCores.methods</span> / <span class="option">future.availableCores.methods</span>:</dt><dd><p>(character vector) Default lookup methods for <code><a href="availableCores.html">availableCores()</a></code>. (Default: <code>c("system", "mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "fallback")</code>)</p>
+</dd>
+<dt><span class="option">parallelly.availableCores.custom</span> / <span class="option">future.availableCores.custom</span>:</dt><dd><p>(function) If set and a function, then this function will be called (without arguments) by <code><a href="availableCores.html">availableCores()</a></code> where its value, coerced to an integer, is interpreted as a number of cores.</p>
+</dd>
+<dt><span class="option">parallelly.availableCores.fallback</span> / <span class="option">future.availableCores.fallback</span>:</dt><dd><p>(integer) Number of cores to use when no core-specifying settings are detected other than <code>"system"</code>. If not specified, this option is set according to system environment variable <span class="env">R_PARALLELLY_AVAILABLECORES_FALLBACK</span> when the <span class="pkg">parallelly</span> package is <em>loaded</em>. This options makes it possible to set the default number of cores returned by <code>availableCores()</code> / <code>availableWorkers()</code> yet allow users and schedulers to override it. In multi-tenant environment, such as HPC clusters, it is useful to set <span class="env">R_PARALLELLY_AVAILABLECORES_FALLBACK</span> to <code>1</code>.</p>
+</dd>
+<dt><span class="option">parallelly.availableCores.system</span> / <span class="option">future.availableCores.system</span>:</dt><dd><p>(integer) Number of &quot;system&quot; cores used instead of what is reported by <code><a href="availableCores.html">availableCores</a>(which = "system")</code>. If not specified, this option is set according to system environment variable <span class="env">R_PARALLELLY_AVAILABLECORES_SYSTEM</span> when the <span class="pkg">parallelly</span> package is <em>loaded</em>. This option allows you to effectively override what <code>parallel::detectCores()</code> reports the system has.</p>
+</dd>
+<dt><span class="option">parallelly.availableWorkers.methods</span> / <span class="option">future.availableWorkers.methods</span>:</dt><dd><p>(character vector) Default lookup methods for <code><a href="availableWorkers.html">availableWorkers()</a></code>. (Default: <code>c("mc.cores", "_R_CHECK_LIMIT_CORES_", "PBS", "SGE", "Slurm", "LSF", "custom", "system", "fallback")</code>)</p>
+</dd>
+<dt><span class="option">parallelly.availableWorkers.custom</span> / <span class="option">future.availableWorkers.custom</span>:</dt><dd><p>(function) If set and a function, then this function will be called (without arguments) by <code><a href="availableWorkers.html">availableWorkers()</a></code> where its value, coerced to a character vector, is interpreted as hostnames of available workers.</p>
+</dd>
+<dt><span class="option">parallelly.fork.enable</span> / <span class="option">future.fork.enable</span>:</dt><dd><p>(logical) Enable or disable <em>forked</em> processing.  If <code>FALSE</code>, multicore futures becomes sequential futures.  If not specified, this option is set according to environment variable <span class="env">R_PARALLELLY_FORK_ENABLE</span>.  If <code>NA</code>, or not set (the default), the a set of best-practices rules decide whether should be supported or not.  See <code><a href="supportsMulticore.html">supportsMulticore()</a></code> for more details.</p>
+</dd>
+<dt><span class="option">parallelly.supportsMulticore.unstable</span> / <span class="option">future.supportsMulticore.unstable</span>:</dt><dd><p>(character) Controls whether a warning should be produced or not whenever multicore processing is automatically disabled because the environment in which R runs is considered unstable for forked processing, e.g. in the RStudio environment.  If <code>"warning"</code> (default), then an informative warning is produces the first time 'multicore' or 'multiprocess' futures are used.  If <code>"quiet"</code>, no warning is produced.  If not specified, this option is set according to environment variable <span class="env">R_PARALLELLY_SUPPORTSMULTICORE_UNSTABLE</span>.  See <code><a href="supportsMulticore.html">supportsMulticore()</a></code> for more details.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>To set <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> options when <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> starts (even before the <span class="pkg">parallelly</span> package is loaded), see the <a href="../../base/html/Startup.html">Startup</a> help page.  The <a href="https://cran.r-project.org/package=startup"><span class="pkg">startup</span></a> package provides a friendly mechanism for configuring <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>'s startup process.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Set an R option:
+options(parallelly.availableCores.fallback = 1L)
+
+# Set an environment variable:
+Sys.setenv(R_PARALLELLY_AVAILABLECORES_FALLBACK = "1")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parallelly</em> version 1.24.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

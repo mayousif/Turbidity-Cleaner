@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check For OHLC Data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for has.OHLC {quantmod}"><tr><td>has.OHLC {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Check For OHLC Data </h2>
+
+<h3>Description</h3>
+
+<p>A set of functions to check for appropriate
+OHLC and HLC column names within a data object, as well
+as the availability and position of those columns.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+is.OHLC(x)
+has.OHLC(x, which = FALSE)
+
+is.OHLCV(x)
+has.OHLCV(x, which = FALSE)
+
+is.HLC(x)
+has.HLC(x, which = FALSE)
+
+has.Op(x, which = FALSE)
+has.Hi(x, which = FALSE)
+has.Lo(x, which = FALSE)
+has.Cl(x, which = FALSE)
+has.Vo(x, which = FALSE)
+has.Ad(x, which = FALSE)
+
+is.BBO(x)
+is.TBBO(x)
+
+has.Ask(x, which = FALSE)
+has.Bid(x, which = FALSE)
+has.Price(x, which = FALSE)
+has.Qty(x, which = FALSE)
+has.Trade(x, which = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> data object </p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p> disply position of match </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Mostly used internally by <span class="pkg">quantmod</span>, they can be useful
+for checking whether an object
+can be used in OHLC requiring functions like <code>Op</code>,
+<code>OpCl</code>, etc.
+</p>
+<p>Columns names must contain the full description of data,
+that is, Open, High, Low, Close, Volume or Adjusted. Abbreviations
+will return <code>FALSE</code> (or <code>NA</code> when which=TRUE). See
+<code><a href="quantmod.OHLC.html">quantmod.OHLC</a></code> for details of <span class="pkg">quantmod</span>
+naming conventions.
+</p>
+<p><code>is.OHLC</code> (and is.HLC, similarly) will only return TRUE is there are columns
+for Open, High, Low and Close.  Additional columns will not affect
+the value.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A logical value indicating success or failure by default.
+</p>
+<p>If which=TRUE, a numeric value representing the column position
+will be returned.
+</p>
+<p><code>is.OHLC</code> and <code>is.HLC</code> return a single value of TRUE or FALSE.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="quantmod.OHLC.html">quantmod.OHLC</a></code>,<code><a href="OHLC.Transformations.html">OHLC.Transformations</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+getSymbols("YHOO")
+
+is.OHLC(YHOO)
+has.OHLC(YHOO)
+
+has.Ad(YHOO)
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

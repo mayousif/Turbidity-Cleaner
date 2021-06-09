@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert a 'testthat' Test File to a 'unitizer'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for testthat_translate_file {unitizer}"><tr><td>testthat_translate_file {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert a <code>testthat</code> Test File to a <code>unitizer</code></h2>
+
+<h3>Description</h3>
+
+<p>Converts a <b>copy</b> of an existing <code>testthat</code> test file to a
+<code>unitizer</code> test file and test store, or a directory of such files to
+a corresponding <code>unitizer</code> directory.  See examples.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+testthat_translate_file(
+  file.name,
+  target.dir = file.path(dirname(file.name), "..", "unitizer"),
+  state = getOption("unitizer.state"),
+  keep.testthat.call = TRUE,
+  prompt = "always",
+  interactive.mode = interactive(),
+  ...
+)
+
+testthat_translate_dir(
+  dir.name,
+  target.dir = file.path(dir.name, "..", "unitizer"),
+  filter = "^test.*\\.[rR]",
+  state = getOption("unitizer.state"),
+  keep.testthat.call = TRUE,
+  force = FALSE,
+  interactive.mode = interactive(),
+  ...
+)
+
+testthat_translate_name(
+  file.name,
+  target.dir = file.path(dirname(file.name), "..", "unitizer"),
+  name.new = NULL,
+  name.pattern = "^(?:test\\W*)?(.*)(?:\\.[rR])$",
+  name.replace = "\\1"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file.name</code></td>
+<td>
+<p>a path to the <code>testthat</code> test file to convert</p>
+</td></tr>
+<tr valign="top"><td><code>target.dir</code></td>
+<td>
+<p>the directory to create the <code>unitizer</code> test file and
+test store in; for <code>testthat_translate_file</code> only: if NULL will return
+as a character vector what the contents of the translated file would have
+been instead of writing the file</p>
+</td></tr>
+<tr valign="top"><td><code>state</code></td>
+<td>
+<p>what state control to use (see same argument for
+<code><a href="unitize.html">unitize</a></code>)</p>
+</td></tr>
+<tr valign="top"><td><code>keep.testthat.call</code></td>
+<td>
+<p>whether to preserve the <code>testthat</code> call that
+was converted, as a comment</p>
+</td></tr>
+<tr valign="top"><td><code>prompt</code></td>
+<td>
+<p>character(1L): </p>
+
+<ul>
+<li><p> &quot;always&quot; to always prompt before writing new files
+</p>
+</li>
+<li><p> &quot;overwrite&quot; only prompt if existing file is about to be overwritten
+</p>
+</li>
+<li><p> &quot;never&quot; never prompt
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>interactive.mode</code></td>
+<td>
+<p>logical(1L) primarily for testing purposes, allows
+us to force prompting in non-interactive mode; note that <code>unitize</code>
+and <code>unitize_dir</code> are always called in non-interactive mode by these
+functions, this parameter only controls prompts generated directly by these
+functions.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>params to pass on to <code>testthat_translate_name</code></p>
+</td></tr>
+<tr valign="top"><td><code>dir.name</code></td>
+<td>
+<p>a path to the <code>testthat</code> directory to convert</p>
+</td></tr>
+<tr valign="top"><td><code>filter</code></td>
+<td>
+<p>regular expression to select what files in a director are
+translated</p>
+</td></tr>
+<tr valign="top"><td><code>force</code></td>
+<td>
+<p>logical(1L) whether to allow writing to a <code>target.dir</code> that
+contains files (implies <code>prompt="never"</code> when
+<code>testthat_translate_dir</code> runs <code>testthat_translate_file</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>name.new</code></td>
+<td>
+<p>character(1L) the base name for the <code>unitizer</code> files;
+do not include an extension as we will add it (&quot;.R&quot; for the testfile,
+&quot;.unitizer&quot; for the data directory); set to NULL to generate the name
+from the <code>testthat</code> file name</p>
+</td></tr>
+<tr valign="top"><td><code>name.pattern</code></td>
+<td>
+<p>character(1L) a regular expression intended to match
+the <code>testthat</code> test file name (see <code>name.replace</code>) if
+<code>name.pattern</code> matches, then the new file name will be
+constructed with this (used as <code>replace</code> parameter to
+<code><a href="../../base/html/grep.html">sub</a></code>); in addition we will add &quot;.R&quot; and &quot;.unitizer&quot; as the
+extensions for the new files so do not include extensions in your
+<code>name.replace</code> parameter</p>
+</td></tr>
+<tr valign="top"><td><code>name.replace</code></td>
+<td>
+<p>character(1L) the replacement token, typically would
+include a <code>"\1"</code> token that is filled in by the match group from
+<code>name.pattern</code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a file path or a character vector (see <code>target.dir</code>)
+</p>
+
+
+<h3>Disclaimers</h3>
+
+<p>If you already have an extensive test suite in <code>testthat</code> and you do not
+intend to modify your tests or code very much there is little benefit (and
+likely some drawbacks) to migrating your tests to <code>unitizer</code>.  Please
+see the introduction vignette for a (biased) view of the pros and cons of
+<code>unitizer</code> relative to <code>testthat</code>.
+</p>
+<p>These translation functions are provided for your convenience.  The
+<code>unitizer</code> author does not use them very much since he seldom needs to
+migrate <code>testthat</code> tests.  As a result, they have not been tested as
+thoroughly as the rest of <code>unitizer</code>.  Translation is designed to work
+for the most common <code>testthat</code> use cases, but may not for yours.  Make
+sure you <code><a href="unitize.html">review</a></code> the resulting <code>unitizer</code>s to make sure
+they contain what you expect before you start relying on them.  This is
+particularly important if your <code>testthat</code> test files are not meant to
+be run stand-alone with just <code>test_file</code> (see &quot;Differences That May
+Cause Problems&quot;).
+</p>
+<p>Note you can also <code>unitize</code> your <code>testthat</code> files <b>without</b>
+translating them (see notes).
+</p>
+
+
+<h3>Workflow</h3>
+
+
+<ol>
+<li><p> Start a fresh R session
+</p>
+</li>
+<li><p> Run your <code>testthat</code> tests with <code>test_dir</code> to
+ensure they are still passing.  If your tests are are runnable only
+via <code>test_check</code> because they directly access the namespace of your
+package, see &quot;Differences That May Cause Problems&quot; below
+</p>
+</li>
+<li><p> Run <code>testthat_dir_translate</code>
+</p>
+</li>
+<li><p> [optional] use <code><a href="unitize.html">review</a></code> to review the resulting
+unitizer(s)
+</p>
+</li></ol>
+
+<p>We recommend using <code>testthat_translate_dir</code> over
+<code>testthat_translate_file</code> because the former also copies and loads any
+helper files that may be defined.  Since libraries used by multiple test
+files are commonly loaded in these helper files, it is likely that just
+translating a single file without also copying the helper files will not
+work properly.
+</p>
+
+
+<h3>How the Conversion Works</h3>
+
+<p>We start by identifying calls to exported <code>testthat</code> functions
+that have an <code>object</code> argument.  Generally speaking this includes
+functions of the form <code>expect_*</code> (e.g. <code>expect_equal</code>).  We then
+extract the <code>object</code> parameter and replace the original <code>expect_*</code>
+statement with just the <code>object</code> parameter.  For example
+</p>
+<pre>expect_equal(my_fun(25), 1:10)</pre>
+<p>becomes
+</p>
+<pre>my_fun(25)</pre>
+<p>Not all <code>expect_*</code> functions are substituted.  For example,
+<code>expect_is</code> and <code>expect_that</code> are left unchanged because the tests
+for those functions do not or might not actually test the values of
+<code>object</code>.  For example, <code>expect_is</code> tests the <b>class</b> of
+<code>object</code>.  It is perfectly fine to <code>unitize</code> an <code>expect_*</code>
+call unsubstituted.  <code>unitizer</code> captures conditions, values, etc., so if
+an <code>expect_*</code> test starts failing, it will be detected.
+</p>
+<p><code>unitizer</code> will then evaluate and store the results of such expressions.
+Since in theory we just checked our <code>testthat</code> tests were working,
+presumably the re-evaluated expressions will produce the same values.  Please
+note that the translation process does not actually check this is true (see
+&quot;Differences That May Cause Problems&quot;) so <code>review</code>ing the results is a
+good idea.
+</p>
+<p><code>test_that</code> calls are converted to <code><a href="unitizer_sect.html">unitizer_sect</a></code> calls,
+and the contents thereof are processed as described above.  Calls to
+<code>context</code> are commented out since there currently is no <code>unitizer</code>
+equivalent.  Other <code>testthat</code> calls are left unchanged and their return
+values used as part of the <code>unitizer</code> tests.
+</p>
+<p>Only top level calls are converted.  For example, code like
+<code>for(i in 1:10) expect_equal(my_fun(i), seq(i))</code> or even
+<code>(expect_equal(my_fun(10), 1:10))</code> will not be converted since
+<code>expect_equal</code> is nested inside a <code>for</code> and <code>(</code> respectively.
+You will need to manually edit these calls (or just let them remain as is,
+which is not an issue).
+</p>
+<p>We identify calls to extract based purely on the function symbols (i.e. we
+do not check whether <code>expect_equal</code> actually resolves to
+<code>testthat::expect_equal</code> in the context of the test file).
+</p>
+<p>The <code>unitizer</code> files will be created in a sibling folder to the folder
+containing the <code>testthat</code> files.  The names of the new files will be
+based on the old files.  See params <code>target.dir</code>, <code>name.new</code>,
+<code>name.pattern</code>, and <code>name.replace</code> for more details.  We encourage
+you to try the default settings first as those should work well in most
+cases.
+</p>
+<p>When using <code>testthat_translate_dir</code>, any files that match
+<code>"^helper.*[rR]$"</code> are copied over to a '/_pre' subdirectory
+in <code>"target.dir"</code>, and are pre-loaded by default before the tests are
+<code>unitize</code>d.
+</p>
+
+
+<h3><code>unitizer</code> Differences That May Cause Problems</h3>
+
+<p>If you run your tests during development with <code>test_dir</code> odds
+are the translation will work just fine.  On the other hand, if you rely
+exclusively on <code>test_check</code> you may need to use
+<code>state=unitizerStateNoOpt(par.env="pkgName")</code> when you translate to
+make sure your tests have access to the internal namespace functions.
+See <code><a href="unitizerState.html">unitizerState</a></code> for details on how to modify state tracking.
+</p>
+<p>If your tests were translated with the <code>state</code> parameter changed from
+its default value, you will have to use the same value for that parameter in
+future <code>unitize</code> or <code>unitize_dir</code> runs.
+</p>
+
+
+<h3>Note</h3>
+
+<p>In order for the conversion to succeed <code>testthat</code> must be
+installed on your system.  We do not rely on <code>NAMESPACE</code> imports to
+avoid an import dependency on <code>testthat</code> that is only required for these
+ancillary functions, especially since none of the <code>testthat</code> functions
+are called.  We use the functions as the <code>definition</code> argument of
+<code>match.call</code> to find the <code>object</code> argument.
+</p>
+<p>Translation of <code>testthat</code> is not strictly necessary; you can just
+copy them to a new location and <code>unitize</code> them.  <code>unitizer</code> will
+just capture the results of the <code>expect_*</code> functions and will alert
+you if those change.  You can then just review the tests that change.
+While this may seem pointless, one benefit is that you are dropped into
+the environment of the test that failed, so you can inspect variables, etc.
+without further ado.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="unitize.html">unitize</a></code>, <code><a href="unitizerState.html">unitizerState</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+library(testthat)  # required
+testthat_translate_file("tests/testthat/test-random.R")
+
+# Translate `dplyr` tests (assumes `dplyr` source is in './dplyr')
+# Normally we would use default `state` value but we cannot in this case
+# due to conflicting packages and setup
+
+testthat_translate_dir(
+  "dplyr/tests/testthat", state=unitizerStateSafe(par.env="dplyr")
+)
+# Make sure translation worked (checking one file here)
+# *NOTE*: folder we are looking at has changed
+
+review("dplyr/tests/unitizer/summarise.unitizer")
+
+# Now we can unitize any time we change our code
+
+unitize_dir(
+  "dplyr/tests/unitizer", state=unitizerStateSafe(par.env="dplyr")
+)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

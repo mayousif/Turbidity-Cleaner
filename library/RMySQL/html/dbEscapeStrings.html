@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Escape SQL-special characters in strings.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dbEscapeStrings {RMySQL}"><tr><td>dbEscapeStrings {RMySQL}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Escape SQL-special characters in strings.</h2>
+
+<h3>Description</h3>
+
+<p>Escape SQL-special characters in strings.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dbEscapeStrings(con, strings, ...)
+
+## S4 method for signature 'MySQLConnection,character'
+dbEscapeStrings(con, strings)
+
+## S4 method for signature 'MySQLResult,character'
+dbEscapeStrings(con, strings, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>a connection object (see <code><a href="../../DBI/html/dbConnect.html">dbConnect</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>strings</code></td>
+<td>
+<p>a character vector.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>any additional arguments to be passed to the dispatched method.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A character vector with SQL special characters properly escaped.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (mysqlHasDefault()) {
+con &lt;- dbConnect(RMySQL::MySQL(), dbname = "test")
+
+tmp &lt;- sprintf("SELECT * FROM emp WHERE lname = %s", "O'Reilly")
+dbEscapeStrings(con, tmp)
+
+dbDisconnect(con)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>RMySQL</em> version 0.10.21 <a href="00Index.html">Index</a>]</div>
+</body></html>

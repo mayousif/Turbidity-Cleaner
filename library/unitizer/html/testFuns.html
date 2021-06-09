@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Store Functions for New vs. Reference Test Comparisons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for testFuns {unitizer}"><tr><td>testFuns {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Store Functions for New vs. Reference Test Comparisons</h2>
+
+<h3>Description</h3>
+
+<p><code>testFuns</code> contains the functions used to compare the results and side
+effects of running test expressions.  &ldquo;testFuns&rdquo; objects can be used
+as the <code>compare</code> argument for <code><a href="unitizer_sect.html">unitizer_sect</a></code>, thereby
+allowing you to specify different comparison functions for different aspects
+of test evaluation.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The default comparison functions are as follows:
+</p>
+
+<ul>
+<li><p> value: <code><a href="all_eq.html">all_eq</a></code>
+</p>
+</li>
+<li><p> conditions: <code><a href="all_eq.html">all_eq</a></code>
+</p>
+</li>
+<li><p> output: <code>function(x, y) TRUE</code>, i.e. not compared
+</p>
+</li>
+<li><p> message: <code>function(x, y) TRUE</code>, i.e. not compared as conditions
+should be capturing warnings/errors
+</p>
+</li>
+<li><p> aborted: <code>function(x, y) TRUE</code>, i.e. not compared as conditions
+should also be capturing this implicitly
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="unitizer_sect.html">unitizer_sect</a></code> for more relevant usage examples,
+<code><a href="all_eq.html">all_eq</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# use `identical` instead of `all.equal` to compare values
+testFuns(value=identical)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

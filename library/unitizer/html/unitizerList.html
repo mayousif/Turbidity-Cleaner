@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: S4 Object To Implement Base List Methods</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for unitizerList {unitizer}"><tr><td>unitizerList {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>S4 Object To Implement Base List Methods</h2>
+
+<h3>Description</h3>
+
+<p>Internal <code>unitizer</code> objects used to manage lists of objects.  The only
+user facing instance of these objects are <code><a href="conditionList.html">conditionList</a></code>
+objects.  For the most part these objects behave like normal S3 lists.  The
+list contents are kept in the <code>.items</code> slot, and the following methods
+are implemented to make the object mostly behave like a standard R list:
+<code>[</code>, <code>[[</code>, <code>[&lt;-</code>, <code>[[&lt;-</code>, <code>as.list</code>, <code>append</code>,
+<code>length</code>, <code>names</code>, and <code>names&lt;-</code>.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The underlying assumption is that the '.items' slot is a list
+(or an expression), and that slot is the only slot for which
+it's order and length are meaningful (i.e. there is no other list
+or vector of same length as '.items' in a different slot that is
+supposed to map to '.items').  This last assumption allows us
+to implement the subsetting operators in a meaningful manner.
+</p>
+<p>The validity method will run <code>validObject</code> on the first, last, and
+middle items (if an even number of items, then the middle closer to the
+first) assuming they are S4 objects.  We don't run on every object to avoid
+potentially expensive computation on all objects.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>.items</code></dt><dd><p>a list or expression</p>
+</dd>
+<dt><code>.pointer</code></dt><dd><p>integer, used for implementing iterators</p>
+</dd>
+<dt><code>.seek.fwd</code></dt><dd><p>logical used to track what direction iterators are going</p>
+</dd>
+</dl>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="conditionList.html">conditionList</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+new('unitizerList', .items=list(1, 2, 3))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Transcribes a 'testtaht' File Into 'unitizer' Format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for testthat_transcribe_file {unitizer}"><tr><td>testthat_transcribe_file {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Transcribes a <code>testtaht</code> File Into <code>unitizer</code> Format</h2>
+
+<h3>Description</h3>
+
+<p>Internal use only, required so we can ensure the parse succeeded because of
+possible parse-deparse issues independent of running <code>unitize</code>, since
+<code>unitize</code> cannot be run inside a <code>tryCatch</code> block.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+testthat_transcribe_file(
+  file.name,
+  target.dir = file.path(dirname(file.name), "..", "unitizer"),
+  keep.testthat.call = TRUE,
+  prompt = "always",
+  interactive.mode,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file.name</code></td>
+<td>
+<p>a path to the <code>testthat</code> test file to convert</p>
+</td></tr>
+<tr valign="top"><td><code>target.dir</code></td>
+<td>
+<p>the directory to create the <code>unitizer</code> test file and
+test store in; for <code>testthat_translate_file</code> only: if NULL will return
+as a character vector what the contents of the translated file would have
+been instead of writing the file</p>
+</td></tr>
+<tr valign="top"><td><code>keep.testthat.call</code></td>
+<td>
+<p>whether to preserve the <code>testthat</code> call that
+was converted, as a comment</p>
+</td></tr>
+<tr valign="top"><td><code>prompt</code></td>
+<td>
+<p>character(1L): </p>
+
+<ul>
+<li><p> &quot;always&quot; to always prompt before writing new files
+</p>
+</li>
+<li><p> &quot;overwrite&quot; only prompt if existing file is about to be overwritten
+</p>
+</li>
+<li><p> &quot;never&quot; never prompt
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>interactive.mode</code></td>
+<td>
+<p>logical(1L) primarily for testing purposes, allows
+us to force prompting in non-interactive mode; note that <code>unitize</code>
+and <code>unitize_dir</code> are always called in non-interactive mode by these
+functions, this parameter only controls prompts generated directly by these
+functions.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>params to pass on to <code>testthat_translate_name</code></p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

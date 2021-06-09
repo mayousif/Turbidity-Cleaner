@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set Options to Initial Zero State</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for options_zero {unitizer}"><tr><td>options_zero {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Set Options to Initial Zero State</h2>
+
+<h3>Description</h3>
+
+<p>This makes sure to unset options not present in target.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+options_zero(
+  base = merge_lists(getOption("unitizer.opts.init.base"),
+    getOption("unitizer.opts.init")),
+  as.is = union(getOption("unitizer.opts.asis.base"), getOption("unitizer.opts.asis"))
+)
+
+options_update(tar.opts)
+
+validate_options(opts.to.validate, test.files = NULL)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Edit Calls In Unitizer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for editCalls {unitizer}"><tr><td>editCalls {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Edit Calls In Unitizer</h2>
+
+<h3>Description</h3>
+
+<p>Used if you want to change language in test expression in a unitizer when
+the actual results of running the expressions is unchanged.  This is useful
+if you decided to rename functions, etc., without having to re-run the entire
+<code>unitize</code> process since <code>unitize</code> matches tests based on
+expressions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+editCalls(x, lang.old, lang.new, ...)
+
+## S4 method for signature 'unitizer,language,language'
+editCalls(x, lang.old, lang.new, interactive.only = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a unitizer object</p>
+</td></tr>
+<tr valign="top"><td><code>lang.old</code></td>
+<td>
+<p>the name of the function replace</p>
+</td></tr>
+<tr valign="top"><td><code>lang.new</code></td>
+<td>
+<p>the new name of the function</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>unused</p>
+</td></tr>
+<tr valign="top"><td><code>interactive.only</code></td>
+<td>
+<p>logical(1L) set to FALSE if you want to allow this to
+run in non-interactive mode, but warnings will be suppressed and will
+proceed without prompting, obviously...</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a untizer object with function names modifies
+</p>
+
+
+<h3>Note</h3>
+
+<p>this is a somewhat experimental function, so make sure you backup any
+unitizers before you try to use it.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+untz &lt;- get_unitizer("tests/unitizer/mytests.unitizer")
+untz.edited &lt;- editCalls(untz, quote(myFun), quote(my_fun))
+set_unitizer("tests/unitizer/mytests.unitizer", untz.edited)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

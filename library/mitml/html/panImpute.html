@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Impute multilevel missing data using 'pan'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for panImpute {mitml}"><tr><td>panImpute {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Impute multilevel missing data using <code>pan</code></h2>
+
+<h3>Description</h3>
+
+<p>Performs multiple imputation of multilevel data using the <code>pan</code> package (Schafer &amp; Yucel, 2002).
+Supports imputation of continuous multilevel data with missing values at level 1.
+See 'Details' for further information.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+panImpute(data, type, formula, n.burn = 5000, n.iter = 100, m = 10, group = NULL, 
+  prior = NULL, seed = NULL, save.pred = FALSE, keep.chains = c("full", "diagonal"),
+  silent = FALSE)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame containing the incomplete data, the auxiliary variables, the cluster indicator variable, and any other variables that should be included in the imputed datasets.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>An integer vector specifying the role of each variable in the imputation model (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>A formula specifying the role of each variable in the imputation model. The basic model is constructed by <code>model.matrix</code>, thus allowing to include derived variables in the imputation model using <code>I()</code> (see 'Details' and 'Examples').</p>
+</td></tr>
+<tr valign="top"><td><code>n.burn</code></td>
+<td>
+<p>The number of burn-in iterations before any imputations are drawn. Default is 5,000.</p>
+</td></tr>
+<tr valign="top"><td><code>n.iter</code></td>
+<td>
+<p>The number of iterations between imputations. Default is 100.</p>
+</td></tr>
+<tr valign="top"><td><code>m</code></td>
+<td>
+<p>The number of imputed data sets to generate.</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>(optional) A character string denoting the name of an additional grouping variable to be used with the <code>formula</code> argument. If specified, the imputation model is run separately within each of these groups.</p>
+</td></tr>
+<tr valign="top"><td><code>prior</code></td>
+<td>
+<p>(optional) A list with components <code>a</code>, <code>Binv</code>, <code>c</code>, and <code>Dinv</code> for specifying prior distributions for the covariance matrix of random effects and the covariance matrix of residuals (see 'Details'). Default is to use least-informative priors.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>(optional) An integer value initializing <code>pan</code>'s random number generator for reproducible results. Default is to using a random seed.</p>
+</td></tr>
+<tr valign="top"><td><code>save.pred</code></td>
+<td>
+<p>(optional) Logical flag indicating if variables derived using <code>formula</code> should be included in the imputed data sets. Default is <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>keep.chains</code></td>
+<td>
+<p>(optional) A character string denoting which chains of the MCMC algorithm to store. Can be <code>"full"</code> (stores chains for all parameters) or <code>"diagonal"</code> (stores chains for fixed effects and diagonal entries of the covariance matrices). Default is <code>"full"</code> (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>silent</code></td>
+<td>
+<p>(optional) Logical flag indicating if console output should be suppressed. Default is to <code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function serves as an interface to the <code>pan</code> package and supports imputation of continuous multilevel data at level 1 (Schafer &amp; Yucel, 2002).
+The imputation model can be specified using either the <code>type</code> or the <code>formula</code> argument.
+</p>
+<p>The <code>type</code> interface is designed to provide quick-and-easy imputations using <code>pan</code>.
+The <code>type</code> argument must be an integer vector denoting the role of each variable in the imputation model:
+</p>
+
+<ul>
+<li><p><code>1</code>: target variables containing missing data
+</p>
+</li>
+<li><p><code>2</code>: predictors with fixed effect on all targets (completely observed)
+</p>
+</li>
+<li><p><code>3</code>: predictors with random effect on all targets (completely observed)
+</p>
+</li>
+<li><p><code>-1</code>: grouping variable within which the imputation is run separately
+</p>
+</li>
+<li><p><code>-2</code>: cluster indicator variable
+</p>
+</li>
+<li><p><code>0</code>: variables not featured in the model
+</p>
+</li></ul>
+
+<p>At least one target variable and the cluster indicator must be specified.
+The intercept is automatically included as both a fixed and a random effect.
+If a variable of type <code>-1</code> is found, then separate imputations are performed within each level of that variable.
+</p>
+<p>The <code>formula</code> argument is intended as a more flexible and feature-rich interface to <code>pan</code>.
+Specifying the <code>formula</code> argument is similar to specifying other formulae in R.
+Given below is a list of operators that <code>panImpute</code> understands:
+</p>
+
+<ul>
+<li><p><code>~</code>: separates the target (left-hand) and predictor (right-hand) side of the model
+</p>
+</li>
+<li><p><code>+</code>: adds target or predictor variables to the model
+</p>
+</li>
+<li><p><code>*</code>: adds an interaction term of two or more predictors
+</p>
+</li>
+<li><p><code>|</code>: denotes cluster-specific random effects and specifies the cluster indicator (e.g., <code>1|ID</code>)
+</p>
+</li>
+<li><p><code>I()</code>: defines functions to be interpreted by <code>model.matrix</code>
+</p>
+</li></ul>
+
+<p>Predictors are allowed to have fixed effects, random effects, or both on all target variables.
+The intercept is automatically included as both a fixed and a random effect, but it can be suppressed if needed (see 'Examples').
+Note that, when specifying random effects other than the intercept, these will <em>not</em> be automatically added as fixed effects and must be included explicitly.
+Any predictors defined by <code>I()</code> will be used for imputation but not included in the data set unless <code>save.pred = TRUE</code>.
+</p>
+<p>In order to run separate imputations for each level of an additional grouping variable, the <code>group</code> argument can be used.
+The name of the grouping variable must be given as a character string (i.e., in quotation marks).
+</p>
+<p>The default prior distributions for the covariance matrices in <code>panImpute</code> are &quot;least informative&quot; inverse-Wishart priors with minimum positive degrees of freedom (largest dispersion) and the identity matrix for scale.
+The <code>prior</code> argument can be used to specify alternative prior distributions.
+These must be supplied as a list containing the following components:
+</p>
+
+<ul>
+<li><p><code>a</code>: degrees of freedom for the covariance matrix of residuals
+</p>
+</li>
+<li><p><code>Binv</code>: scale matrix for the covariance matrix of residuals
+</p>
+</li>
+<li><p><code>c</code>: degrees of freedom for the covariance matrix of random effects
+</p>
+</li>
+<li><p><code>Dinv</code>: scale matrix for the covariance matrix of random effects
+</p>
+</li></ul>
+
+<p>A sensible choice for a diffuse non-default prior is to set the degrees of freedom to the lowest value possible, and the scale matrices according to a prior guess of the corresponding covariance matrices (see Schafer &amp; Yucel, 2002).
+</p>
+<p>In imputation models with many parameters, the number of chains in the MCMC algorithm being stored can be reduced with the <code>keep.chains</code> argument.
+If set to <code>"full"</code> (the default), all chains are saved.
+If set to <code>"diagonal"</code>, only chains pertaining to fixed effects and the diagonal entries of the covariance matrices are saved.
+This setting influences the storage mode of parameters (e.g., dimensions and indices of arrays) and should be used with caution.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>mitml</code>, containing the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The original (incomplete) data set, sorted according to the cluster variable and (if given) the grouping variable, with several attributes describing the original row order (<code>"sort"</code>) and grouping (<code>"group"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>replacement.mat</code></td>
+<td>
+<p>A matrix containing the multiple replacements (i.e., imputations) for each missing value. The replacement matrix contains one row for each missing value and one one column for each imputed data set.</p>
+</td></tr>
+<tr valign="top"><td><code>index.mat</code></td>
+<td>
+<p>A matrix containing the row and column index for each missing value. The index matrix is used to <em>link</em> the missing values in the data set with their corresponding rows in the replacement matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>The matched function call.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A list containing the names of the cluster variable, the target variables, and the predictor variables with fixed and random effects, respectively.</p>
+</td></tr>
+<tr valign="top"><td><code>random.L1</code></td>
+<td>
+<p>A character string denoting the handling of random residual covariance matrices (not used here; see <code>jomoImpute</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>prior</code></td>
+<td>
+<p>The prior parameters used in the imputation model.</p>
+</td></tr>
+<tr valign="top"><td><code>iter</code></td>
+<td>
+<p>A list containing the number of burn-in iterations, the number of iterations between imputations, and the number of imputed data sets.</p>
+</td></tr>
+<tr valign="top"><td><code>par.burnin</code></td>
+<td>
+<p>A multi-dimensional array containing the parameters of the imputation model from the burn-in phase.</p>
+</td></tr>
+<tr valign="top"><td><code>par.imputation</code></td>
+<td>
+<p>A multi-dimensional array containing the parameters of the imputation model from the imputation phase.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>For objects of class <code>mitml</code>, methods for the generic functions <code>print</code>, <code>summary</code>, and <code>plot</code> are available to inspect the fitted imputation model.
+<code>mitmlComplete</code> is used for extracting the imputed data sets.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund, Alexander Robitzsch, Oliver Luedtke</p>
+
+
+<h3>References</h3>
+
+<p>Schafer, J. L., and Yucel, R. M. (2002). Computational strategies for multivariate linear mixed-effects models with missing values. <em>Journal of Computational and Graphical Statistics, 11</em>, 437-457.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="jomoImpute.html">jomoImpute</a></code>, <code><a href="mitmlComplete.html">mitmlComplete</a></code>, <code><a href="summary.mitml.html">summary.mitml</a></code>, <code><a href="plot.mitml.html">plot.mitml</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# NOTE: The number of iterations in these examples is much lower than it
+# should be! This is done in order to comply with CRAN policies, and more
+# iterations are recommended for applications in practice!
+
+data(studentratings)
+
+# *** ................................
+# the 'type' interface
+# 
+
+# * Example 1.1: 'ReadDis' and 'SES', predicted by 'ReadAchiev' and 
+# 'CognAbility', with random slope for 'ReadAchiev'
+
+type &lt;- c(-2, 0, 0, 0, 0, 0, 3, 1, 2, 0)
+names(type) &lt;- colnames(studentratings)
+type
+
+imp &lt;- panImpute(studentratings, type = type, n.burn = 1000, n.iter = 100, m = 5)
+
+# * Example 1.2: 'ReadDis' and 'SES' groupwise for 'FedState',
+# and predicted by 'ReadAchiev'
+
+type &lt;- c(-2, -1, 0, 0, 0, 0, 2, 1, 0, 0)
+names(type) &lt;- colnames(studentratings)
+type
+
+imp &lt;- panImpute(studentratings, type = type, n.burn = 1000, n.iter = 100, m = 5)
+
+# *** ................................
+# the 'formula' interface
+# 
+
+# * Example 2.1: imputation of 'ReadDis', predicted by 'ReadAchiev'
+# (random intercept)
+
+fml &lt;- ReadDis ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+# ... the intercept can be suppressed using '0' or '-1' (here for fixed intercept)
+fml &lt;- ReadDis ~ 0 + ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+# * Example 2.2: imputation of 'ReadDis', predicted by 'ReadAchiev'
+# (random slope)
+
+fml &lt;- ReadDis ~ ReadAchiev + (1+ReadAchiev|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+# * Example 2.3: imputation of 'ReadDis', predicted by 'ReadAchiev',
+# groupwise for 'FedState'
+
+fml &lt;- ReadDis ~ ReadAchiev + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, group = "FedState", n.burn = 1000,
+                 n.iter = 100, m = 5)
+
+# * Example 2.4: imputation of 'ReadDis', predicted by 'ReadAchiev'
+# including the cluster mean of 'ReadAchiev' as an additional predictor
+
+fml &lt;- ReadDis ~ ReadAchiev + I(clusterMeans(ReadAchiev, ID)) + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+# ... using 'save.pred' to save the calculated cluster means in the data set
+fml &lt;- ReadDis ~ ReadAchiev + I(clusterMeans(ReadAchiev, ID)) + (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5,
+                 save.pred = TRUE)
+
+head(mitmlComplete(imp, print = 1))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

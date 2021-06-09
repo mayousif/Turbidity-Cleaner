@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Register an input processor for the test recorder</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for registerInputProcessor {shinytest}"><tr><td>registerInputProcessor {shinytest}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Register an input processor for the test recorder</h2>
+
+<h3>Description</h3>
+
+<p><code>registerInputProcessor()</code> registers an input processor which will be used by
+the test recorder. The input processor function should take one parameter,
+<code>value</code>, and return a string of R code which returns the desired value.
+</p>
+<p><code>getInputProcessors()</code> returns a named list of all registered input processor
+functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+registerInputProcessor(inputType, processor)
+
+getInputProcessors()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inputType</code></td>
+<td>
+<p>The name of an input type, for example,
+<code>"mypkg.numberinput"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>processor</code></td>
+<td>
+<p>An input processor function.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>shinytest</em> version 1.5.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

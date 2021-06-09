@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Load and Manage Data from Multiple Sources</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getSymbols {quantmod}"><tr><td>getSymbols {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Load and Manage Data from Multiple Sources </h2>
+
+<h3>Description</h3>
+
+<p>Functions to load and manage <code>Symbols</code> in
+specified environment. Used by <code><a href="specifyModel.html">specifyModel</a></code>
+to retrieve symbols specified in first step of modelling 
+procedure.  Not a true S3 method, but methods for different
+data sources follow an S3-like naming convention. Additional 
+methods can be added by simply adhering to the convention.
+</p>
+<p>Current <code>src</code> methods available are: yahoo, google,
+MySQL, FRED, csv, RData, oanda, and av.
+</p>
+<p>Data is loaded silently <em>without</em> user
+assignment by default.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getSymbols(Symbols = NULL, 
+           env = parent.frame(),
+           reload.Symbols = FALSE,
+           verbose = FALSE,
+           warnings = TRUE,
+           src = "yahoo",
+           symbol.lookup = TRUE,
+           auto.assign = getOption('getSymbols.auto.assign',TRUE),
+           ...)
+
+loadSymbols(Symbols = NULL, 
+            env = parent.frame(),
+            reload.Symbols = FALSE,
+            verbose = FALSE,
+            warnings = TRUE,
+            src = "yahoo",
+            symbol.lookup = TRUE,
+            auto.assign = getOption('loadSymbols.auto.assign',TRUE),
+            ...)
+
+showSymbols(env=parent.frame())
+removeSymbols(Symbols=NULL,env=parent.frame())
+saveSymbols(Symbols = NULL,
+            file.path=stop("must specify 'file.path'"),
+            env = parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Symbols</code></td>
+<td>
+<p> a character vector specifying
+the names of each symbol to be loaded</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p> where to create objects.  Setting env=NULL is equal to auto.assign=FALSE </p>
+</td></tr>
+<tr valign="top"><td><code>reload.Symbols</code></td>
+<td>
+<p> boolean to reload current symbols
+in specified environment. (FALSE)</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p> boolean to turn on status of retrieval.
+(FALSE)</p>
+</td></tr>
+<tr valign="top"><td><code>warnings</code></td>
+<td>
+<p> boolean to turn on warnings. (TRUE)</p>
+</td></tr>
+<tr valign="top"><td><code>src</code></td>
+<td>
+<p> character string specifying sourcing method.
+(yahoo)</p>
+</td></tr>
+<tr valign="top"><td><code>symbol.lookup</code></td>
+<td>
+<p> retrieve symbol's sourcing method
+from external lookup (TRUE) </p>
+</td></tr>
+<tr valign="top"><td><code>auto.assign</code></td>
+<td>
+<p> should results be loaded to <code>env</code>
+If <code>FALSE</code>, return results instead.
+As of 0.4-0, this is the same as setting env=NULL.
+Defaults to <code>TRUE</code> </p>
+</td></tr>
+<tr valign="top"><td><code>file.path</code></td>
+<td>
+<p> character string of file location </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional parameters </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>getSymbols</code> is a wrapper to load data from
+various sources, local or remote. Data is
+fetched via one of the available <code>getSymbols</code> methods
+and either saved in the <code>env</code> specified - the <code>parent.frame()</code>
+by default &ndash; or returned to the caller.  The functionality derives from <code>base::load</code>
+behavior and semantics, i.e. is assigned automatically
+to a variable in the specified environment <em>without</em> the
+user explicitly assigning the returned data to a variable. The assigned variable
+name is that of the respective Symbols value.
+</p>
+<p>The previous sentence's point warrants repeating - getSymbols is called
+for its side effects, and by default<em>does not</em> return the data object
+loaded. The data is &lsquo;loaded&rsquo; silently by the function
+into the environment specified.
+</p>
+<p>If automatic assignment is not desired, <code>env</code> may be set to NULL, or
+<code>auto.assign</code> set to FALSE.
+</p>
+<p>The early versions of getSymbols assigned each object into the user's
+.GlobalEnv by name (pre 2009 up to versions less than 0.4-0).  
+This behavior is now supported by manually setting
+env=.GlobalEnv. As of version 0.4-0, the environment is set
+to parent.frame(), which preserved the user workspace when
+called within another scope. 
+</p>
+<p><em>This behavior is expect to change for getSymbols as of 0.5-0, and all
+results will instead be explicitly returned to the caller
+unless a <code>auto.assign</code> is set to <code>TRUE</code>.</em>
+Many thanks to Kurt Hornik and Achim Zeileis for suggesting this change, and
+further thanks to Dirk Eddelbuettel for encouraging the move to a more functional
+default by 0.5-0.
+</p>
+<p>Using auto.assign=TRUE, the variable chosen is an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>-legal name derived
+from the symbol being loaded. It is possible, using
+<code>setSymbolLookup</code> to specify an alternate
+name if the default is not desired. See that function for
+details.
+</p>
+<p>If auto.assign=FALSE or env=NULL (as of 0.4-0)
+the data will be returned from the call, and will require
+the user to assign the results himself. Note that only <em>one</em> symbol
+at a time may be requested when auto assignment is disabled.
+</p>
+<p>Most, if not all, documentation and functionality related
+to model construction and testing in <span class="pkg">quantmod</span>
+assumes that auto.assign remains set to TRUE and <code>env</code> is
+a valid environment object for the calls related to those functions.
+</p>
+<p>Upon completion a list of
+loaded symbols is stored in the specified environment
+under the name <code>.getSymbols</code>.
+</p>
+<p>Objects loaded by <code>getSymbols</code> with auto.assign=TRUE
+can be viewed with
+<code>showSymbols</code> and
+removed by a call to <code>removeSymbols</code>.  Additional
+data loading &ldquo;methods&rdquo; can be
+created simply by following the S3-like naming
+convention where getSymbols.NAME
+is used for your function NAME. See <code>getSymbols</code>
+source code.
+</p>
+<p><code>setDefaults(getSymbols)</code> can be used to
+specify defaults for <code>getSymbols</code> arguments.
+<code>setDefaults(getSymbols.MySQL)</code> may be used for arguments
+specific to <code>getSymbols.MySQL</code>, etc.
+</p>
+<p>The &ldquo;sourcing&rdquo; of data is managed internally
+through a complex lookup procedure. If <code>symbol.lookup</code>
+is TRUE (the default), a check is made if any symbol
+has had its source specified by <code>setSymbolLookup</code>.
+</p>
+<p>If not set, the process continues by checking to see if
+<code>src</code> has been specified by the user in the
+function call. If not, any <code>src</code> defined with
+<code>setDefaults(getSymbols,src=)</code> is used.
+</p>
+<p>Finally, if none of the other source rules apply
+the default <code>getSymbols</code> <code>src</code> method is
+used (&lsquo;yahoo&rsquo;).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Called for its side-effect with <code>env</code> set to a
+valid environment and auto.assign=TRUE,
+<code>getSymbols</code> will load into the specified
+<code>env</code> one object for each
+<code>Symbol</code> specified, with class defined
+by <code>return.class</code>. Presently this may be <code>ts</code>,
+<code>zoo</code>, <code>xts</code>, or <code>timeSeries</code>.
+</p>
+<p>If env=NULL or auto.assign=FALSE an object of type
+<code>return.class</code> will be returned.
+</p>
+
+
+<h3>Note</h3>
+
+<p>As of version 0.4-0, the default <code>env</code> value is now
+<code>parent.frame()</code>.  In interactive use this should provide
+the same functionality as the previous version. 
+</p>
+<p>While it is possible to load symbols as classes other
+than <code>zoo</code>, <span class="pkg">quantmod</span> requires most, if not
+all, data to be of class <code>zoo</code> or inherited
+from <code>zoo</code> - e.g. <code>xts</code>. The additional
+methods are meant mainly to be of use for those
+using the functionality outside of the <span class="pkg">quantmod</span> workflow.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="getModelData.html">getModelData</a></code>,<code><a href="specifyModel.html">specifyModel</a></code>,
+<code><a href="setSymbolLookup.html">setSymbolLookup</a></code>,
+<code><a href="getSymbols.csv.html">getSymbols.csv</a></code>,
+<code><a href="getSymbols.rda.html">getSymbols.RData</a></code>,
+<code><a href="getSymbols.oanda.html">getSymbols.oanda</a></code>,
+<code><a href="getSymbols.yahoo.html">getSymbols.yahoo</a></code>,
+<code><a href="quantmod-defunct.html">getSymbols.google</a></code>,
+<code><a href="getSymbols.FRED.html">getSymbols.FRED</a></code>,
+<code><a href="getFX.html">getFX</a></code>,
+<code><a href="getMetals.html">getMetals</a></code>,
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+setSymbolLookup(QQQ='yahoo',SPY='google')
+
+# loads QQQQ from yahoo (set with setSymbolLookup)
+# loads SPY from MySQL (set with setSymbolLookup)
+getSymbols(c('QQQ','SPY'))                
+
+# loads Ford market data from yahoo (the formal default)
+getSymbols('F')       
+
+# loads symbol from MySQL database (set with setDefaults)
+getSymbols('DIA', verbose=TRUE, src='MySQL')                 
+
+# loads Ford as time series class ts 
+getSymbols('F',src='yahoo',return.class='ts') 
+
+# load into a new environment
+data.env &lt;- new.env()
+getSymbols("YHOO", env=data.env)
+ls.str(data.env)
+
+# constrain to local scope
+try(local( {
+  getSymbols("AAPL")  # or getSymbols("AAPL", env=environment())
+  str(AAPL)
+  }))
+
+exists("AAPL")  # FALSE
+
+# assign into an attached environment
+attach(NULL, name="DATA.ENV")
+getSymbols("AAPL", env=as.environment("DATA.ENV"))
+ls("DATA.ENV")
+detach("DATA.ENV")
+
+# directly return to caller
+str( getSymbols("AAPL", env=NULL) )
+str( getSymbols("AAPL", auto.assign=FALSE) )  # same
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

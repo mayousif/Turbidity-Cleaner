@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Tests and Session State</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for unitizerState {unitizer}"><tr><td>unitizerState {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Tests and Session State</h2>
+
+<h3>Description</h3>
+
+<p>While R generally adheres to a &quot;functional&quot; programming style, there are
+several aspects of session state that can affect the results of code
+evaluation (e.g. global environment, search path).  <code>unitizer</code> provides
+functionality to increase test reproducibility by controlling session state
+so that it is the same every time a test is run.  This functionality is
+turned off by default to comply with CRAN requirements, and also because
+there are inherent limitations in R that may prevent it from fully working in
+some circumstances.  You can permanently enable the suggested state tracking
+level by adding <code>options(unitizer.state='suggested')</code> in your
+<code>.Rprofile</code>, although if you intend to do this be sure to read the
+&ldquo;CRAN non-compliance&rdquo; section.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+state(
+  par.env,
+  search.path,
+  options,
+  working.directory,
+  random.seed,
+  namespaces
+)
+
+in_pkg(package = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>par.env</code></td>
+<td>
+<p><code>NULL</code> to use the special <code>unitizer</code> parent
+environment, or an environment to use as the parent environment, or
+the name of a package as a character string to use that packages'
+namespace as the parent environment, or a <code>unitizerInPkg</code> object
+as produced by <code><a href="unitizerState.html">in_pkg</a></code>, assumes .GlobalEnv if unspecified</p>
+</td></tr>
+<tr valign="top"><td><code>search.path</code></td>
+<td>
+<p>one of <code>0:2</code>, uses the default value corresponding to
+<code>getOption(unitizer.state)</code>, which is 0 in the default unitizer state
+of &ldquo;off&rdquo;.  See &quot;Custom Control&quot; section for details.</p>
+</td></tr>
+<tr valign="top"><td><code>options</code></td>
+<td>
+<p>same as <code>search.path</code></p>
+</td></tr>
+<tr valign="top"><td><code>working.directory</code></td>
+<td>
+<p>same as <code>search.path</code></p>
+</td></tr>
+<tr valign="top"><td><code>random.seed</code></td>
+<td>
+<p>same as <code>search.path</code></p>
+</td></tr>
+<tr valign="top"><td><code>namespaces</code></td>
+<td>
+<p>same as <code>search.path</code></p>
+</td></tr>
+<tr valign="top"><td><code>package</code></td>
+<td>
+<p>character(1L) or NULL; if NULL will tell <code>unitize</code>
+to attempt to identify if the test file is inside an R package folder
+structure and if so run tests in that package's namespace.  This should
+work with R CMD check tests as well as in normal usage.  If character will
+take the value to be the name of the package to use the namespace of as
+the parent environment.  Note that <code>in_pkg</code> does not retrieve the
+environment, it just tells <code>unitize</code> to do so.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>for <code>state</code> a <code>unitizerStateRaw</code> object, for <code>in_pkg</code>
+a <code>unitizerInPkg</code> object, both of which are suitable as values for
+the <code>state</code> parameter for <code><a href="unitize.html">unitize</a></code> or as values for the
+&ldquo;unitizer.state&rdquo; global option.
+</p>
+
+
+<h3>CRAN non-compliance</h3>
+
+<p>In the default state management mode, this package fully complies with CRAN
+policies.  In order to implement advanced state management features we must
+lightly trace some <code>base</code> functions to alert <code>unitizer</code> each time
+the search path is changed by a test expression.  The traced function
+behavior is completely unchanged other than for the side effect of notifying
+<code>unitizer</code> each time they are called.  Additionally, the functions are
+only traced during <code>unitize</code> evaluation and are untraced on exit.
+Unfortunately this tracing is against CRAN policies, which is why it is
+disabled by default.
+</p>
+<p>For more details see the reproducible tests vignette with:
+<code>vignette(package='unitizer', 'unitizer_reproducible_tests')</code>
+</p>
+
+
+<h3>Overview</h3>
+
+<p>You can control how <code>unitizer</code> manages state via
+the state argument to <code>unitize</code> or by setting the
+&ldquo;unitizer.state&rdquo; option.  This help file discusses state
+management with <code>unitizer</code>, and also documents two functions that, in
+conjunction with <code><a href="unitize.html">unitize</a></code> or <code><a href="unitize.html">unitize_dir</a></code> allow you
+to control state management.
+</p>
+<p><b>Note</b>: most of what is written in this page about <code>unitize</code>
+applies equally to <code>unitize_dir</code>.
+</p>
+<p><code>unitizer</code> provides functionality to insulate test code from variability
+in the following.  Note the &ldquo;can be&rdquo; wording because by default
+these elements of state are not managed:
+</p>
+
+<ul>
+<li><p> Workspace / Parent Environment: all tests can be
+evaluated in environments that are children of a special environment
+that does not inherit from <code>.GlobalEnv</code>.  This prevents objects
+that are lying around in your workspace from interfering with your
+tests.
+</p>
+</li>
+<li><p> Random Seed: can be set to a specific value at the
+beginning of each test file so that tests using random values get the
+same value at every test iteration. This only sets the seed at the
+beginning of each test file, so changes in order or number of functions
+that generate random numbers in your test file will affect subsequent
+tests.  The advantage of doing this over just setting the seed directly
+in the test files is that <code>unitizer</code> tracks the value of the seed
+and will tell you the seed changed for any given test (e.g. because you
+added a test in the middle of the file that uses the random seed).
+</p>
+</li>
+<li><p> Working Directory: can be set to the tests directory
+inside the package directory if the test files appear to be inside the
+folder structure of a package.  This mimics R CMD check behavior.  If
+test files are not inside a package directory structure then can be set
+to the test files' directory.
+</p>
+</li>
+<li><p> Search Path: can be set to what you would
+typically find in a freshly loaded vanilla R session.  This means any non
+default packages that are loaded when you run your tests are unloaded
+prior to running your tests.  If you want to use the same libraries
+across multiple tests you can load them with the <code>pre</code> argument to
+<code><a href="unitize.html">unitize</a></code> or <code><a href="unitize.html">unitize_dir</a></code>.  Due to limitations
+of R this is only an approximation to actually restarting R into a fresh
+session.
+</p>
+</li>
+<li><p> Options: same as search path, but see &quot;Namespaces&quot; next.
+</p>
+</li>
+<li><p> Namespaces: same as search path; this
+option is only made available to support options since many namespaces
+set options <code>onLoad</code>, and as such it is necessary to unload and
+re-load them to ensure default options are set.  See the &quot;Namespaces and
+Options&quot; section.
+</p>
+</li></ul>
+
+<p>In the &ldquo;suggested&rdquo; state tracking mode (previously known as
+&ldquo;recommended&rdquo;), parent environment, random seed, working directory,
+and search path are all managed to level 2, which approximates what you would
+find in a fresh session (see &quot;Custom Control&quot; section below).  For example,
+with the search path managed, each test file will start evaluation with the
+search path set to the tests folder of your package.  All these settings are
+returned to their original values when <code>unitizer</code> exits.
+</p>
+<p>To manage the search path <code>unitizer</code> detaches
+and re-attaches packages.  This is not always the same as loading a package
+into a fresh R session as detaching a package does not necessarily undo every
+action that a package takes when it is loaded.  See <code><a href="../../base/html/detach.html">detach</a></code> for
+potential pitfalls of enabling this setting.
+</p>
+<p>You can modify what aspects of state are managed by using the <code>state</code>
+parameter to <code><a href="unitize.html">unitize</a></code>.  If you are satisfied with basic default
+settings you can just use the presets described in the next section.  If you
+want more control you can use the return values of the <code>state</code> and
+<code>in_pkg</code> functions as the values for the <code>state</code> parameter for
+<code>unitize</code>.
+</p>
+<p>State is reset after running each test file when running multiple test
+files with <code>unitize_dir</code>, which means state changes in one test file
+will not affect the next one.
+</p>
+
+
+<h3>State Presets</h3>
+
+<p>For convenience <code>unitizer</code> provides several state management presets
+that you can specify via the <code>state</code> parameter to <code><a href="unitize.html">unitize</a></code>.
+The simplest method is to specify the preset name as a character value:
+</p>
+
+<ul>
+<li><p> &quot;suggested&quot;: </p>
+
+<ul>
+<li><p> Use special (non <code>.GlobalEnv</code>) parent environemnt
+</p>
+</li>
+<li><p> Manage search path
+</p>
+</li>
+<li><p> Manage random seed (and set it to be of type &quot;Wichmann-Hill&quot;
+for space considerations).
+</p>
+</li>
+<li><p> Manage workign directory
+</p>
+</li>
+<li><p> Leave namespace and options untouched
+</p>
+</li></ul>
+
+</li>
+<li><p> &quot;safe&quot; like suggested, but turns off tracking for search path in
+addition to namespaces and options.  These settings, particularly the
+last two, are the most likely to cause compatibility problems.
+</p>
+</li>
+<li><p> &quot;pristine&quot; implements the highest level of state tracking and control
+</p>
+</li>
+<li><p> &quot;basic&quot; keeps all tracking, but at a less aggressive level; state is
+reset between each test file to the state before you started
+<code>unitize</code>ing so that no single test file affects another, but the
+state of your workspace, search path, etc. when you launch
+<code>unitizer</code> will affect all the tests (see the Custom Control)
+section.
+</p>
+</li>
+<li><p> &quot;off&quot; (default) state tracking is turned off
+</p>
+</li></ul>
+
+
+
+<h3>Custom Control</h3>
+
+<p>If you want to customize each aspect of state control you can pass a
+<code>unitizerState</code> object as the <code>state</code> argument.  The simplest way
+to do this is by using the <code><a href="unitizerState.html">state</a></code> constructor function.  Look
+at the examples for how to do this.
+</p>
+<p>For convenience <code>unitize</code> allows you to directly specify a parent
+environment if all you want to change is the parent evaluation environment
+but are otherwise satisfied with the defaults.  You can even use the
+<code><a href="unitizerState.html">in_pkg</a></code> function to tell <code>unitizer</code> to use the namespace
+associated with your current project, assuming it is an R package.  See
+examples for details.
+</p>
+<p>If you do chose to modify specific aspects of state control here is a guide
+to what the various parameter values for <code>state</code> do:
+</p>
+
+<ul>
+<li><p> For <code>par.env</code>: any of the following:
+</p>
+
+<ul>
+<li> <p><code>NULL</code> to use the special <code>unitizer</code> parent
+environment as the parent environment; this environment has for
+parent the parent of <code>.GlobalEnv</code>, so any tests evaluated
+therein will not be affected by objects in <code>.GlobalEnv</code>
+see (<code>vignette("unitizer_reproducible_state")</code>).
+</p>
+</li>
+<li><p> an environment to use as the parent evaluation environment
+</p>
+</li>
+<li><p> the name of a package to use that package's namespace
+environment as the parent environment
+</p>
+</li>
+<li><p> the return value of <code>in_pkg</code>; used primarily to autodetect
+what package namespace to use based on package directory structure
+</p>
+</li></ul>
+
+</li>
+<li><p> For all other slots, the settings are in <code>0:2</code> and mean:
+</p>
+
+<ul>
+<li><p> 0 turn off state tracking
+</p>
+</li>
+<li><p> 1 track, but start with state as it was when <code>unitize</code> was
+called.
+</p>
+</li>
+<li><p> 2 track and set state to what you would typically find in a clean
+R session, with the exception of <code>random.seed</code>, which is
+set to <code>getOption("unitizer.seed")</code> (of kind &quot;Wichmann-Hill&quot;
+as that seed is substantially smaller than the R default seed).
+</p>
+</li></ul>
+ </li></ul>
+
+<p>If you chose to use level <code>1</code> for the random seed you should consider
+picking a random seed type before you start unitizer that is small like
+&quot;Wichman-Hill&quot; as the seed will be recorded each time it changes.
+</p>
+
+
+<h3>Permanently Setting State Tracking</h3>
+
+<p>You can permanently change the default state by setting the
+&ldquo;unitizer.state&rdquo; option to the name of the state presets above or to a
+or to a state settings option object generated with <code>state</code> as described
+in the previous section.
+</p>
+
+
+<h3>Avoiding <code>.GlobalEnv</code></h3>
+
+<p>For the most part avoiding <code>.GlobalEnv</code> leads to more robust and
+reproducible tests since the tests are not influenced by objects in the
+workspace that may well be changing from test to test.  There are some
+potential issues when dealing with functions that expect <code>.GlobalEnv</code> to
+be on the search path.  For example, <code>setClass</code> uses <code>topenv</code> to
+find a default environment to assign S4 classes to.  Typically this will be
+the package environment, or <code>.GlobalEnv</code>.  However, when you are in
+<code>unitizer</code> this becomes the next environment on the search path, which
+is typically locked, which will cause <code>setClass</code> to fail.  For those
+types of functions you should specify them with an environment directly, e.g.
+<code>setClass("test", slots=c(a="integer"), where=environment())</code>.
+</p>
+
+
+<h3>Namespaces and Options</h3>
+
+<p>Options and namespace state management require the ability to fully unload
+any non-default packages and namespaces, and there are some packages that
+cannot be unloaded, or should not be unloaded (e.g.
+<a href="https://github.com/Rdatatable/data.table/issues/990">data.table</a>).  I
+some systems it may even be impossible to fully unload any compiled code
+packages (see <code><a href="../../base/html/detach.html">detach</a></code>. If you know the packages you typically
+load in your sessions can be unloaded, you can turn this functionality on by
+setting <code>options(unitizer.state="pristine")</code> either in your session, in
+your <code>.Rprofile</code> file, or using <code>state="prisitine"</code> in each call to
+<code>unitize</code> or <code>unitize_dir</code>.  If you have packages that cannot be
+unloaded, but you still want to enable these features, see the &quot;Search Path
+and Namespace State Options&quot; section of <code><a href="unitizer.opts.html">unitizer.opts</a></code> docs.
+</p>
+<p>If you run <code>unitizer</code> with options and namespace tracking and you run
+into a namespace that cannot be unloaded, or should not be unloaded because
+it is listed in <code>getOption("unitizer.namespace.keep")</code>, <code>unitizer</code>
+will turn off <code>options</code> state tracking from that point onwards.
+</p>
+<p>Additionally, note that <code>warn</code> and <code>error</code> options are always set
+to <code>1</code> and <code>NULL</code> respectively during test evaluation, irrespective
+of what option state tracking level you select.
+</p>
+
+
+<h3>Known Untracked State Elements</h3>
+
+
+<ul>
+<li><p> system time: tests involving functions such as <code><a href="../../base/html/date.html">date</a></code>
+will inevitably fail
+</p>
+</li>
+<li><p> locale: is not tracked because it so specific to the system and so
+unlikely be be changed by user action; if you have tests that depend on
+locale be sure to set the locale via the <code>pre</code> argument to
+<code><a href="unitize.html">unitize</a></code>, and also to reset it to the original value in
+<code>post</code>.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="unitize.html">unitize</a></code>, <code><a href="unitizer.opts.html">unitizer.opts</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+## In this examples we use `...` to denote other arguments to `unitize` that
+## you should specify.  All examples here apply equally to `unitize_dir`
+
+## Run with suggested state tracking settings
+unitize(..., state="suggested")
+## Manage as much of state as possible
+unitize(..., state="pristine")
+
+## No state management, but evaluate with custom env as parent env
+my.env &lt;- new.env()
+unitize(..., state=my.env)
+## use custom environment, and turn on search.path tracking
+## here we must use the `state` function to construct a state object
+unitize(..., state=state(par.env=my.env, search.path=2))
+
+## Specify a namespace to run in by name
+unitize(..., state="stats")
+unitize(..., state=state(par.env="stats")) # equivalent to previous
+
+## Let `unitizer` figure out the namespace from the test file location;
+## assumes test file is inside package folder structure
+unitize("mytests.R", state=in_pkg()) # assuming mytests.R is part of a pkg
+unitize("mytests.R", state=in_pkg("mypkg")) # also works
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

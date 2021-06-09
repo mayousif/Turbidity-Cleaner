@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coersion Methods for Mondates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Coersion-from-mondate methods {mondate}"><tr><td>Coersion-from-mondate methods {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coersion Methods for Mondates</h2>
+
+<h3>Description</h3>
+
+<p>Methods to coerce a <code>mondate</code> to other R objects.
+Currently that includes numbers, characters, 
+and three classes of dates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ ## S3 method for class 'mondate'
+as.character(x, format, ...)
+ ## S3 method for class 'mondate'
+as.Date(x, ...)
+ ## S3 method for class 'mondate'
+as.POSIXct(x, ...)
+ ## S3 method for class 'mondate'
+as.POSIXlt(x, ...)
+ ## S4 method for signature 'mondate'
+as.numeric(x, convert = FALSE, stripdim = FALSE,  
+               timeunits = c("months", "years", "days"), 
+               ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a mondate</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>the format to give the Date representation of x</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to and from other methods</p>
+</td></tr>
+<tr valign="top"><td><code>convert</code></td>
+<td>
+<p>See Methods</p>
+</td></tr>
+<tr valign="top"><td><code>stripdim</code></td>
+<td>
+<p>See Methods</p>
+</td></tr>
+<tr valign="top"><td><code>timeunits</code></td>
+<td>
+<p>See Methods</p>
+</td></tr>
+</table>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt><code>as.character(x = "mondate", format, ...)</code></dt><dd>
+<p>Coerce <code>mondate</code> to class <code>character</code>.
+Uses the <code>format</code> function.
+</p>
+
+<dl>
+<dt><code>format</code></dt><dd>
+<p>If <code>missing</code> the value is drawn from 
+the <code>displayFormat</code> property of <code>x</code>.
+</p>
+</dd>
+<dt><code>...</code></dt><dd>
+<p>arguments passed to other methods (e.g., <code>format</code>).
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>as.numeric(x = "mondate",</code></dt><dd> 
+<p><code>convert=FALSE, stripdim=FALSE, </code>
+<code>timeunits=c("months", "years", "days"), ...)</code>
+Coerce <code>mondate</code> to class <code>numeric</code>.
+</p>
+
+<dl>
+<dt><code>convert:</code></dt><dd> 
+<p><code>FALSE</code> (the default)
+is equivalent to <code>getDataPart</code>.
+If <code>TRUE</code> the result will be converted to
+the number of years since 
+the beginning of the millennium if
+<code>timeunits</code>=&quot;years&quot;;
+to the number of days since
+the beginning of the millennium if
+<code>timeunits</code>=&quot;days&quot;.
+Also in the case that <code>convert=TRUE</code>
+the <code>numeric</code> returned will have
+&quot;timeunits&quot; as an attribute.
+</p>
+</dd>
+<dt><code>stripdim:</code></dt><dd> 
+<p><code>FALSE</code> (the default)
+retains the array attributes <code>dim</code> and <code>dimnames</code>.
+If <code>TRUE</code> the dimension attributes are stripped,
+which is the default behavior of <code>base::as.numeric</code>.
+</p>
+</dd>
+<dt><code>timeunits</code></dt><dd>
+<p>If <code>missing</code> the value is drawn from 
+the property of the <code>mondate</code>.
+</p>
+</dd>
+</dl>
+
+</dd>
+<dt><code>as.Date(x = "mondate")</code></dt><dd>
+<p>Coerce <code>mondate</code> to class <code>Date</code>
+</p>
+</dd>
+<dt><code>as.POSIXlt(x = "mondate")</code></dt><dd>
+<p>Coerce <code>mondate</code> to class <code>POSIXlt</code>
+</p>
+</dd>
+<dt><code>as.POSIXct(x = "mondate")</code></dt><dd>
+<p>Coerce <code>mondate</code> to class <code>POSIXct</code>
+</p>
+</dd>
+</dl>
+
+
+<h3>Examples</h3>
+
+<pre>
+(b&lt;-mondate(1))              # end of first month of current millennium
+as.numeric(b)                # 1
+as.character(b)              # December 31, 2000 in date format of locale
+as.character(b, format="%b-%Y")  # "Dec-2000"
+as.numeric(b, convert=TRUE, timeunits="years") # converts to 1/12 "years"
+(b&lt;-mondate(1, timeunits="days")) # end of first day of millennium
+as.numeric(b)                # 1/31
+as.numeric(b, convert=TRUE)  # 1 (with a "days" attribute)
+as.Date(b)                   # displays as "2000-01-31"
+as.POSIXct(b)                # displays as "2000-01-31 UTC"
+weekdays(as.POSIXct(b))      # January 31, 2000 was a "Saturday" (in English)
+as.POSIXlt(b)$hour           # zero, as are ...$min and ...$sec
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

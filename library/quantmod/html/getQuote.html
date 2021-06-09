@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Download Current Stock Quote</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getQuote {quantmod}"><tr><td>getQuote {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Download Current Stock Quote </h2>
+
+<h3>Description</h3>
+
+<p>Fetch current stock quote(s) from specified source.  At present this only
+handles sourcing quotes from Yahoo Finance and Alpha Vantage, but it can be
+extended to additional sources.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getQuote(Symbols, src = "yahoo", what, ...)
+
+standardQuote(src="yahoo")
+yahooQF(names)
+yahooQuote.EOD
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Symbols</code></td>
+<td>
+<p> character string of symbols, separated by semi-colons </p>
+</td></tr>
+<tr valign="top"><td><code>src</code></td>
+<td>
+<p> source of data (&quot;yahoo&quot; and &quot;av&quot; are currently implemented) </p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p> what should be retrieved </p>
+</td></tr>
+<tr valign="top"><td><code>names</code></td>
+<td>
+<p> which data should be retrieved </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> currently unused </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The number of symbols per request is limited to 200 for Yahoo! and 100 for
+Alpha Vantage.  <code>getQuote</code> will make multiple requests if more than the
+maximum number of symbols are requested.  It will then combine the results of
+all the requests and return one data frame.  The data frame will contain a
+column for each requested data field, and the requested symbols will be stored
+in the row names.
+</p>
+<p>In order to import quotes from Alpha Vantage, you must obtain an
+<em>API key</em> by completing a free, one-time registration at their website:
+<a href="https://www.alphavantage.co/">https://www.alphavantage.co/</a>.  Then you can call <code>getQuote</code> with
+<code>src = "av"</code> and <code>api.key = "[your key]"</code>.
+</p>
+<p>The <code>what</code> argument allows for specific data to be requested.  For
+<code>getQuote.yahoo</code>, the value of <code>what</code> should be a <code>quoteFormat</code>
+object like that returned by <code>standardQuote</code>.  The <code>yahooQF</code> function
+will create an interactive selection tool if the <code>what</code> argument is
+missing.  The <code>what</code> argument is currently ignored for Alpha Vantage data
+because only a few fields are available.
+</p>
+<p><code>standardQuote</code> currently only applies to the Yahoo! data source. It
+returns a <code>quoteFormat</code> object to use with the <code>getQuote</code> function.
+</p>
+<p><code>yahooQuote.EOD</code> is a constant <code>quoteFormat</code> object for OHLCV data.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jeffrey A. Ryan (Yahoo)
+Ethan B. Smith (Alpha Vantage)
+</p>
+
+
+<h3>References</h3>
+
+ 
+<p>Yahoo! Finance <a href="https://finance.yahoo.com">https://finance.yahoo.com</a>
+Alpha Vantage <a href="https://www.alphavantage.co">https://www.alphavantage.co</a>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="getSymbols.html">getSymbols</a></code>, <code><a href="getSymbols.av.html">getSymbols.av</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+yahooQuote.EOD
+## Not run: 
+getQuote("AAPL")
+getQuote("QQQQ;SPY;^VXN",what=yahooQF(c("Bid","Ask")))
+standardQuote()
+yahooQF()
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

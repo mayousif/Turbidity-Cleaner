@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Meta-information for the Google Fonts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for google_fonts {showtextdb}"><tr><td>google_fonts {showtextdb}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Meta-information for the Google Fonts</h2>
+
+<h3>Description</h3>
+
+<p>This function provides information of Google Fonts
+that can be used in the <code><a href="font_install.html">font_install</a>()</code> function.
+It will try to include all font faces available for a specified family name.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+google_fonts(name, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Name of the font that will be searched in Google Fonts.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed to <code>curl::curl_fetch_memory()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Yixuan Qiu &lt;<a href="https://statr.me/">https://statr.me/</a>&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+opensans = google_fonts("Open Sans")
+print(opensans)
+
+## Not run: 
+## Install the Open Sans font to the showtexdb package
+font_install(opensans)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>showtextdb</em> version 3.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Make R/S-Plus identifiers into legal SQL identifiers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for make.db.names,MySQLConnection,character-method {RMySQL}"><tr><td>make.db.names,MySQLConnection,character-method {RMySQL}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make R/S-Plus identifiers into legal SQL identifiers</h2>
+
+<h3>Description</h3>
+
+<p>These methods are straight-forward implementations of the corresponding
+generic functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'MySQLConnection,character'
+make.db.names(
+  dbObj,
+  snames,
+  keywords = .SQL92Keywords,
+  unique = TRUE,
+  allow.keywords = TRUE,
+  ...
+)
+
+## S4 method for signature 'MySQLConnection'
+SQLKeywords(dbObj, ...)
+
+## S4 method for signature 'MySQLConnection,character'
+isSQLKeyword(
+  dbObj,
+  name,
+  keywords = .MySQLKeywords,
+  case = c("lower", "upper", "any")[3],
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dbObj</code></td>
+<td>
+<p>any MySQL object (e.g., <code>MySQLDriver</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>snames</code></td>
+<td>
+<p>a character vector of R/S-Plus
+identifiers (symbols) from which we need to make SQL identifiers.</p>
+</td></tr>
+<tr valign="top"><td><code>keywords</code></td>
+<td>
+<p>a character vector with SQL keywords, by default it is
+<code>.MySQLKeywords</code> define in <code>RMySQL</code>. This may be overriden by
+users.</p>
+</td></tr>
+<tr valign="top"><td><code>unique</code></td>
+<td>
+<p>logical describing whether the resulting set of SQL names
+should be unique.  Its default is <code>TRUE</code>. Following the SQL 92
+standard, uniqueness of SQL identifiers is determined regardless of whether
+letters are upper or lower case.</p>
+</td></tr>
+<tr valign="top"><td><code>allow.keywords</code></td>
+<td>
+<p>logical describing whether SQL keywords should be
+allowed in the resulting set of SQL names.  Its default is <code>TRUE</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Unused, needed for compatibility with generic.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>a character vector of SQL identifiers we want to check against
+keywords from the DBMS.</p>
+</td></tr>
+<tr valign="top"><td><code>case</code></td>
+<td>
+<p>a character string specifying whether to make the
+comparison as lower case, upper case, or any of the two.  it defaults to
+<code>any</code>.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>RMySQL</em> version 0.10.21 <a href="00Index.html">Index</a>]</div>
+</body></html>

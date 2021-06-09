@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fix Environment Ancestries</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for healEnvs {unitizer}"><tr><td>healEnvs {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fix Environment Ancestries</h2>
+
+<h3>Description</h3>
+
+<p>This is an internal method and exposed so that this aspect of <code>unitizer</code>
+is documented for package users (see Details).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'unitizerItems,unitizer'
+healEnvs(x, y, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p><code>unitizerItems</code> object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p><code>unitizer</code> object <code>x</code> was generated from</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>unused, here for inheriting methods</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Environment healing is necessary because when we let the user pick and chose
+which tests to store and which ones to reject, there may no longer be a clear
+ancestry chain within the remaining tests.
+</p>
+<p>The healing process is somewhat complex and full of compromises.  We
+are attempting to create a self consistent set of nested parent environments
+for each test, but at the same time, we don't want to store all the
+combinations of reference and new objects.
+</p>
+<p>We only store new objects in <code>unitizer</code>, with the lone exception of
+objects associated to a test environment.  These will include any assignments
+that occur just prior to a test, as well as any objects created by the
+actual test.
+</p>
+<p>There are two ways in which we modify the environment ancestry. If
+the user decides to not store some new tests, then the objects created
+in between the previous new stored test and the next new stored test are
+all moved to the next new stored test, and the previous new stored test
+becomes the parent of the next new stored test.
+</p>
+<p>The second way relates to when the user decides to keep a reference
+test over a matching new test.  This is a lot more complicated because
+we do not preserve the reference test environment ancestry.  Effectively,
+we need to graft the reference test to the new environment ancestry.
+</p>
+<p>If a reference test that is being kept matches directly to a new test,
+then the parent of that new test becomes the parent of the reference
+test.
+</p>
+<p>If there is no direct match, but there are child reference tests that
+match to a new item, then the parent is the youngest new test that
+is older than the new test that was matched and is kept.  If no new
+tests meet this criterion, then base.env is the parent.
+</p>
+<p>If there is no direct match, and there are no child reference tests
+that are being kept that do match to a kept new item, then the parent
+will be the last new test that is kept.
+</p>
+<p>The main takeaway from all this is that reference tests don't really
+keep their evaluation environment.  Often this environment is similar
+to the new environment.  When there are difference between the two,
+the output of <code>ls</code> is customized to highlight
+which objects were actually available/unmodified at the time of the
+reference test evaluation.  Object names will have the following
+symbols appended to explain the object status:
+</p>
+
+<ul>
+<li><p> ': object exists in browsing environment, but not the same as
+it was when test was evalaluated
+</p>
+</li>
+<li><p> *: object was present during test evaluation but is not
+available in unitizer anymore
+</p>
+</li>
+<li><p> **: object was not present during test evaluation, but exists
+in current environment
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p><code>unitizerItems</code>
+</p>
+
+
+<h3>Note</h3>
+
+<p>Could be more robust by ensuring that items in <code>x</code> actually do
+come from <code>y</code>. This is particularly important since when
+we re-assemble the final list, we don't actually use x at all.  Signature
+for this should probably ultimately change to be something like
+<code>c("unitizer", "x")</code> where x is just a data frame with column 1
+the item index, and column 2 whether it originated from &quot;new&quot; or &quot;ref&quot;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>updateLs,unitizerItem-method</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

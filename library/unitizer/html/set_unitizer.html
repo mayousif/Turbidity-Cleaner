@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set and Retrieve Store Contents</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for set_unitizer {unitizer}"><tr><td>set_unitizer {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Set and Retrieve Store Contents</h2>
+
+<h3>Description</h3>
+
+<p>These functions are not used directly; rather, they are used by
+<code><a href="unitize.html">unitize</a></code> to get and set the <code>unitizer</code> objects.
+You should only need to understand these functions if you are
+looking to implement a special storage mechanism for the <code>unitizer</code>
+objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+set_unitizer(store.id, unitizer)
+
+get_unitizer(store.id)
+
+## S3 method for class 'character'
+get_unitizer(store.id)
+
+## Default S3 method:
+get_unitizer(store.id)
+
+## S3 method for class 'unitizer_result'
+get_unitizer(store.id)
+
+## S3 method for class 'unitizer_results'
+get_unitizer(store.id)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>store.id</code></td>
+<td>
+<p>a filesystem path to the store (an .rds file)</p>
+</td></tr>
+<tr valign="top"><td><code>unitizer</code></td>
+<td>
+<p>a <code>unitizer-class</code> object containing the store
+data</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>By default, only a character method is defined, which will interpret
+its inputs as a filesystem path to the <code>unitizer</code> folder.  RDSes of
+serialization type 2 will be stored and retrieved from there.  The
+serialization format may change in the future, but if R maintains
+facilities to read/write type 2, we will provide the option to use
+that format.  At this time there is no API to change the serialization
+format.
+</p>
+<p>You may write your own methods for special storage situations (
+e.g SQL database, ftp server, etc) with the understanding that the
+getting method may only accept one argument, the <code>store.id</code>, and
+the setting method only two arguments, the <code>store.id</code> and the
+<code>unitizer</code>.
+</p>
+<p>S3 dispatch will be on <code>store.id</code>, and <code>store.id</code> may
+be any R object that identifies the unitizer.  For example, a potential
+SQL implementation where the unitizers get stored in blobs may look
+like so:
+</p>
+<pre>
+my.sql.store.id &lt;- structure(
+  list(
+    server="myunitizerserver.mydomain.com:3306",
+    database="unitizers",
+    table="project1",
+    id="cornercasetests"
+  ),
+  class="sql_unitizer"
+)
+get_unitizer.sql_unitizer &lt;- function(store.id) { # FUNCTION BODY }
+set_unitizer.sql_unitizer &lt;- function(store.id, unitizer) { # FUNCTION BODY }
+
+unitize("unitizer/cornertestcases.R", my.sql.store.id)
+</pre>
+<p>Make sure you also define an <code>as.character</code> method for your object to
+produce a human readable identifying string.
+</p>
+<p>For inspirations for the bodies of the _store functions look at the source
+code for <code>unitizer:::get_unitizer.character</code> and
+<code>unitizer:::set_unitizer.character</code>.
+Expectations for the functions are as follows.  <code>get_unitizer</code> must:
+</p>
+
+<ul>
+<li><p> return a <code>unitizer-class</code> object if <code>store.id</code>
+exists and contains a valid object
+</p>
+</li>
+<li><p> return FALSE if the object doesn't exist (e.g. first time
+run-through, so reference copy doesn't exist yet)
+</p>
+</li>
+<li> <p><code><a href="../../base/html/stop.html">stop</a></code> on error
+</p>
+</li></ul>
+
+<p><code>set_unitizer</code> must:
+</p>
+
+<ul>
+<li><p> return TRUE on success
+</p>
+</li>
+<li> <p><code><a href="../../base/html/stop.html">stop</a></code> on error
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+
+<ul>
+<li><p> set_unitizer TRUE if unitizer storing worked, error otherwise
+</p>
+</li>
+<li><p> get_unitizer a <code>unitizer-class</code> object, FALSE
+if <code>store.id</code> doesn't exist yet, or error otherwise; note that
+the <code>unitizer_results</code> method returns a list
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/readRDS.html">saveRDS</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Test functions and constraints of model parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for testConstraints {mitml}"><tr><td>testConstraints {mitml}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Test functions and constraints of model parameters</h2>
+
+<h3>Description</h3>
+
+<p>Performs hypothesis tests for arbitrary functions of the model parameters using the Delta method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+testConstraints(model, qhat, uhat, constraints, method = c("D1", "D2"),
+  ariv = c("default", "positive"), df.com = NULL)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A list of fitted statistical models as produced by <code><a href="with.mitml.list.html">with.mitml.list</a></code> or similar.</p>
+</td></tr>
+<tr valign="top"><td><code>qhat</code></td>
+<td>
+<p>A matrix or list containing the point estimates of the parameters for each imputed data set (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>uhat</code></td>
+<td>
+<p>An array or list containing the variance-covariance matrix of the parameters for each imputed data set (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>constraints</code></td>
+<td>
+<p>A character vector specifying constraints or functions of the vector of model parameters to be tested (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>A character string denoting the method by which the test is performed. Can be <code>"D1"</code> or <code>"D2"</code> (see 'Details'). Default is <code>"D1"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ariv</code></td>
+<td>
+<p>A character string denoting how the ARIV is calculated. Can be <code>"default"</code> or <code>"positive"</code> (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>df.com</code></td>
+<td>
+<p>(optional) A single number or a numeric vector denoting the complete-data degrees of freedom for the hypothesis test (see 'Details'). Only used if <code>method = "D1"</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function performs tests of arbitrary functions (or constraints) of the model parameters using similar methods as <code><a href="testModels.html">testModels</a></code>.
+The function relies on the Delta method (e.g., Casella &amp; Berger, 2002) for testing functions of the parameters and assumes that their sampling distribution is approximately normal.
+The parameters can either be extracted automatically from the fitted statistical models (<code>model</code>) or provided manually as matrices, arrays, or lists (<code>qhat</code> and <code>uhat</code>, see 'Examples').
+</p>
+<p>Constraints and other functions of the model parameters are specified in the <code>constraints</code> argument.
+The constraints must be supplied as a character vector, where each string denotes a function or a constraint to be tested (see 'Examples').
+</p>
+<p>The Wald-like tests that are carried out by <code>testConstraints</code> are pooled across the imputed data sets with the <i>D_1</i> (Li, Raghunathan &amp; Rubin, 1991) or <i>D_2</i> (Li, Meng, Raghunathan &amp; Rubin, 1991) method, where <i>D_1</i> operates on the constrained point and variance estimates, and <i>D_2</i> operates on the Wald-statistics (for additional details, see <code>testModels</code>).
+The pooled estimates and standard errors reported in the output are always based on <i>D_1</i>.
+</p>
+<p>For <i>D_1</i>, the complete-data degrees of freedom can be adjusted for smaller samples by specifying <code>df.com</code> (see <code>testModels</code>).
+</p>
+<p>This function supports general statistical models that define <code>coef</code> and <code>vcov</code> methods (e.g., <code>lm</code>, <code>glm</code>, <code>lavaan</code> and others) as well as multilevel models estimated with <code>lme4</code> or <code>nlme</code> and GEEs estimated with <code>geepack</code>.
+The arguments <code>qhat</code> and <code>uhat</code> provide a general method for pooling parameter estimates regardless of model type (see 'Examples').
+Support for further models may be added in future releases.
+</p>
+<p>The <code>ariv</code> argument determines how the average relative increase in variance (ARIV) is calculated (see <code>testModels</code>).
+If <code>ariv = "default"</code>, the default estimators are used.
+If <code>ariv = "positive"</code>, the default estimators are used but constrained to take on strictly positive values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing the results of the model comparison.
+A <code>print</code> method is used for more readable output. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Simon Grund</p>
+
+
+<h3>References</h3>
+
+<p>Casella, G., &amp; Berger, R. L. (2002). <em>Statistical inference (2nd. Ed.)</em>. Pacific Grove, CA: Duxbury.
+</p>
+<p>Li, K.-H., Meng, X.-L., Raghunathan, T. E., &amp; Rubin, D. B. (1991). Significance levels from repeated p-values with multiply-imputed data. <em>Statistica Sinica, 1</em>, 65-92.
+</p>
+<p>Li, K. H., Raghunathan, T. E., &amp; Rubin, D. B. (1991). Large-sample significance levels from multiply imputed data using moment-based statistics and an F reference distribution. <em>Journal of the American Statistical Association, 86</em>, 1065-1073.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="testModels.html">testModels</a></code>, <code><a href="with.mitml.list.html">with.mitml.list</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(studentratings)
+
+fml &lt;- MathDis + ReadDis + SchClimate ~ (1|ID)
+imp &lt;- panImpute(studentratings, formula = fml, n.burn = 1000, n.iter = 100, m = 5)
+
+implist &lt;- mitmlComplete(imp)
+
+# fit simple regression model
+fit.lm &lt;- with(implist, lm(SchClimate ~ ReadDis + MathDis))
+
+# apply Rubin's rules
+testEstimates(fit.lm)
+
+# * Example 1: test 'identity' function of two parameters (automatic)
+# test equivalent to model comparison with a restricted model (without 'ReadDis'
+# and 'MathDis')
+
+cons &lt;- c("ReadDis", "MathDis")
+testConstraints(fit.lm, constraints = cons)
+
+# ... adjusting for finite samples
+testConstraints(fit.lm, constraints = cons, df.com = 749)
+
+# ... using D2
+testConstraints(fit.lm, constraints = cons, method = "D2")
+
+# * Example 2: test for equality of two parameters
+# tests the hypothesis that the coefficients pertaining to 'ReadDis' and 'MathDis'
+# are equal (ReadDis = MathDis)
+
+cons &lt;- c("ReadDis-MathDis")
+testConstraints(fit.lm, constraints = cons)
+
+# * Example 3: test against a fixed value
+# tests the hypothesis that the coefficient of "ReadDis" is equal to one
+# (i.e., 'ReadDis' - 1 == 0)
+
+cons &lt;- c("ReadDis-1")
+testConstraints(fit.lm, constraints = cons)
+
+# * Example 4: test 'identity' function of two parameters (qhat, uhat)
+
+fit.lm &lt;- with(implist, lm(SchClimate ~ ReadDis + MathDis))
+
+qhat &lt;- sapply(fit.lm, coef)
+uhat &lt;- sapply(fit.lm, function(x) vcov(x), simplify = "array")
+
+cons &lt;- c("ReadDis", "MathDis")
+testConstraints(qhat = qhat, uhat = uhat, constraints = cons)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mitml</em> version 0.4-1 <a href="00Index.html">Index</a>]</div>
+</body></html>

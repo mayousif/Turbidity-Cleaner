@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Structures For Tracking Global Options</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for unitizerGlobalBase-class {unitizer}"><tr><td>unitizerGlobalBase-class {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Structures For Tracking Global Options</h2>
+
+<h3>Description</h3>
+
+<p>Immplemented as S4 classes just so we can ensure everything is guaranteed
+to have the right slots.  This is done by defining a virtual class that has
+a validity function that checks the required slots exist.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Not we don't use &quot;ANY&quot; slots here because that would allow partially
+specified sub classes (i.e. classes with slots that are &quot;ANY&quot;), which we
+do not want to allow.
+</p>
+<p><code>unitizerGlobalTrackingStore</code> is used to keep &quot;compressed&quot; versions of
+<code>unitizerGlobal$tracking</code>.  The compressed versions obviously lose some
+information.  In particular, environments or things that have environments
+as parents, or large objects, are not stored and instead a reference to
+a <code>unitizerDummy</code> object is stored.  This object unambiguously
+identifies a non-stored object since no user or system code should
+normally creating a <code>unitizerDummy</code> object.
+</p>
+<p><code>unitizerGlobalState</code> tracks a single state which is just one value from
+each of the slots of <code>unitizerGlobalTrackingStore</code>
+</p>
+<p>When comparing state between new and reference tests, only explicitly stored
+items are compared (though any extra or missing items may be brought up as
+possible mismatches).
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

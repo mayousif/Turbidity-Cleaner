@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Text Wrapping Utilities</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for text_wrap {unitizer}"><tr><td>text_wrap {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Text Wrapping Utilities</h2>
+
+<h3>Description</h3>
+
+<p>Functions to break up character vector components to a specified width.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+text_wrap(x, width)
+
+word_wrap(
+  x,
+  width = getOption("width"),
+  tolerance = 8L,
+  hyphens = TRUE,
+  unlist = TRUE,
+  collapse = NULL
+)
+
+meta_word_cat(
+  ...,
+  sep = "\n",
+  width = getOption("width"),
+  tolerance = 8L,
+  file = stdout(),
+  trail.nl = TRUE
+)
+
+meta_word_msg(
+  ...,
+  sep = "\n",
+  width = getOption("width"),
+  tolerance = 8L,
+  trail.nl = TRUE
+)
+
+word_cat(
+  ...,
+  sep = " ",
+  width = getOption("width"),
+  tolerance = 8L,
+  file = stdout()
+)
+
+word_msg(...)
+
+word_comment(
+  x,
+  width = getOption("width"),
+  tolerance = 8L,
+  hyphens = TRUE,
+  unlist = TRUE,
+  color = crayon::has_color()
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>character vector</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>what width to wrap at</p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>how much earlier than <code>width</code> we're allowed to wrap</p>
+</td></tr>
+<tr valign="top"><td><code>hyphens</code></td>
+<td>
+<p>whether to allow hyphenation</p>
+</td></tr>
+<tr valign="top"><td><code>unlist</code></td>
+<td>
+<p>logical(1L) if FALSE each element in <code>x</code> is returned as
+an element of a list, otherwise one character vector is returned</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li> <p><code>text_wrap</code> breaks each element to a specified <code>width</code>,
+where <code>width</code> can contain different values for each value in
+<code>x</code>
+</p>
+</li>
+<li> <p><code>word_wrap</code> wraps at whitespace, or crudely hyphenates if
+necessary; note that unlike <code>text_wrap</code> <code>width</code> must be scalar
+</p>
+</li>
+<li> <p><code>word_cat</code> is like <code>word_wrap</code>, except it outputs to screen
+</p>
+</li>
+<li> <p><code>word_msg</code> is like <code>word_cat</code>, except it ouputs to stderr
+</p>
+</li>
+<li> <p><code>meta_word_cat</code> is like <code>word_cat</code>, except it wraps output
+in formatting to highlight this is not normal output
+</p>
+</li></ul>
+
+<p>Newlines are replaced by empty strings in the output so that each character
+vector in the output represents a line of screen output.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list with, for each item in <code>x</code>, a character vector
+of the item wrapped to length <code>width</code>
+</p>
+<p>if <code>unlist</code> is a parameter, then a character vector, or
+if not or if <code>unlist</code> is FALSE, a list with each element from <code>x</code>
+corresponding to an element from the list
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

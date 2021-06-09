@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lag a Time Series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Lag {quantmod}"><tr><td>Lag {quantmod}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Lag a Time Series </h2>
+
+<h3>Description</h3>
+
+<p>Create a lagged series from data, with <code>NA</code> used to fill.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Lag(x, k = 1)
+
+## S3 method for class 'quantmod.OHLC'
+Lag(x, k = 1)
+
+## S3 method for class 'zoo'
+Lag(x, k = 1)
+
+## S3 method for class 'data.frame'
+Lag(x, k = 1)
+
+## S3 method for class 'numeric'
+Lag(x, k = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> vector or series to be lagged </p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p> periods to lag. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Shift series k-periods down, prepending <code>NA</code>s to front
+of series.
+</p>
+<p>Specifically designed to handle <code>quantmod.OHLC</code> and
+<code>zoo</code> series within the <code>quantmod</code> workflow.
+</p>
+<p>If no S3 method is found, a call to <code>lag</code> in <span class="pkg">base</span>
+is made.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The original <code>x</code> prepended with <code>k</code> <code>NA</code>s
+and missing the trailing <code>k</code> values.
+</p>
+<p>The returned series maintains the number of obs. of the
+original.
+</p>
+
+
+<h3>Note</h3>
+
+ 
+<p>This function differs from <code>lag</code> by returning 
+the original series modified, as opposed to simply changing
+the time series properties.  It differs from the like
+named <code>Lag</code> in the <span class="pkg">Hmisc</span> as it deals primarily
+with time-series like objects.
+</p>
+<p>It is important to realize that if there is no applicable
+method for <code>Lag</code>, the value returned will be from 
+<code>lag</code> in <span class="pkg">base</span>.  That is, coerced to <code>'ts'</code>
+if necessary, and subsequently shifted.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jeffrey A. Ryan </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../stats/html/lag.html">lag</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+Stock.Close &lt;- c(102.12,102.62,100.12,103.00,103.87,103.12,105.12)
+Close.Dates &lt;- as.Date(c(10660,10661,10662,10665,10666,10667,10668),origin="1970-01-01")
+Stock.Close &lt;- zoo(Stock.Close,Close.Dates)
+
+Lag(Stock.Close)        #lag by 1 period
+Lag(Stock.Close,k=1)    #same
+Lag(Stock.Close,k=1:3)  #lag 1,2 and 3 periods
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>quantmod</em> version 0.4.18 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods to Access 'displayFormat' Property</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for displayFormat-methods {mondate}"><tr><td>displayFormat-methods {mondate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods to Access 'displayFormat' Property</h2>
+
+<h3>Description</h3>
+
+<p>Methods to get and set the <code>displayFormat</code> value of a <code>mondate</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'mondate'
+displayFormat(x)
+## S4 method for signature 'ANY'
+displayFormat(x)
+## S4 replacement method for signature 'mondate'
+displayFormat(x)&lt;-value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>a <code>mondate</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>For the &quot;get&quot; method, 
+a <code>character</code> string indicating the date format with which to
+display the <code>mondate</code>.
+Choices are currently
+</p>
+
+<ol>
+<li><p> &quot;%m/%d/%Y&quot;
+</p>
+</li>
+<li><p> &quot;%m-%d-%Y&quot;
+</p>
+</li>
+<li><p> &quot;%Y-%m-%d&quot;
+</p>
+</li>
+<li><p> &quot;%Y/%m/%d&quot;
+</p>
+</li></ol>
+
+<p>If <code>x</code> is not a <code>mondate</code>, 
+the &quot;get&quot; value returned is <code>NULL</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>The <code>mondateDisplayFormat</code> versions have been deprecated.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x&lt;-mondate("2010-6-30")            # The middle of 2010
+displayFormat(x)                   # "%Y-%m-%d"
+displayFormat(x) &lt;- "%m/%d/%Y"
+x                                  # x now displays as 06/30/2010
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>mondate</em> version 0.10.02 <a href="00Index.html">Index</a>]</div>
+</body></html>

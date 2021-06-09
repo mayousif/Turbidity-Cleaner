@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Like all.equal but Returns Empty String If Not all.equal</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for all_eq {unitizer}"><tr><td>all_eq {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Like all.equal but Returns Empty String If Not all.equal</h2>
+
+<h3>Description</h3>
+
+<p>Used as the default value comparison function since when values mismatch
+we use <code><a href="../../diffobj/html/diffObj.html">diffObj</a></code> which would make the text output from
+<code><a href="../../base/html/all.equal.html">all.equal</a></code> somewhat redundant.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+all_eq(target, current, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>target</code></td>
+<td>
+<p>R object</p>
+</td></tr>
+<tr valign="top"><td><code>current</code></td>
+<td>
+<p>other R object to be compared to <code>target</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments to pass to <code><a href="../../base/html/all.equal.html">all.equal</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>TRUE if <code>all.equal</code> returns TRUE, &quot;&quot; otherwise
+all_eq(1, 1L)
+all_eq(1, 2)
+isTRUE(all_eq(1, 2))
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>

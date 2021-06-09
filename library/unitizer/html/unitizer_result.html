@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Return Values and Related Methods for 'unitize' Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for unitizer_result {unitizer}"><tr><td>unitizer_result {unitizer}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Return Values and Related Methods for <code>unitize</code> Functions</h2>
+
+<h3>Description</h3>
+
+<p><code>unitize</code> and related functions are run primarily for the interactive
+environment they provide and for their side effects (updating stored
+<code>unitizer</code> objects), but the return values may be useful under some
+circumstances if you need to retrieve test status, user selections, etc..
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'unitizer_result'
+print(x, ...)
+
+## S3 method for class 'unitizer_results'
+print(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>the object to print</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>extra arguments for print generic</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>unitize</code> and <code>review</code> return a <code>unitizer_result</code> S3 object.
+This is a data frame that contains details about the status of each test.
+<code>unitize_dir</code> returns a <code>unitize_results</code> S3 object, which is a
+list of <code>unitize_result</code>  objects.
+</p>
+<p>Both <code>unitize_results</code> and <code>unitize_result</code> have <code>print</code>
+methods documented here. In addition to the <code>print</code> methods, both of
+the result objects have <code><a href="set_unitizer.html">get_unitizer</a></code> methods so that you can
+retrieve the stored <code>unitizer</code> objects.
+</p>
+<p>Please note that with <code>unitize_dir</code> you can re-review a single
+<code>unitizer</code> several times during during a single call to
+<code>unitize_dir</code>.  This is to allow you to re-evaluate specific
+<code>unitizers</code> easily without having to re-run the entire directory again.
+Unfortunately, as a result of this feature, the return values of
+<code>unitize_dir</code> can be misleading because they only report the result of
+the last review cycle.
+</p>
+<p>Additionally, <code>unitize_dir</code> will report user selections during the last
+review even if in the end the user chose not to save the modified
+<code>unitizer</code>.  You will be alerted to this by an onscreen message from the
+<code>print</code> method (this is tracked in the &quot;updated&quot; attribute of the
+<code>unitizer_result</code> object).  Finally, if in the last iteration before
+exit you did not save the <code>unitizer</code>, but you did save it in  previous
+review cycles in the same <code>unitize_dir</code> call, the displayed selections
+and test outcomes will correspond to the last unsaved iteration, not the
+one that was saved.  You will be alerted to this by an on-screen message
+(this is tracked through the &quot;updated.at.least.once&quot; attribute of the
+<code>unitizer_result</code> object).
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>x</code>, invisibly
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="unitize.html">unitize</a></code>, <code><a href="set_unitizer.html">get_unitizer</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>unitizer</em> version 1.4.14 <a href="00Index.html">Index</a>]</div>
+</body></html>
