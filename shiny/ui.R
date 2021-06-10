@@ -38,7 +38,7 @@ ui = fluidPage(title = "Turbidity Cleaner", shinyjs::useShinyjs(),
                       actionButton("start", "Start"),
                       titlePanel(h6(Version)),
                       titlePanel(h6("Developed by Meguel Yousif and Hannah Burdett. 
-                                    For any inquiries, please email mayousif@uwaterloo.ca."))
+                                    For any inquiries, please email meguelyousif@gmail.com."))
                )
              )
     ),
